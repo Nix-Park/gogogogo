@@ -1,0 +1,3802 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIGNAL v0.8: 보이지 않는 신호</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121a2d;
+      --panel-2: #182238;
+      --border: #293550;
+      --text: #edf2ff;
+      --muted: #99a7c2;
+      --accent: #73a7ff;
+      --accent-2: #7ce3c0;
+      --warning: #efc77b;
+      --soft: #aab8d0;
+      --shadow: 0 16px 40px rgba(0,0,0,.25);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+      background: radial-gradient(circle at top right, #162547 0%, var(--bg) 38%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button, select, textarea, input { font: inherit; }
+
+    button {
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    button:hover { transform: translateY(-1px); border-color: var(--accent); }
+    button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+    .primary { background: linear-gradient(135deg, #2e63bc, #274b88); border-color: #4e7bc4; }
+    .ghost { background: transparent; }
+    .small { padding: 7px 10px; font-size: 13px; }
+
+    .app {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+    aside {
+      border-right: 1px solid var(--border);
+      padding: 24px 18px;
+      background: rgba(8, 13, 27, .88);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand h1 { font-size: 22px; margin: 0 0 4px; }
+    .brand p { color: var(--muted); margin: 0 0 28px; font-size: 13px; }
+
+    nav { display: grid; gap: 8px; }
+    nav button { text-align: left; width: 100%; }
+    nav button.active { border-color: var(--accent); background: #1d3157; }
+
+    .status-card {
+      margin-top: 28px;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(18,26,45,.72);
+    }
+
+    .status-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 8px 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .status-line strong { color: var(--text); }
+
+    main { padding: 28px; overflow-x: hidden; }
+    .view { display: none; }
+    .view.active { display: block; }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .topbar h2 { margin: 0; font-size: 27px; }
+    .sub { color: var(--muted); margin-top: 6px; }
+
+    .grid { display: grid; gap: 16px; }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(24,34,56,.94), rgba(17,25,43,.94));
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 { margin: 0 0 12px; font-size: 17px; }
+    .metric { font-size: 29px; font-weight: 700; margin: 8px 0 2px; }
+    .muted { color: var(--muted); }
+    .eyebrow { color: var(--accent-2); text-transform: uppercase; font-size: 12px; letter-spacing: .08em; }
+
+    .briefing-item, .timeline-item {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .briefing-item:last-child, .timeline-item:last-child { border-bottom: 0; }
+
+    .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: var(--soft);
+      font-size: 12px;
+    }
+    .chip.change { border-color: #8d7448; color: var(--warning); }
+    .chip.context { border-color: #386f66; color: var(--accent-2); }
+
+    .org-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 16px;
+    }
+
+    .org-tree button {
+      display: block;
+      width: 100%;
+      margin: 6px 0;
+      text-align: left;
+      background: transparent;
+    }
+    .indent-1 { padding-left: 24px !important; }
+    .indent-2 { padding-left: 42px !important; }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .toolbar input, .toolbar select, textarea {
+      background: #0e1628;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .toolbar input { min-width: 220px; }
+
+    .employee-list { display: grid; gap: 9px; }
+    .employee-row {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr .8fr 1.2fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(255,255,255,.02);
+    }
+
+    .employee-row:hover { border-color: #49658f; }
+    .employee-name { font-weight: 700; }
+    .signal-text { color: var(--warning); font-size: 13px; }
+
+    .detail-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .signal-card {
+      padding: 13px;
+      border-left: 3px solid var(--warning);
+      background: rgba(239,199,123,.06);
+      border-radius: 9px;
+      margin-bottom: 10px;
+    }
+
+    .hypothesis-grid, .action-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+    }
+
+    .choice {
+      text-align: left;
+      min-height: 76px;
+    }
+    .choice.selected { border-color: var(--accent); background: #1a3158; }
+    .choice strong { display: block; margin-bottom: 5px; }
+    .choice span { color: var(--muted); font-size: 12px; }
+
+    .progress {
+      height: 8px;
+      background: #0d1424;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .progress > div {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    .review-box {
+      border-left: 3px solid var(--accent-2);
+      padding-left: 14px;
+      margin: 18px 0;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,.65);
+      padding: 20px;
+      z-index: 20;
+    }
+    .modal.open { display: flex; }
+    .modal-panel {
+      width: min(620px, 100%);
+      max-height: 82vh;
+      overflow: auto;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .footer-note {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+
+    /* ===== Game-feel animation layer ===== */
+    html { scroll-behavior: smooth; }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+      opacity: .045;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,.18) 0,
+          rgba(255,255,255,.18) 1px,
+          transparent 1px,
+          transparent 4px
+        );
+      mix-blend-mode: overlay;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      right: -140px;
+      top: -160px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(115,167,255,.14), transparent 68%);
+      filter: blur(8px);
+      pointer-events: none;
+      animation: ambientFloat 7s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientFloat {
+      from { transform: translate3d(0, 0, 0) scale(1); }
+      to { transform: translate3d(-35px, 40px, 0) scale(1.12); }
+    }
+
+    @keyframes viewEnter {
+      from { opacity: 0; transform: translateY(14px) scale(.992); filter: blur(2px); }
+      to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+
+    @keyframes cardRise {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulseSignal {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239,199,123,0); }
+      50% { box-shadow: 0 0 0 7px rgba(239,199,123,.08); }
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-120%); }
+      100% { transform: translateX(220%); }
+    }
+
+    @keyframes modalPop {
+      from { opacity: 0; transform: translateY(20px) scale(.94); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes overlayIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes weekNumber {
+      0% { opacity: 0; transform: scale(.55) rotate(-3deg); filter: blur(7px); }
+      55% { opacity: 1; transform: scale(1.1) rotate(0); filter: blur(0); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes barGrow {
+      from { width: 0; }
+    }
+
+    .view.active {
+      animation: viewEnter .38s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .view.active .card {
+      animation: cardRise .42s both;
+    }
+
+    .view.active .card:nth-of-type(2) { animation-delay: .05s; }
+    .view.active .card:nth-of-type(3) { animation-delay: .1s; }
+    .view.active .card:nth-of-type(4) { animation-delay: .15s; }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: #3d5277;
+      box-shadow: 0 18px 48px rgba(0,0,0,.32);
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 -40%;
+      width: 18%;
+      pointer-events: none;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.035), transparent);
+      transform: skewX(-18deg);
+    }
+
+    .card:hover::after {
+      animation: shimmer .85s ease;
+    }
+
+    nav button {
+      position: relative;
+      overflow: hidden;
+    }
+
+    nav button::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 15%;
+      bottom: 15%;
+      width: 3px;
+      border-radius: 4px;
+      background: var(--accent);
+      transform: scaleY(0);
+      transition: transform .2s ease;
+    }
+
+    nav button.active::before { transform: scaleY(1); }
+
+    .employee-row {
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+      animation: cardRise .28s both;
+    }
+
+    .employee-row:hover {
+      transform: translateX(5px);
+      background: rgba(115,167,255,.045);
+    }
+
+    .employee-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: inline-grid;
+      place-items: center;
+      margin-right: 10px;
+      background: linear-gradient(135deg, #29436e, #1d2d4d);
+      border: 1px solid #3b5680;
+      color: #dbe7ff;
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: inset 0 0 16px rgba(115,167,255,.08);
+    }
+
+    .employee-identity {
+      display: flex;
+      align-items: center;
+    }
+
+    .signal-card {
+      animation: pulseSignal 2.6s ease-in-out infinite;
+    }
+
+    .choice {
+      position: relative;
+      overflow: hidden;
+      transition: transform .17s ease, border-color .17s ease, background .17s ease;
+    }
+
+    .choice:hover:not(:disabled) {
+      transform: translateY(-3px) scale(1.01);
+    }
+
+    .choice.selected::after {
+      content: "✓";
+      position: absolute;
+      right: 12px;
+      top: 10px;
+      width: 23px;
+      height: 23px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #091224;
+      font-weight: 900;
+      animation: modalPop .22s ease;
+    }
+
+    .progress > div {
+      animation: barGrow .7s ease;
+      transition: width .55s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .modal.open {
+      animation: overlayIn .2s ease;
+    }
+
+    .modal.open .modal-panel {
+      animation: modalPop .3s cubic-bezier(.2,.9,.2,1);
+    }
+
+    .week-transition {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at center, rgba(43,77,132,.96), rgba(7,11,22,.98) 60%);
+      overflow: hidden;
+    }
+
+    .week-transition.open {
+      display: flex;
+      animation: overlayIn .22s ease;
+    }
+
+    .week-transition::before,
+    .week-transition::after {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border: 1px solid rgba(115,167,255,.16);
+      border-radius: 50%;
+      animation: ambientFloat 4s ease-in-out infinite alternate;
+    }
+
+    .week-transition::after {
+      width: 760px;
+      height: 760px;
+      animation-direction: alternate-reverse;
+    }
+
+    .week-transition-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .week-transition-label {
+      color: var(--accent-2);
+      letter-spacing: .28em;
+      font-size: 13px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .week-transition-number {
+      font-size: clamp(70px, 12vw, 138px);
+      font-weight: 900;
+      letter-spacing: -.06em;
+      animation: weekNumber .75s cubic-bezier(.2,.9,.2,1);
+      text-shadow: 0 16px 60px rgba(115,167,255,.28);
+    }
+
+    .week-transition-copy {
+      color: var(--muted);
+      margin-top: 8px;
+      font-size: 15px;
+    }
+
+    .toast-stack {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 120;
+      display: grid;
+      gap: 10px;
+      width: min(360px, calc(100vw - 44px));
+    }
+
+    .toast {
+      padding: 14px 16px;
+      border-radius: 13px;
+      border: 1px solid #3a4f72;
+      background: rgba(15,24,42,.96);
+      box-shadow: 0 18px 45px rgba(0,0,0,.34);
+      animation: toastIn .28s ease;
+    }
+
+    .toast strong { display: block; margin-bottom: 4px; }
+    .toast span { color: var(--muted); font-size: 13px; }
+
+    .ap-flash {
+      animation: modalPop .28s ease;
+      color: var(--accent-2) !important;
+    }
+
+    .intro-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        linear-gradient(rgba(7,11,22,.83), rgba(7,11,22,.93)),
+        radial-gradient(circle at 50% 35%, rgba(65,107,176,.4), transparent 42%);
+      transition: opacity .55s ease, visibility .55s ease;
+    }
+
+    .intro-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-panel {
+      width: min(720px, calc(100vw - 36px));
+      padding: 42px;
+      text-align: center;
+      border: 1px solid rgba(115,167,255,.24);
+      border-radius: 24px;
+      background: rgba(12,19,34,.82);
+      box-shadow: 0 30px 90px rgba(0,0,0,.48);
+      animation: modalPop .7s cubic-bezier(.2,.9,.2,1);
+    }
+
+    .intro-kicker {
+      color: var(--accent-2);
+      letter-spacing: .36em;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .intro-title {
+      font-size: clamp(44px, 8vw, 88px);
+      margin: 10px 0 0;
+      letter-spacing: -.07em;
+    }
+
+    .intro-subtitle {
+      margin: 8px 0 22px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .intro-quote {
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: #dbe6fb;
+      background: rgba(255,255,255,.025);
+      margin-bottom: 22px;
+    }
+
+    .typing-cursor::after {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      margin-left: 4px;
+      vertical-align: -.12em;
+      background: var(--accent-2);
+      animation: pulseSignal 1s infinite;
+    }
+
+
+
+
+    /* ===== v0.5 enhanced analysis + audio ===== */
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .analysis-metric {
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .analysis-metric strong {
+      display: block;
+      font-size: 22px;
+      margin: 6px 0 4px;
+    }
+
+    .metric-delta {
+      font-size: 12px;
+      color: var(--warning);
+    }
+
+    .mini-bars {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 5px;
+      height: 66px;
+      align-items: end;
+      margin-top: 12px;
+    }
+
+    .mini-bars span {
+      display: block;
+      min-height: 6px;
+      border-radius: 4px 4px 1px 1px;
+      background: linear-gradient(180deg, var(--accent), rgba(115,167,255,.25));
+      animation: barGrow .55s ease both;
+    }
+
+    .analysis-note {
+      padding: 12px 14px;
+      border-left: 3px solid var(--accent-2);
+      background: rgba(124,227,192,.05);
+      border-radius: 9px;
+      color: var(--soft);
+      line-height: 1.6;
+      margin-top: 12px;
+    }
+
+    .audio-panel {
+      position: fixed;
+      top: 16px;
+      right: 18px;
+      z-index: 130;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 10px;
+      border: 1px solid rgba(115,167,255,.22);
+      border-radius: 999px;
+      background: rgba(8,14,25,.82);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,.24);
+    }
+
+    .audio-panel button {
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+    }
+
+    .audio-panel input[type="range"] {
+      width: 90px;
+      accent-color: var(--accent);
+    }
+
+    .audio-status {
+      font-size: 11px;
+      color: var(--muted);
+      min-width: 42px;
+    }
+
+    .connection-hint {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border: 1px dashed #405675;
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 1000px) {
+      .analysis-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .audio-panel { position: static; margin: 10px; width: fit-content; }
+    }
+
+    /* ===== Save / Load system ===== */
+    .save-actions {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .save-meta {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .save-modal-grid {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .save-slot {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .save-slot-title {
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .save-slot-info {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .save-slot-buttons {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .save-indicator {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      z-index: 140;
+      transform: translateX(-50%);
+      display: none;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 14px;
+      border: 1px solid #405879;
+      border-radius: 999px;
+      background: rgba(10,17,29,.94);
+      box-shadow: 0 16px 40px rgba(0,0,0,.32);
+      color: #dce8fb;
+      font-size: 13px;
+    }
+
+    .save-indicator.show {
+      display: flex;
+      animation: modalPop .25s ease;
+    }
+
+    .save-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-2);
+      box-shadow: 0 0 14px rgba(124,227,192,.8);
+      animation: pulseSignal 1s infinite;
+    }
+
+
+
+
+
+    /* ===== v0.8 endgame report, news, career, epilogue ===== */
+    .executive-report{border:1px solid #46658f;background:linear-gradient(180deg,rgba(23,36,60,.96),rgba(10,17,29,.98));border-radius:18px;padding:22px;box-shadow:0 24px 70px rgba(0,0,0,.35)}
+    .executive-header{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding-bottom:16px;border-bottom:1px solid var(--border)}
+    .executive-score-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:18px}
+    .executive-score{padding:13px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.025)}
+    .executive-score strong{display:block;font-size:25px;margin-top:5px}
+    .news-paper{border:1px solid #544d3b;border-radius:18px;padding:22px;background:linear-gradient(rgba(18,22,29,.96),rgba(13,17,24,.98)),repeating-linear-gradient(to bottom,transparent 0 25px,rgba(255,255,255,.02) 26px)}
+    .news-title{font-size:30px;font-weight:900;letter-spacing:-.04em;margin:0}
+    .news-kicker{color:var(--warning);text-transform:uppercase;font-size:11px;letter-spacing:.25em}
+    .news-story{padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+    .news-story:last-child{border-bottom:0}
+    .career-card{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center;border:1px solid #4d6385;border-radius:18px;padding:22px;background:linear-gradient(135deg,rgba(32,50,82,.88),rgba(14,23,39,.96))}
+    .career-badge{width:130px;height:130px;border-radius:28px;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,rgba(255,255,255,.18),transparent 25%),linear-gradient(145deg,#2e5f9e,#1d2b49);border:1px solid rgba(133,178,238,.42);box-shadow:inset 0 0 40px rgba(255,255,255,.04),0 20px 50px rgba(0,0,0,.3);font-size:44px;font-weight:900}
+    .career-track{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+    .career-step{padding:7px 10px;border-radius:999px;border:1px solid var(--border);color:var(--muted);font-size:12px}
+    .career-step.active{background:rgba(115,167,255,.13);border-color:var(--accent);color:var(--text)}
+    .epilogue-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    .epilogue-card{min-height:230px;padding:18px;border:1px solid var(--border);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.015))}
+    .epilogue-year{color:var(--accent-2);font-size:12px;letter-spacing:.15em;text-transform:uppercase}
+    .epilogue-card h3{margin:9px 0 8px}
+    .epilogue-quote{margin-top:14px;padding-left:12px;border-left:2px solid var(--accent);color:#dce7f8;line-height:1.65}
+    .ending-overlay{position:fixed;inset:0;z-index:350;display:none;align-items:center;justify-content:center;background:linear-gradient(rgba(5,8,15,.72),rgba(5,8,15,.93)),radial-gradient(circle at center,rgba(62,103,168,.35),transparent 45%);padding:20px}
+    .ending-overlay.open{display:flex;animation:overlayIn .35s ease}
+    .ending-panel{width:min(760px,100%);max-height:90vh;overflow:auto;border:1px solid rgba(128,171,235,.32);border-radius:24px;background:rgba(10,17,29,.97);padding:28px;box-shadow:0 34px 110px rgba(0,0,0,.58);animation:modalPop .42s ease}
+    @media(max-width:1000px){.executive-score-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.epilogue-grid{grid-template-columns:1fr}.career-card{grid-template-columns:1fr}}
+
+    /* ===== v0.7 organization outcome dashboard ===== */
+    .score-dashboard {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0,1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .score-card {
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .score-card .score-value {
+      font-size: 28px;
+      font-weight: 900;
+      margin: 7px 0 3px;
+    }
+
+    .score-positive { color: var(--accent-2); }
+    .score-caution { color: var(--warning); }
+    .score-neutral { color: var(--accent); }
+
+    .trend-chart {
+      position: relative;
+      height: 240px;
+      margin-top: 18px;
+      padding: 18px 16px 28px 48px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background:
+        linear-gradient(to top, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 100% 25%;
+      overflow: hidden;
+    }
+
+    .trend-axis-label {
+      position: absolute;
+      left: 10px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .trend-lines {
+      position: absolute;
+      inset: 18px 16px 28px 48px;
+    }
+
+    .trend-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .trend-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .trend-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .legend-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+    }
+
+    .org-health-row {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr .7fr;
+      gap: 12px;
+      align-items: center;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .org-health-row:last-child { border-bottom: 0; }
+
+    .health-meter {
+      height: 9px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #0b1322;
+      border: 1px solid var(--border);
+    }
+
+    .health-meter > div {
+      height: 100%;
+      border-radius: inherit;
+      transition: width .5s ease;
+      background: linear-gradient(90deg, #7ce3c0, #73a7ff);
+    }
+
+    .impact-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .impact-item {
+      padding: 13px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(255,255,255,.02);
+    }
+
+    .impact-item strong {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .result-grade {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid #47638b;
+      border-radius: 999px;
+      background: rgba(115,167,255,.08);
+      font-weight: 800;
+    }
+
+    @media (max-width: 1050px) {
+      .score-dashboard { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .org-health-row { grid-template-columns: 1fr; }
+    }
+
+    /* ===== v0.6 immersive corporate system ===== */
+    .login-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        linear-gradient(rgba(5,9,18,.86), rgba(5,9,18,.94)),
+        radial-gradient(circle at 50% 28%, rgba(68,113,184,.42), transparent 40%);
+      transition: opacity .5s ease, visibility .5s ease;
+    }
+
+    .login-overlay.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .login-panel {
+      width: min(460px, calc(100vw - 34px));
+      padding: 34px;
+      border: 1px solid rgba(125,169,235,.28);
+      border-radius: 22px;
+      background: rgba(10,17,29,.90);
+      box-shadow: 0 34px 100px rgba(0,0,0,.55);
+      animation: modalPop .55s ease;
+    }
+
+    .login-logo {
+      font-size: 46px;
+      font-weight: 900;
+      letter-spacing: -.06em;
+      margin: 5px 0 0;
+    }
+
+    .login-company {
+      color: var(--accent-2);
+      font-size: 12px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    .login-field {
+      margin-top: 16px;
+    }
+
+    .login-field label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .login-field input {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #0b1323;
+      color: var(--text);
+    }
+
+    .boot-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 320;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: #060a12;
+    }
+
+    .boot-screen.open { display: flex; }
+
+    .boot-content {
+      width: min(620px, calc(100vw - 36px));
+      color: #b9c9e4;
+      font-family: Consolas, monospace;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .boot-line {
+      opacity: 0;
+      animation: bootLine .22s forwards;
+    }
+
+    @keyframes bootLine {
+      to { opacity: 1; }
+    }
+
+    .mail-badge {
+      display: inline-grid;
+      place-items: center;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 999px;
+      background: #b85b67;
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      margin-left: 6px;
+    }
+
+    .mail-list { display: grid; gap: 10px; }
+
+    .mail-item {
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: rgba(255,255,255,.025);
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .mail-item:hover {
+      transform: translateX(4px);
+      border-color: var(--accent);
+      background: rgba(115,167,255,.05);
+    }
+
+    .mail-item.unread {
+      border-left: 3px solid var(--accent-2);
+    }
+
+    .mail-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .settings-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .settings-row:last-child { border-bottom: 0; }
+
+    .settings-row select, .settings-row input {
+      background: #0d1526;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 8px 10px;
+    }
+
+    .portrait-svg {
+      animation: characterBreath 3.4s ease-in-out infinite;
+      transform-origin: 50% 92%;
+    }
+
+    @keyframes characterBreath {
+      0%,100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-3px) scale(1.006); }
+    }
+
+    .portrait-eye-left,
+    .portrait-eye-right {
+      animation: blinkEyes 5.2s infinite;
+      transform-origin: center;
+    }
+
+    @keyframes blinkEyes {
+      0%, 46%, 50%, 100% { transform: scaleY(1); }
+      48% { transform: scaleY(.08); }
+    }
+
+    .desktop-clock {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .tutorial-tip {
+      position: fixed;
+      left: 280px;
+      bottom: 24px;
+      z-index: 145;
+      width: min(420px, calc(100vw - 32px));
+      padding: 15px 17px;
+      border: 1px solid #48658f;
+      border-radius: 14px;
+      background: rgba(12,21,37,.96);
+      box-shadow: 0 18px 54px rgba(0,0,0,.38);
+      display: none;
+    }
+
+    .tutorial-tip.show {
+      display: block;
+      animation: toastIn .3s ease;
+    }
+
+    .tutorial-tip strong { display: block; margin-bottom: 5px; }
+    .tutorial-tip span { color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+    @media (max-width: 980px) {
+      .tutorial-tip { left: 16px; }
+    }
+
+    /* ===== v0.5.2 polished character portraits ===== */
+    .vn-portrait {
+      width: min(430px, 96%);
+    }
+
+    .portrait-svg {
+      filter: drop-shadow(0 24px 42px rgba(0,0,0,.34));
+    }
+
+    .portrait-hair-back,
+    .portrait-hair-front,
+    .portrait-clothes,
+    .portrait-accessory {
+      transition: all .35s ease;
+    }
+
+    .vn-character-nameplate {
+      position: absolute;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%);
+      min-width: 180px;
+      text-align: center;
+      padding: 8px 16px;
+      border: 1px solid rgba(140,180,235,.25);
+      border-radius: 999px;
+      background: rgba(7,13,24,.78);
+      color: #edf4ff;
+      font-size: 13px;
+      letter-spacing: .04em;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 12px 34px rgba(0,0,0,.3);
+    }
+
+    /* ===== Visual novel interview system ===== */
+    .vn-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: none;
+      background:
+        linear-gradient(rgba(5,9,18,.40), rgba(5,9,18,.76)),
+        radial-gradient(circle at 50% 20%, rgba(73,112,173,.28), transparent 42%),
+        linear-gradient(135deg, #18243a 0%, #0d1422 60%, #111b2c 100%);
+      overflow: hidden;
+    }
+
+    .vn-overlay.open {
+      display: block;
+      animation: overlayIn .3s ease;
+    }
+
+    .vn-office-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      opacity: .8;
+    }
+
+    .vn-office-bg::before {
+      content: "";
+      position: absolute;
+      left: 8%;
+      top: 8%;
+      width: 84%;
+      height: 56%;
+      border: 1px solid rgba(156,183,224,.16);
+      border-radius: 22px;
+      background:
+        linear-gradient(90deg, transparent 0 49.8%, rgba(156,183,224,.10) 50%, transparent 50.2%),
+        linear-gradient(0deg, transparent 0 49.8%, rgba(156,183,224,.08) 50%, transparent 50.2%),
+        linear-gradient(160deg, rgba(34,52,82,.84), rgba(12,20,34,.88));
+      box-shadow: inset 0 0 80px rgba(0,0,0,.2);
+    }
+
+    .vn-office-bg::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 34%;
+      background:
+        linear-gradient(12deg, transparent 0 48%, rgba(255,255,255,.025) 49%, transparent 50%),
+        linear-gradient(#101827, #09101c);
+      clip-path: polygon(0 25%, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .vn-scene {
+      position: relative;
+      height: 100%;
+      display: grid;
+      grid-template-columns: minmax(320px, 42%) 1fr;
+      align-items: end;
+      padding: 28px 40px 34px;
+      gap: 28px;
+    }
+
+    .vn-portrait-wrap {
+      align-self: stretch;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      position: relative;
+      padding-top: 50px;
+    }
+
+    .vn-portrait-glow {
+      position: absolute;
+      width: 370px;
+      height: 370px;
+      bottom: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(115,167,255,.20), transparent 68%);
+      filter: blur(15px);
+      animation: ambientFloat 4s ease-in-out infinite alternate;
+    }
+
+    .vn-portrait {
+      position: relative;
+      width: min(380px, 92%);
+      height: 74vh;
+      min-height: 500px;
+      max-height: 760px;
+      filter: drop-shadow(0 30px 50px rgba(0,0,0,.42));
+      transform-origin: bottom center;
+      animation: portraitEnter .48s cubic-bezier(.2,.9,.2,1);
+    }
+
+    @keyframes portraitEnter {
+      from { opacity: 0; transform: translateX(-40px) scale(.96); }
+      to { opacity: 1; transform: translateX(0) scale(1); }
+    }
+
+    @keyframes portraitReact {
+      0% { transform: translateY(0) scale(1); }
+      40% { transform: translateY(-7px) scale(1.015); }
+      100% { transform: translateY(0) scale(1); }
+    }
+
+    .vn-portrait.react { animation: portraitReact .35s ease; }
+
+    .portrait-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .portrait-face { transition: .35s ease; }
+    .portrait-mouth, .portrait-brow-left, .portrait-brow-right, .portrait-eye-left, .portrait-eye-right {
+      transition: all .3s ease;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .expression-neutral .portrait-mouth { d: path("M 142 185 Q 160 190 178 185"); }
+    .expression-open .portrait-mouth { d: path("M 142 183 Q 160 200 178 183"); }
+    .expression-worried .portrait-mouth { d: path("M 142 192 Q 160 178 178 192"); }
+    .expression-relieved .portrait-mouth { d: path("M 142 184 Q 160 202 178 184"); }
+    .expression-guarded .portrait-mouth { d: path("M 145 188 L 175 188"); }
+
+    .expression-worried .portrait-brow-left { transform: rotate(9deg) translateY(-2px); }
+    .expression-worried .portrait-brow-right { transform: rotate(-9deg) translateY(-2px); }
+    .expression-guarded .portrait-brow-left { transform: rotate(-5deg); }
+    .expression-guarded .portrait-brow-right { transform: rotate(5deg); }
+    .expression-relieved .portrait-eye-left,
+    .expression-relieved .portrait-eye-right { transform: scaleY(.65); }
+
+    .vn-ui {
+      position: relative;
+      align-self: end;
+      padding-bottom: 6px;
+    }
+
+    .vn-top-info {
+      position: absolute;
+      right: 0;
+      top: -72vh;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .vn-scene-label, .vn-step-label {
+      border: 1px solid rgba(156,183,224,.24);
+      background: rgba(10,17,30,.62);
+      backdrop-filter: blur(10px);
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: #c7d6ef;
+      font-size: 12px;
+    }
+
+    .vn-dialogue-panel {
+      position: relative;
+      min-height: 250px;
+      border: 1px solid rgba(151,181,226,.28);
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(16,25,43,.93), rgba(9,15,27,.96));
+      box-shadow: 0 24px 80px rgba(0,0,0,.5);
+      padding: 26px 28px 24px;
+      overflow: hidden;
+    }
+
+    .vn-dialogue-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(115,167,255,.06), transparent 22%),
+        repeating-linear-gradient(to bottom, transparent 0 3px, rgba(255,255,255,.012) 4px);
+      pointer-events: none;
+    }
+
+    .vn-speaker {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent-2);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      margin-bottom: 12px;
+    }
+
+    .vn-emotion {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid #4b5d7a;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .vn-dialogue {
+      position: relative;
+      min-height: 84px;
+      color: #f3f6ff;
+      font-size: clamp(18px, 2vw, 23px);
+      line-height: 1.65;
+      word-break: keep-all;
+      text-shadow: 0 2px 16px rgba(0,0,0,.3);
+    }
+
+    .vn-dialogue.typing::after {
+      content: "▌";
+      color: var(--accent-2);
+      margin-left: 3px;
+      animation: blinkCursor .65s step-end infinite;
+    }
+
+    @keyframes blinkCursor {
+      50% { opacity: 0; }
+    }
+
+    .vn-choices {
+      position: relative;
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .vn-choice {
+      text-align: left;
+      display: grid;
+      grid-template-columns: 30px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 13px 15px;
+      border-color: #344763;
+      background: rgba(23,35,58,.88);
+      opacity: 0;
+      transform: translateY(12px);
+      animation: choiceReveal .3s forwards;
+    }
+
+    .vn-choice:nth-child(2) { animation-delay: .07s; }
+    .vn-choice:nth-child(3) { animation-delay: .14s; }
+
+    @keyframes choiceReveal {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .vn-choice:hover {
+      border-color: var(--accent);
+      background: #21385d;
+      transform: translateX(4px);
+    }
+
+    .vn-choice-num {
+      width: 25px;
+      height: 25px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: rgba(115,167,255,.14);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .vn-choice-copy strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #eef4ff;
+    }
+
+    .vn-choice-copy span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .vn-controls {
+      position: absolute;
+      top: 22px;
+      right: 24px;
+      display: flex;
+      gap: 8px;
+      z-index: 4;
+    }
+
+    .vn-close {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      padding: 0;
+      background: rgba(7,12,22,.68);
+      backdrop-filter: blur(8px);
+    }
+
+    .vn-relation {
+      position: absolute;
+      left: 24px;
+      top: 22px;
+      display: flex;
+      gap: 8px;
+      z-index: 4;
+    }
+
+    .vn-relation-chip {
+      padding: 7px 10px;
+      border: 1px solid rgba(156,183,224,.24);
+      border-radius: 999px;
+      background: rgba(7,12,22,.68);
+      color: #c9d7ee;
+      font-size: 12px;
+      backdrop-filter: blur(8px);
+    }
+
+    .vn-summary {
+      display: none;
+      position: relative;
+      max-width: 700px;
+      margin: auto;
+      align-self: center;
+      border: 1px solid rgba(151,181,226,.28);
+      border-radius: 22px;
+      background: rgba(11,18,31,.94);
+      box-shadow: 0 28px 90px rgba(0,0,0,.55);
+      padding: 28px;
+      animation: modalPop .35s ease;
+    }
+
+    .vn-summary.open { display: block; }
+
+    .vn-summary h2 { margin-top: 0; }
+    .vn-summary-item {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .vn-summary-item:last-child { border-bottom: 0; }
+
+    @media (max-width: 900px) {
+      .vn-scene {
+        grid-template-columns: 1fr;
+        padding: 16px;
+      }
+      .vn-portrait-wrap {
+        position: absolute;
+        inset: 0;
+        align-items: flex-start;
+        justify-content: flex-start;
+        opacity: .48;
+        padding-top: 70px;
+      }
+      .vn-portrait {
+        width: 56%;
+        height: 56vh;
+        min-height: 380px;
+      }
+      .vn-ui { z-index: 3; }
+      .vn-top-info { top: -62vh; }
+      .vn-dialogue-panel { min-height: 300px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .app { grid-template-columns: 1fr; }
+      aside { position: static; height: auto; }
+      nav { grid-template-columns: repeat(4, 1fr); }
+      .org-layout, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .employee-row { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="bootScreen" class="boot-screen">
+  <div id="bootContent" class="boot-content"></div>
+</div>
+
+<div id="loginOverlay" class="login-overlay">
+  <div class="login-panel">
+    <div class="login-company">ORION ADVANCED SYSTEMS</div>
+    <div class="login-logo">SIGNAL OS</div>
+    <div class="muted" style="margin-top:4px;">HR Decision Support Terminal</div>
+
+    <div class="login-field">
+      <label>USER ID</label>
+      <input id="loginUser" value="HRBP_0001" autocomplete="off">
+    </div>
+    <div class="login-field">
+      <label>PASSWORD</label>
+      <input id="loginPassword" type="password" value="signal" autocomplete="off">
+    </div>
+    <button id="loginBtn" class="primary" style="width:100%;margin-top:20px;">보안 접속</button>
+    <div class="muted" style="font-size:11px;margin-top:12px;line-height:1.55;">
+      데모 환경입니다. 실제 회사 계정이나 개인정보를 입력하지 마세요.
+    </div>
+  </div>
+</div>
+
+<div id="tutorialTip" class="tutorial-tip">
+  <strong id="tutorialTitle">튜토리얼</strong>
+  <span id="tutorialBody">주간 브리핑부터 확인해보세요.</span>
+  <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+    <button id="tutorialNextBtn" class="small primary">다음</button>
+  </div>
+</div>
+
+<div class="audio-panel">
+  <button id="audioToggleBtn">♪ BGM 켜기</button>
+  <input id="audioVolume" type="range" min="0" max="1" step="0.05" value="0.55" aria-label="BGM 볼륨">
+  <span id="audioStatus" class="audio-status">꺼짐</span>
+</div>
+
+<div id="introScreen" class="intro-screen">
+  <div class="intro-panel">
+    <div class="intro-kicker">HR Decision Simulation</div>
+    <div class="intro-title">SIGNAL</div>
+    <div class="intro-subtitle">보이지 않는 신호</div>
+    <div class="intro-quote typing-cursor" id="introQuote">늦고 빠름이 아니라, 그 사람답지 않은 변화가 있는가?</div>
+    <button id="startGameBtn" class="primary" style="min-width:210px;">시뮬레이션 시작</button>
+  </div>
+</div>
+
+<div id="weekTransition" class="week-transition">
+  <div class="week-transition-content">
+    <div class="week-transition-label">Weekly Simulation</div>
+    <div id="weekTransitionNumber" class="week-transition-number">WEEK 2</div>
+    <div id="weekTransitionCopy" class="week-transition-copy">새로운 변화가 조직에 반영됩니다.</div>
+  </div>
+</div>
+
+<div id="toastStack" class="toast-stack"></div>
+
+<div id="vnOverlay" class="vn-overlay">
+  <div class="vn-office-bg"></div>
+  <div class="vn-relation">
+    <div id="vnTrustChip" class="vn-relation-chip">신뢰 보통</div>
+    <div id="vnTopicChip" class="vn-relation-chip">면담 주제 탐색</div>
+  </div>
+  <div class="vn-controls">
+    <button id="vnCloseBtn" class="vn-close" title="면담 종료">✕</button>
+  </div>
+  <div id="vnScene" class="vn-scene">
+    <div class="vn-portrait-wrap">
+      <div class="vn-portrait-glow"></div>
+      <div id="vnPortrait" class="vn-portrait expression-neutral"></div>
+    </div>
+
+    <div id="vnUi" class="vn-ui">
+      <div class="vn-top-info">
+        <div id="vnSceneLabel" class="vn-scene-label">면담실 B · 오후 3:20</div>
+        <div id="vnStepLabel" class="vn-step-label">1 / 3</div>
+      </div>
+      <div class="vn-dialogue-panel">
+        <div class="vn-speaker">
+          <span id="vnSpeaker">직원</span>
+          <span id="vnEmotion" class="vn-emotion">차분함</span>
+        </div>
+        <div id="vnDialogue" class="vn-dialogue"></div>
+        <div id="vnChoices" class="vn-choices"></div>
+      </div>
+    </div>
+
+    <div id="vnSummary" class="vn-summary">
+      <div class="eyebrow">Interview Reflection</div>
+      <h2>면담 회고</h2>
+      <div id="vnSummaryBody"></div>
+      <button id="vnFinishBtn" class="primary" style="width:100%;margin-top:18px;">면담 마무리</button>
+    </div>
+  </div>
+</div>
+
+<div class="app">
+  <aside>
+    <div class="brand">
+      <h1>SIGNAL</h1>
+      <p>보이지 않는 신호 · HR 의사결정 시뮬레이션</p>
+    </div>
+
+    <nav>
+      <button data-view="briefing" class="active">주간 브리핑</button>
+      <button data-view="organization">조직 탐색</button>
+      <button data-view="actions">판단과 행동</button>
+      <button data-view="review">회고</button>
+      <button data-view="outcome">조직 결과</button>
+      <button data-view="endgame">최종 리포트</button>
+      <button data-view="mail">사내 메일 <span id="mailBadge" class="mail-badge">3</span></button>
+      <button data-view="settings">설정</button>
+    </nav>
+
+    <div class="status-card">
+      <div class="status-line"><span>현재 주차</span><strong id="weekLabel">1 / 4주</strong></div>
+      <div class="status-line"><span>행동 포인트</span><strong id="apLabel">8</strong></div>
+      <div class="status-line"><span>관심 메모</span><strong id="hypothesisCount">0</strong></div>
+      <div class="status-line"><span>조직 신뢰</span><strong id="trustLabel">보통</strong></div>
+      <div class="progress"><div id="weekProgress" style="width:25%"></div></div>
+      <button id="nextWeekBtn" class="primary" style="width:100%; margin-top:14px;">이번 주 마무리</button>
+
+      <div class="save-actions">
+        <button id="quickSaveBtn" class="small">현재 진행 저장</button>
+        <button id="openLoadBtn" class="small ghost">저장·불러오기</button>
+      </div>
+      <div id="saveMeta" class="save-meta">저장 기록 없음</div>
+      <div class="desktop-clock">
+        <div id="systemDate"></div>
+        <div id="systemTime"></div>
+      </div>
+
+    </div>
+
+    <div class="footer-note">
+      이 게임은 가상의 합성 데이터만 사용합니다.<br>
+      화면의 변화 신호는 판단이나 진단이 아니라 추가 맥락 확인을 위한 단서입니다.<br>
+      BGM은 외부 음원 없이 브라우저에서 실시간 생성되는 오리지널 앰비언트 사운드입니다.
+    </div>
+  </aside>
+
+  <main>
+    <section id="briefing" class="view active">
+      <div class="topbar">
+        <div>
+          <h2>주간 브리핑</h2>
+          <div class="sub" id="briefingSubtitle">1주차 · 새로운 조직 변화가 도착했습니다.</div>
+        </div>
+        <button class="ghost" id="resetBtn">새 회차 시작</button>
+      </div>
+
+      <div class="grid grid-3">
+        <div class="card">
+          <div class="eyebrow">Pattern Changes</div>
+          <div class="metric" id="metricChanges">6</div>
+          <div class="muted">최근 개인 기준 패턴 변화</div>
+        </div>
+        <div class="card">
+          <div class="eyebrow">Organization Context</div>
+          <div class="metric" id="metricOrg">2</div>
+          <div class="muted">조직 단위 확인 필요</div>
+        </div>
+        <div class="card">
+          <div class="eyebrow">Information State</div>
+          <div class="metric">불완전</div>
+          <div class="muted">하나의 신호만으로 판단하기 어려움</div>
+        </div>
+      </div>
+
+      <div class="grid grid-2" style="margin-top:16px;">
+        <div class="card">
+          <h3>이번 주 주요 상황</h3>
+          <div id="briefingList"></div>
+        </div>
+        <div class="card">
+          <h3>이번 주 판단 원칙</h3>
+          <div class="briefing-item">
+            <strong>늦고 빠름이 아니라 변화의 맥락을 확인합니다.</strong>
+            <div class="muted">개인의 평소 패턴, 업무 일정, 관계와 역할 변화를 함께 살펴보세요.</div>
+          </div>
+          <div class="briefing-item">
+            <strong>모든 변화에 개입할 필요는 없습니다.</strong>
+            <div class="muted">일시적인 변화는 추가 관찰이 더 적절할 수 있습니다.</div>
+          </div>
+          <div class="briefing-item">
+            <strong>리더도 지원이 필요한 구성원입니다.</strong>
+            <div class="muted">TL과 PL의 상태가 조직 전체에 영향을 줄 수 있습니다.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="organization" class="view">
+      <div class="topbar">
+        <div>
+          <h2>조직 탐색</h2>
+          <div class="sub">조직과 개인의 변화를 함께 비교합니다.</div>
+        </div>
+      </div>
+
+      <div class="org-layout">
+        <div class="card org-tree">
+          <h3>조직도</h3>
+          <div id="orgTree"></div>
+        </div>
+
+        <div class="card">
+          <div class="toolbar">
+            <input id="searchInput" placeholder="이름, 직무, 조직 검색" />
+            <select id="signalFilter">
+              <option value="all">전체 직원</option>
+              <option value="changed">변화 신호 있음</option>
+              <option value="leader">리더만 보기</option>
+            </select>
+          </div>
+          <div id="employeeList" class="employee-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="actions" class="view">
+      <div class="topbar">
+        <div>
+          <h2>판단과 행동</h2>
+          <div class="sub">대상을 선택하고 가설을 세운 뒤 제한된 행동 포인트를 사용합니다.</div>
+        </div>
+      </div>
+      <div id="actionWorkspace" class="empty">조직 탐색에서 직원을 선택하세요.</div>
+    </section>
+
+    <section id="review" class="view">
+      <div class="topbar">
+        <div>
+          <h2>회고</h2>
+          <div class="sub">정답과 오답 대신, 판단 과정과 조직에 남긴 영향을 살펴봅니다.</div>
+        </div>
+      </div>
+      <div id="reviewContent"></div>
+    </section>
+
+
+    <section id="outcome" class="view">
+      <div class="topbar">
+        <div>
+          <h2>조직 결과 대시보드</h2>
+          <div class="sub">플레이어의 판단과 행동이 조직의 변화에 어떤 영향을 주었는지 확인합니다.</div>
+        </div>
+        <div id="resultGrade" class="result-grade">진행 중</div>
+      </div>
+
+      <div id="scoreDashboard" class="score-dashboard"></div>
+
+      <div class="grid grid-2" style="margin-top:16px;">
+        <div class="card">
+          <h3>주차별 조직 지표 추세</h3>
+          <div id="trendChart" class="trend-chart"></div>
+          <div class="trend-legend">
+            <span><i class="legend-dot" style="background:#7ce3c0"></i>조직 신뢰</span>
+            <span><i class="legend-dot" style="background:#73a7ff"></i>회복 여력</span>
+            <span><i class="legend-dot" style="background:#efc77b"></i>업무 균형</span>
+            <span><i class="legend-dot" style="background:#b795ff"></i>리더 지원</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>조직별 현재 상태</h3>
+          <div id="orgHealthList"></div>
+        </div>
+      </div>
+
+      <div class="grid grid-2" style="margin-top:16px;">
+        <div class="card">
+          <h3>플레이어 행동 영향</h3>
+          <div id="impactList" class="impact-list"></div>
+        </div>
+        <div class="card">
+          <h3>최종 해석</h3>
+          <div id="outcomeNarrative" class="muted" style="line-height:1.75;"></div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="endgame" class="view">
+      <div class="topbar">
+        <div><h2>최종 리포트</h2><div class="sub">CEO 보고, 조직 뉴스, HRBP 커리어, 장기 에필로그를 확인합니다.</div></div>
+        <button id="playEndingBtn" class="primary">엔딩 연출 보기</button>
+      </div>
+      <div id="executiveReport" class="executive-report"></div>
+      <div class="grid grid-2" style="margin-top:16px;">
+        <div id="signalDaily" class="news-paper"></div>
+        <div id="careerPanel" class="career-card"></div>
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <div class="eyebrow">Five Years Later</div>
+        <h3 style="margin-top:6px;">몇 년 후, 당신의 선택은 어떻게 남았는가</h3>
+        <div id="epilogueGrid" class="epilogue-grid"></div>
+      </div>
+    </section>
+
+    <section id="mail" class="view">
+      <div class="topbar">
+        <div>
+          <h2>사내 메일</h2>
+          <div class="sub">조직의 변화는 데이터보다 먼저 메시지로 도착하기도 합니다.</div>
+        </div>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>받은 메일</h3>
+          <div id="mailList" class="mail-list"></div>
+        </div>
+        <div class="card">
+          <h3 id="mailSubject">메일을 선택하세요</h3>
+          <div id="mailBody" class="muted" style="line-height:1.75;">왼쪽 목록에서 메일을 선택하면 내용을 확인할 수 있습니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="settings" class="view">
+      <div class="topbar">
+        <div>
+          <h2>설정</h2>
+          <div class="sub">사운드와 화면 연출을 조정합니다.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="settings-row">
+          <div><strong>BGM 볼륨</strong><div class="muted">브라우저 생성 앰비언트 음악의 음량입니다.</div></div>
+          <input id="settingsBgmVolume" type="range" min="0" max="1" step="0.05" value="0.55">
+        </div>
+        <div class="settings-row">
+          <div><strong>화면 애니메이션</strong><div class="muted">카드 전환과 캐릭터 움직임을 설정합니다.</div></div>
+          <select id="motionSetting"><option value="on">사용</option><option value="off">최소화</option></select>
+        </div>
+        <div class="settings-row">
+          <div><strong>튜토리얼</strong><div class="muted">초기 플레이 안내를 다시 표시합니다.</div></div>
+          <button id="restartTutorialBtn" class="small">다시 시작</button>
+        </div>
+        <div class="settings-row">
+          <div><strong>화면 모드</strong><div class="muted">브라우저 전체화면으로 전환합니다.</div></div>
+          <button id="fullscreenBtn" class="small">전체화면</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+
+
+<div id="endingOverlay" class="ending-overlay">
+  <div class="ending-panel">
+    <div class="eyebrow">SIGNAL CAMPAIGN COMPLETE</div>
+    <h2 id="endingTitle">조직 결과</h2>
+    <div id="endingBody" class="muted" style="line-height:1.8;"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+      <button id="endingCloseBtn">리포트로 돌아가기</button>
+      <button id="endingNewGameBtn" class="primary">새 회차 시작</button>
+    </div>
+  </div>
+</div>
+
+<div id="saveIndicator" class="save-indicator">
+  <span class="save-dot"></span>
+  <span id="saveIndicatorText">저장 중...</span>
+</div>
+
+<div id="saveModal" class="modal">
+  <div class="modal-panel">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;">
+      <div>
+        <div class="eyebrow">Save Data</div>
+        <h3 style="margin:5px 0 0;">저장 및 불러오기</h3>
+      </div>
+      <button id="saveModalCloseBtn" class="small ghost">닫기</button>
+    </div>
+    <div class="muted" style="margin-top:9px;line-height:1.6;">
+      저장 데이터는 이 PC의 현재 브라우저에 보관됩니다. 브라우저 데이터 삭제 또는 다른 브라우저 사용 시 불러올 수 없습니다.
+    </div>
+    <div id="saveSlotList" class="save-modal-grid"></div>
+  </div>
+</div>
+
+<div id="resultModal" class="modal">
+  <div class="modal-panel">
+    <h3 id="modalTitle">행동 결과</h3>
+    <div id="modalBody" class="muted" style="line-height:1.7;"></div>
+    <div style="display:flex; justify-content:flex-end; margin-top:18px;">
+      <button id="modalCloseBtn" class="primary">확인</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const employees = [
+  {id:1,name:"강서윤",role:"팀장",job:"개발 총괄",pl:"-",tl:"-",type:"부담받는 리더형",leader:true,signals:["반복적인 업무 방향 변경 이후 의사결정 회의 증가"],context:"팀장 본인의 의사결정 부담이 높아지고 있습니다.",baseline:"오전 8:30~오후 6:30",recent:"근태 변화는 크지 않으나 회의시간 증가",trust:58},
+  {id:2,name:"김도현",role:"PL",job:"제품개발",pl:"PL-A",tl:"-",type:"성과 중심형",leader:true,signals:["특정 TL 조직의 업무 집중"],context:"단기 프로젝트 목표 달성을 우선하고 있습니다.",baseline:"오전 8:00~오후 6:00",recent:"야간 회의 주 1회 → 3회",trust:54},
+  {id:3,name:"박지수",role:"PL",job:"평가·분석",pl:"PL-B",tl:"-",type:"관계 중심형",leader:true,signals:[],context:"조직 간 업무량 편차를 조정하려고 합니다.",baseline:"오전 9:00~오후 7:00",recent:"평소 범위",trust:64},
+  {id:4,name:"이현우",role:"TL",job:"회로설계",pl:"PL-A",tl:"TL-A1",type:"부담받는 리더형",leader:true,signals:["주말 출입 증가","구성원 체크인 감소"],context:"핵심 과제와 리더 역할을 병행하고 있습니다.",baseline:"오전 8:10~오후 6:20",recent:"주말 출입 0회 → 3회",trust:57},
+  {id:5,name:"최민서",role:"TL",job:"펌웨어",pl:"PL-A",tl:"TL-A2",type:"과몰입 성과형",leader:true,signals:["팀 야간 체류 증가"],context:"성과가 높고 PL의 신뢰가 강합니다.",baseline:"오전 9:30~오후 8:00",recent:"팀 평균 체류시간 +1.8시간",trust:51},
+  {id:6,name:"정유진",role:"TL",job:"품질평가",pl:"PL-B",tl:"TL-B1",type:"생활 균형형",leader:true,signals:[],context:"업무 배분과 휴가 계획을 정기적으로 점검합니다.",baseline:"오전 7:30~오후 4:30",recent:"평소 범위",trust:68},
+  {id:7,name:"오세훈",role:"TL",job:"데이터분석",pl:"PL-B",tl:"TL-B2",type:"경력 성장형",leader:true,signals:["교육 신청 취소"],context:"신규 기술 과제 참여가 줄었습니다.",baseline:"오전 10:00~오후 7:30",recent:"근태 변화 없음",trust:60},
+  {id:8,name:"윤하진",role:"구성원",job:"회로설계",pl:"PL-A",tl:"TL-A1",type:"묵묵한 안정형",leader:false,signals:["회의 발언 감소","교육 신청 취소"],context:"친한 동료 두 명이 최근 조직을 이동했습니다.",baseline:"오전 8:20~오후 5:40",recent:"출퇴근 변화 없음",trust:55},
+  {id:9,name:"한재민",role:"구성원",job:"회로설계",pl:"PL-A",tl:"TL-A1",type:"과몰입 성과형",leader:false,signals:["야간 체류 증가","휴가 취소 2회"],context:"동료 퇴사 후 핵심 업무를 인수했습니다.",baseline:"오전 7:40~오후 5:20",recent:"평균 퇴근 오후 8:10",trust:49},
+  {id:10,name:"서예린",role:"구성원",job:"검증",pl:"PL-A",tl:"TL-A1",type:"적극적 요청형",leader:false,signals:["면담 요청"],context:"업무 우선순위가 반복적으로 변경되고 있습니다.",baseline:"오전 9:10~오후 6:30",recent:"체류시간 변동성 증가",trust:63},
+  {id:11,name:"배준호",role:"구성원",job:"펌웨어",pl:"PL-A",tl:"TL-A2",type:"회피·축소형",leader:false,signals:["출근시간 변화","퇴근시간 변화"],context:"개인 일정 변화 가능성이 있으나 현재 정보는 제한적입니다.",baseline:"오전 7:30~오후 4:30",recent:"오전 9:20~오후 8:10",trust:52},
+  {id:12,name:"문소연",role:"구성원",job:"펌웨어",pl:"PL-A",tl:"TL-A2",type:"표현적 반응형",leader:false,signals:["회의 충돌 증가"],context:"동시 업무 요청이 늘어 우선순위 충돌을 경험하고 있습니다.",baseline:"오전 9:40~오후 7:00",recent:"근태는 평소 범위",trust:56},
+  {id:13,name:"임태경",role:"구성원",job:"품질평가",pl:"PL-B",tl:"TL-B1",type:"경력 성장형",leader:false,signals:["핵심 회의 제외","사내 공모 검색 증가"],context:"신기술 과제에서 제외된 뒤 역할 변화를 탐색 중입니다.",baseline:"오전 8:50~오후 6:10",recent:"체류시간 -1.2시간",trust:48},
+  {id:14,name:"신가은",role:"구성원",job:"품질평가",pl:"PL-B",tl:"TL-B1",type:"생활 균형형",leader:false,signals:["출근시간 일시 변화"],context:"단기 교육 일정과 가족 일정이 겹쳤습니다.",baseline:"오전 10:20~오후 7:40",recent:"이번 주만 오전 8:30 출근",trust:66},
+  {id:15,name:"류민규",role:"구성원",job:"데이터분석",pl:"PL-B",tl:"TL-B2",type:"전환 탐색형",leader:false,signals:["교육 참여 감소","이동 희망 증가"],context:"장기간 동일 업무 이후 역할 확장을 희망합니다.",baseline:"오전 9:00~오후 6:20",recent:"근태 변화 없음",trust:53}
+];
+
+const extraNames = ["조아라","권민석","홍서진","고은찬","남지혜","송현석","장예원","유승민","전하늘","노유나","차동욱","백수현","양지훈","허나연","심재욱","도은비","진우성","마서연","라민호","하예진","구도윤","표가람"];
+extraNames.forEach((name, idx) => {
+  const tls = ["TL-A1","TL-A2","TL-B1","TL-B2"];
+  const tl = tls[idx % 4];
+  const pl = tl.startsWith("TL-A") ? "PL-A" : "PL-B";
+  employees.push({
+    id:16+idx, name, role:"구성원",
+    job:["회로설계","펌웨어","품질평가","데이터분석"][idx%4],
+    pl, tl,
+    type:["관계 중심형","생활 균형형","묵묵한 안정형","적극적 요청형"][idx%4],
+    leader:false,
+    signals: idx % 7 === 0 ? ["업무량 소폭 증가"] : [],
+    context: idx % 7 === 0 ? "프로젝트 일정과 함께 확인할 필요가 있습니다." : "현재 관찰된 큰 변화는 없습니다.",
+    baseline:["오전 8:00~오후 5:30","오전 9:30~오후 7:00","오전 10:00~오후 7:30"][idx%3],
+    recent: idx % 7 === 0 ? "체류시간 +45분" : "평소 범위",
+    trust:58+(idx%9)
+  });
+});
+
+
+
+
+const audioSystem = {
+  ctx: null,
+  master: null,
+  musicGain: null,
+  sfxGain: null,
+  started: false,
+  muted: true,
+  timer: null,
+  oscillators: [],
+
+  ensure() {
+    if (!this.ctx) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      this.ctx = new AudioCtx();
+      this.master = this.ctx.createGain();
+      this.musicGain = this.ctx.createGain();
+      this.sfxGain = this.ctx.createGain();
+
+      this.musicGain.connect(this.master);
+      this.sfxGain.connect(this.master);
+      this.master.connect(this.ctx.destination);
+
+      this.master.gain.value = Number($("audioVolume").value);
+      this.musicGain.gain.value = 0.72;
+      this.sfxGain.gain.value = 0.95;
+    }
+  },
+
+  async start() {
+    this.ensure();
+
+    try {
+      if (this.ctx.state !== "running") {
+        await this.ctx.resume();
+      }
+
+      if (this.ctx.state !== "running") {
+        throw new Error("AudioContext가 실행 상태가 아닙니다.");
+      }
+
+      if (this.started) return;
+
+      this.started = true;
+      this.muted = false;
+
+      // 사용자가 즉시 소리를 확인할 수 있는 시작 확인음
+      const now = this.ctx.currentTime + 0.03;
+      this.tone(523.25, now, 0.28, 0.12, "sine", this.sfxGain);
+      this.tone(659.25, now + 0.11, 0.34, 0.10, "triangle", this.sfxGain);
+      this.tone(783.99, now + 0.22, 0.42, 0.08, "sine", this.sfxGain);
+
+      setTimeout(() => this.scheduleAmbient(), 450);
+
+      $("audioToggleBtn").textContent = "♪ BGM 끄기";
+      $("audioStatus").textContent = "재생";
+      showToast("BGM 재생", "오리지널 앰비언트 사운드를 시작했습니다.");
+    } catch (error) {
+      console.error(error);
+      this.started = false;
+      this.muted = true;
+      $("audioToggleBtn").textContent = "♪ 다시 시도";
+      $("audioStatus").textContent = "차단됨";
+      showModal(
+        "BGM 실행 실패",
+        "브라우저가 오디오 재생을 차단했습니다. 화면을 한 번 클릭한 뒤 다시 BGM 버튼을 눌러주세요. Chrome 또는 Edge 사용을 권장합니다."
+      );
+    }
+  },
+
+  stop() {
+    this.muted = true;
+    if (this.timer) clearTimeout(this.timer);
+    this.timer = null;
+    this.started = false;
+    this.oscillators.forEach(o => { try { o.stop(); } catch {} });
+    this.oscillators = [];
+    $("audioToggleBtn").textContent = "♪ BGM 켜기";
+    $("audioStatus").textContent = "꺼짐";
+  },
+
+  setVolume(v) {
+    this.ensure();
+    this.master.gain.setTargetAtTime(Number(v), this.ctx.currentTime, 0.04);
+  },
+
+  tone(freq, when, duration, gain=0.04, type="sine", destination=null) {
+    const ctx = this.ctx;
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+    filter.type = "lowpass";
+    filter.frequency.value = 1300;
+    osc.type = type;
+    osc.frequency.value = freq;
+    osc.connect(filter);
+    filter.connect(g);
+    g.connect(destination || this.musicGain);
+    g.gain.setValueAtTime(0.0001, when);
+    g.gain.exponentialRampToValueAtTime(gain, when + 0.08);
+    g.gain.exponentialRampToValueAtTime(0.0001, when + duration);
+    osc.start(when);
+    osc.stop(when + duration + 0.05);
+    this.oscillators.push(osc);
+  },
+
+  scheduleAmbient() {
+    if (this.muted || !this.ctx) return;
+    const now = this.ctx.currentTime + 0.05;
+    const scale = [146.83, 174.61, 220.00, 261.63, 293.66];
+    const root = scale[(state.week - 1) % scale.length];
+
+    this.tone(root/2, now, 5.8, 0.070, "sine");
+    this.tone(root, now + 0.6, 3.9, 0.045, "triangle");
+    this.tone(root * 1.5, now + 2.2, 2.8, 0.030, "sine");
+    this.tone(root * 2, now + 4.4, 1.9, 0.024, "triangle");
+
+    this.timer = setTimeout(() => this.scheduleAmbient(), 5900);
+  },
+
+  click() {
+    this.ensure();
+    if (this.ctx.state === "suspended") return;
+    const now = this.ctx.currentTime;
+    this.tone(480, now, 0.09, 0.035, "sine", this.sfxGain);
+    this.tone(720, now + 0.025, 0.06, 0.018, "sine", this.sfxGain);
+  },
+
+  notify() {
+    this.ensure();
+    if (this.ctx.state === "suspended") return;
+    const now = this.ctx.currentTime;
+    [440, 554.37, 659.25].forEach((f,i)=>this.tone(f, now + i*0.08, 0.22, 0.028, "triangle", this.sfxGain));
+  }
+};
+
+const SAVE_VERSION = 1;
+const SAVE_PREFIX = "signal_game_save_v1_";
+const AUTO_SAVE_KEY = `${SAVE_PREFIX}autosave`;
+const MANUAL_SAVE_KEY = `${SAVE_PREFIX}manual`;
+
+function serializableState() {
+  return {
+    version: SAVE_VERSION,
+    savedAt: new Date().toISOString(),
+    state: {
+      week: state.week,
+      ap: state.ap,
+      trust: state.trust,
+      selectedEmployeeId: state.selectedEmployee ? state.selectedEmployee.id : null,
+      selectedHypotheses: state.selectedHypotheses,
+      logs: state.logs,
+      usedActions: state.usedActions
+    },
+    ui: {
+      orgFilter
+    }
+  };
+}
+
+function applyLoadedData(data) {
+  if (!data || !data.state) throw new Error("저장 데이터 형식이 올바르지 않습니다.");
+
+  state.week = Number(data.state.week) || 1;
+  state.ap = Number(data.state.ap);
+  if (!Number.isFinite(state.ap)) state.ap = 8;
+  state.trust = Number(data.state.trust);
+  if (!Number.isFinite(state.trust)) state.trust = 60;
+  state.selectedHypotheses = data.state.selectedHypotheses || {};
+  state.logs = Array.isArray(data.state.logs) ? data.state.logs : [];
+  state.usedActions = data.state.usedActions || {};
+  state.selectedEmployee = employees.find(e => e.id === data.state.selectedEmployeeId) || null;
+  orgFilter = data.ui && data.ui.orgFilter ? data.ui.orgFilter : "all";
+
+  closeVisualNovelInterview(true);
+  renderAll();
+  showView(state.selectedEmployee ? "actions" : "briefing");
+}
+
+function showSaveIndicator(text="저장 중...") {
+  $("saveIndicatorText").textContent = text;
+  $("saveIndicator").classList.add("show");
+  clearTimeout(showSaveIndicator.timer);
+  showSaveIndicator.timer = setTimeout(() => {
+    $("saveIndicator").classList.remove("show");
+  }, 1500);
+}
+
+function saveGame(key=MANUAL_SAVE_KEY, label="수동 저장") {
+  try {
+    const payload = serializableState();
+    localStorage.setItem(key, JSON.stringify(payload));
+    showSaveIndicator(`${label} 완료`);
+    updateSaveMeta();
+    renderSaveSlots();
+    return true;
+  } catch (error) {
+    console.error(error);
+    showModal("저장 실패", "브라우저 저장 공간을 사용할 수 없습니다. 시크릿 모드이거나 브라우저 설정에서 로컬 저장이 차단되었는지 확인해주세요.");
+    return false;
+  }
+}
+
+function autoSave(reason="자동 저장") {
+  saveGame(AUTO_SAVE_KEY, reason);
+}
+
+function loadGame(key) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) {
+      showModal("불러오기", "해당 저장 기록이 없습니다.");
+      return;
+    }
+    const data = JSON.parse(raw);
+    applyLoadedData(data);
+    showToast("불러오기 완료", `${data.state.week}주차 진행 상태를 불러왔습니다.`);
+    updateSaveMeta();
+    $("saveModal").classList.remove("open");
+  } catch (error) {
+    console.error(error);
+    showModal("불러오기 실패", "저장 데이터가 손상되었거나 이전 버전과 호환되지 않습니다.");
+  }
+}
+
+function deleteSave(key) {
+  const raw = localStorage.getItem(key);
+  if (!raw) return;
+  const ok = confirm("이 저장 기록을 삭제할까요?");
+  if (!ok) return;
+  localStorage.removeItem(key);
+  updateSaveMeta();
+  renderSaveSlots();
+  showToast("저장 삭제", "선택한 저장 기록을 삭제했습니다.");
+}
+
+function getSaveInfo(key) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+function formatSaveTime(iso) {
+  if (!iso) return "시간 정보 없음";
+  const date = new Date(iso);
+  return date.toLocaleString("ko-KR", {
+    year:"numeric", month:"2-digit", day:"2-digit",
+    hour:"2-digit", minute:"2-digit"
+  });
+}
+
+function updateSaveMeta() {
+  const manual = getSaveInfo(MANUAL_SAVE_KEY);
+  const auto = getSaveInfo(AUTO_SAVE_KEY);
+  const latest = [manual, auto]
+    .filter(Boolean)
+    .sort((a,b) => new Date(b.savedAt) - new Date(a.savedAt))[0];
+
+  $("saveMeta").innerHTML = latest
+    ? `최근 저장<br><strong style="color:var(--text);">${latest.state.week}주차 · ${formatSaveTime(latest.savedAt)}</strong>`
+    : "저장 기록 없음";
+}
+
+function renderSaveSlots() {
+  const slots = [
+    {key:MANUAL_SAVE_KEY, title:"수동 저장", data:getSaveInfo(MANUAL_SAVE_KEY)},
+    {key:AUTO_SAVE_KEY, title:"자동 저장", data:getSaveInfo(AUTO_SAVE_KEY)}
+  ];
+
+  $("saveSlotList").innerHTML = slots.map(slot => {
+    const exists = !!slot.data;
+    const info = exists
+      ? `${slot.data.state.week}주차 · 행동 포인트 ${slot.data.state.ap} · 조직 신뢰 ${slot.data.state.trust}<br>${formatSaveTime(slot.data.savedAt)}`
+      : "저장 기록이 없습니다.";
+
+    return `
+      <div class="save-slot">
+        <div>
+          <div class="save-slot-title">${slot.title}</div>
+          <div class="save-slot-info">${info}</div>
+        </div>
+        <div class="save-slot-buttons">
+          ${slot.key === MANUAL_SAVE_KEY ? `<button class="small primary" onclick="saveGame(MANUAL_SAVE_KEY, '수동 저장')">저장</button>` : ""}
+          <button class="small" ${exists ? "" : "disabled"} onclick="loadGame('${slot.key}')">불러오기</button>
+          <button class="small ghost" ${exists ? "" : "disabled"} onclick="deleteSave('${slot.key}')">삭제</button>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function openSaveModal() {
+  renderSaveSlots();
+  $("saveModal").classList.add("open");
+}
+
+function offerContinueOnStart() {
+  const auto = getSaveInfo(AUTO_SAVE_KEY);
+  const manual = getSaveInfo(MANUAL_SAVE_KEY);
+  const latest = [auto, manual]
+    .filter(Boolean)
+    .sort((a,b) => new Date(b.savedAt) - new Date(a.savedAt))[0];
+
+  if (!latest) return;
+
+  $("introQuote").classList.remove("typing-cursor");
+  $("introQuote").innerHTML = `
+    저장된 진행 기록이 있습니다.<br>
+    <span class="muted">${latest.state.week}주차 · ${formatSaveTime(latest.savedAt)}</span>
+  `;
+
+  const btn = $("startGameBtn");
+  btn.textContent = "이어하기";
+  btn.onclick = null;
+  btn.addEventListener("click", () => {
+    const key = latest === auto ? AUTO_SAVE_KEY : MANUAL_SAVE_KEY;
+    loadGame(key);
+    $("introScreen").classList.add("hide");
+  }, {once:true});
+
+  const newBtn = document.createElement("button");
+  newBtn.className = "ghost";
+  newBtn.style.marginLeft = "8px";
+  newBtn.textContent = "새 게임";
+  newBtn.addEventListener("click", () => {
+    resetGame();
+    $("introScreen").classList.add("hide");
+    showToast("새 회차 시작", "기존 저장 기록은 유지됩니다.");
+  });
+  btn.parentElement.appendChild(newBtn);
+}
+
+
+function employeeMetrics(employee) {
+  const seed = employee.id * 17 + state.week * 7;
+  const baseStart = 450 + (seed % 170); // minutes
+  const recentStart = baseStart + (employee.signals.length ? ((seed % 95) - 20) : (seed % 18) - 8);
+  const baseStay = 520 + (seed % 80);
+  const recentStay = baseStay + (employee.signals.length ? 45 + (seed % 95) : (seed % 30) - 15);
+  const meetingBase = 68 + (seed % 22);
+  const meetingRecent = Math.max(35, meetingBase - (employee.signals.some(s=>s.includes("회의")) ? 18 : (seed % 9)));
+  const weekendBase = seed % 2;
+  const weekendRecent = weekendBase + (employee.signals.some(s=>s.includes("주말")) ? 3 : employee.signals.length ? 1 : 0);
+
+  return {
+    baseStart,
+    recentStart,
+    baseStay,
+    recentStay,
+    meetingBase,
+    meetingRecent,
+    weekendBase,
+    weekendRecent,
+    bars: Array.from({length:8}, (_,i) => 28 + ((seed + i*19) % 58))
+  };
+}
+
+function minsToTime(mins) {
+  mins = Math.max(0, Math.min(1439, Math.round(mins)));
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  return `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}`;
+}
+
+function formatDelta(value, suffix="") {
+  const sign = value > 0 ? "+" : "";
+  return `${sign}${Math.round(value)}${suffix}`;
+}
+
+const interviewProfiles = {
+  default: {
+    opening: "네, 말씀하신 면담이 이 건이었군요. 어떤 부분이 궁금하셨을까요?",
+    open: "최근 일이 조금 복잡해지기는 했습니다. 그래도 제가 맡은 부분은 해내고 싶어요.",
+    worried: "사실 여러 가지가 겹쳐서 어디서부터 말씀드려야 할지 잘 모르겠습니다.",
+    guarded: "크게 문제는 없습니다. 그냥 요즘 일정이 조금 바뀐 정도예요.",
+    relieved: "이렇게 제 입장을 먼저 물어봐 주셔서 감사합니다. 정리해서 이야기할 수 있을 것 같아요."
+  },
+  "묵묵한 안정형": {
+    opening: "네. 저는 괜찮습니다. 업무도 평소처럼 하고 있고요.",
+    open: "겉으로는 평소처럼 보이려고 했던 것 같습니다. 주변 변화가 생각보다 크게 느껴졌어요.",
+    worried: "제가 먼저 이야기하면 괜히 일이 커질까 봐 말을 아꼈습니다.",
+    guarded: "특별한 일은 없습니다. 제가 알아서 정리할 수 있습니다.",
+    relieved: "바로 결론을 내리지 않고 들어주셔서 조금 편해졌습니다."
+  },
+  "과몰입 성과형": {
+    opening: "프로젝트는 계획대로 가고 있습니다. 제가 맡은 부분도 문제 없습니다.",
+    open: "일이 많은 건 맞지만, 이 과제를 놓치고 싶지는 않습니다.",
+    worried: "쉬어야 한다는 건 알지만, 지금 손을 놓으면 팀에 부담이 갈 것 같습니다.",
+    guarded: "지금은 결과가 우선입니다. 일정이 끝나면 쉬면 됩니다.",
+    relieved: "업무를 뺏기지 않으면서도 지속할 방법을 같이 찾을 수 있다면 좋겠습니다."
+  },
+  "생활 균형형": {
+    opening: "최근 일정이 평소와 조금 달라졌습니다. 업무 자체보다 시간 조정이 필요합니다.",
+    open: "개인 일정과 업무 일정이 겹치면서 출퇴근 시간이 달라졌습니다.",
+    worried: "업무에 피해를 주는 사람처럼 보일까 봐 자세히 말하지 못했습니다.",
+    guarded: "개인적인 부분이라 구체적으로 말씀드리기는 어렵습니다.",
+    relieved: "사유를 모두 설명하지 않아도 조정 가능성을 봐주셔서 감사합니다."
+  },
+  "회피·축소형": {
+    opening: "아, 네. 크게 말씀드릴 건 없습니다. 괜찮습니다.",
+    open: "최근 생활 일정이 바뀌었고, 업무 인수도 조금 겹쳤습니다.",
+    worried: "제가 어렵다고 말하면 팀에 부담을 주는 것 같아서요.",
+    guarded: "정말 괜찮습니다. 조금 지나면 원래대로 돌아올 겁니다.",
+    relieved: "계속 캐묻지 않고 선택권을 주셔서 이야기하기 쉬웠습니다."
+  },
+  "경력 성장형": {
+    opening: "요즘 제 역할에 대해 생각이 많아진 건 사실입니다.",
+    open: "업무량보다 어떤 경험을 쌓고 있는지가 더 신경 쓰입니다.",
+    worried: "계속 비슷한 역할만 하게 될까 봐 불안합니다.",
+    guarded: "아직 공식적으로 요청할 단계는 아니라고 생각합니다.",
+    relieved: "단순히 업무를 줄이는 게 아니라 성장 방향을 같이 봐주셔서 좋습니다."
+  },
+  "부담받는 리더형": {
+    opening: "구성원들 상황부터 말씀드리면 될까요? 제 쪽은 크게 문제 없습니다.",
+    open: "실무와 리더 역할이 겹치면서 구성원들을 충분히 못 보고 있는 건 맞습니다.",
+    worried: "제가 흔들리면 조직 전체가 불안해질 것 같아서 티를 내기 어렵습니다.",
+    guarded: "리더라면 이 정도는 감당해야 한다고 생각합니다.",
+    relieved: "제 개인 문제로만 보지 않고 구조를 같이 봐주셔서 감사합니다."
+  }
+};
+
+const interviewFlow = {
+  start: {
+    speaker: "employee",
+    emotion: "neutral",
+    choices: [
+      {label:"최근 업무 상황부터 묻는다",hint:"업무 맥락을 먼저 확인합니다.",next:"work",trust:1,tag:"업무 맥락"},
+      {label:"변화가 보여 걱정된다고 직접 말한다",hint:"관심을 명확하게 표현합니다.",next:"direct",trust:0,tag:"직접 확인"},
+      {label:"필요한 지원이 있는지 먼저 묻는다",hint:"지원 중심으로 대화를 엽니다.",next:"support",trust:2,tag:"지원 중심"}
+    ]
+  },
+  work: {
+    speaker:"employee",
+    emotion:"open",
+    choices:[
+      {label:"업무량과 역할 변화를 구체적으로 묻는다",hint:"구조적 원인을 확인합니다.",next:"role",trust:1,tag:"역할 확인"},
+      {label:"최근 가장 부담되는 순간을 묻는다",hint:"직원이 중요하게 느끼는 지점을 확인합니다.",next:"burden",trust:2,tag:"경험 확인"},
+      {label:"바로 업무 조정을 제안한다",hint:"빠른 지원이지만 성급할 수 있습니다.",next:"adjust",trust:-1,tag:"즉시 조정"}
+    ]
+  },
+  direct: {
+    speaker:"employee",
+    emotion:"guarded",
+    choices:[
+      {label:"판단하려는 것이 아니라고 설명한다",hint:"면담 목적과 선택권을 분명히 합니다.",next:"safety",trust:2,tag:"안전감"},
+      {label:"출퇴근 변화 수치를 자세히 제시한다",hint:"근거는 명확하지만 감시처럼 느껴질 수 있습니다.",next:"metrics",trust:-2,tag:"수치 중심"},
+      {label:"대답하기 어려우면 말하지 않아도 된다고 한다",hint:"직원의 통제감을 높입니다.",next:"space",trust:2,tag:"선택권"}
+    ]
+  },
+  support: {
+    speaker:"employee",
+    emotion:"worried",
+    choices:[
+      {label:"지원보다 먼저 상황을 충분히 듣는다",hint:"해결책보다 맥락을 우선합니다.",next:"listen",trust:2,tag:"경청"},
+      {label:"휴가나 상담제도를 바로 안내한다",hint:"실용적이지만 현재 필요와 다를 수 있습니다.",next:"program",trust:0,tag:"제도 안내"},
+      {label:"리더와 업무 조정 논의를 제안한다",hint:"구조적 해결 가능성을 확인합니다.",next:"leader",trust:1,tag:"리더 연계"}
+    ]
+  },
+  role: {speaker:"employee",emotion:"worried",end:true},
+  burden: {speaker:"employee",emotion:"open",end:true},
+  adjust: {speaker:"employee",emotion:"guarded",end:true},
+  safety: {speaker:"employee",emotion:"relieved",end:true},
+  metrics: {speaker:"employee",emotion:"guarded",end:true},
+  space: {speaker:"employee",emotion:"open",end:true},
+  listen: {speaker:"employee",emotion:"relieved",end:true},
+  program: {speaker:"employee",emotion:"neutral",end:true},
+  leader: {speaker:"employee",emotion:"open",end:true}
+};
+
+const interviewEndLines = {
+  role: "업무량도 있지만, 최근 제 역할이 달라진 부분이 더 크게 느껴졌습니다. 어떤 일을 맡고 있는지가 중요합니다.",
+  burden: "가장 부담되는 건 일이 많은 것보다, 계속 우선순위가 바뀌어서 끝이 보이지 않는다는 점입니다.",
+  adjust: "조정이 도움이 될 수도 있지만, 제가 맡은 일을 바로 빼는 방향은 조금 걱정됩니다.",
+  safety: "그렇게 말씀해주시니 조금 편해졌습니다. 사실 최근 변화가 한 가지 이유만은 아닙니다.",
+  metrics: "그 정도로 제 기록을 보고 계셨다는 건 몰랐습니다. 조금 부담스럽게 느껴집니다.",
+  space: "지금 전부 말하기는 어렵지만, 다음 주에 다시 이야기해도 괜찮을까요?",
+  listen: "당장 해결책을 정하지 않아도 된다고 하니 오히려 제가 필요한 게 뭔지 생각할 수 있을 것 같습니다.",
+  program: "제도 안내는 감사합니다. 다만 지금은 상담보다 업무와 역할을 먼저 정리하고 싶습니다.",
+  leader: "리더와 이야기할 때 제 개인 사정이 과하게 공유되지 않는다면 업무 조정은 검토해보고 싶습니다."
+};
+
+let vnState = {
+  employee:null,
+  node:"start",
+  step:1,
+  trustDelta:0,
+  choices:[],
+  tags:[],
+  typingTimer:null,
+  completed:false
+};
+
+const weeklyBriefings = [
+  [
+    ["프로젝트 마감 집중","PL-A 산하 두 개 TL에서 야간 체류가 동시에 증가했습니다."],
+    ["인력 변화","TL-A1의 핵심 구성원 한 명이 퇴사하여 업무 인수가 진행 중입니다."],
+    ["관계 변화","TL-A1 구성원 두 명이 다른 조직으로 이동했습니다."],
+    ["정보 주의","근무시간 증가가 곧 지원 필요를 의미하지는 않습니다. 일정과 자발성을 함께 확인하세요."]
+  ],
+  [
+    ["평가 결과 발표","일부 구성원의 회의 참여와 교육 신청에서 변화가 나타났습니다."],
+    ["목표 재조정","팀장이 프로젝트 우선순위를 다시 변경했습니다."],
+    ["리더 상태","TL-A1의 주말 출입이 계속되고 구성원 체크인 빈도가 감소했습니다."],
+    ["정보 주의","리더의 설명과 구성원의 경험이 다를 수 있습니다."]
+  ],
+  [
+    ["업무 재배분","PL-A에서 일부 업무 조정이 시작되었습니다."],
+    ["성장 기회","PL-B 신기술 과제 참여 명단이 확정되었습니다."],
+    ["회복 확인","지난주 야간 체류 증가 인원의 일부는 정상 패턴으로 돌아왔습니다."],
+    ["정보 주의","자연 회복한 변화와 지속되는 변화를 구분하세요."]
+  ],
+  [
+    ["회차 마무리","이번 주 행동 이후 조직과 개인의 변화를 최종 확인합니다."],
+    ["조직 파급","개인 지원과 리더 코칭의 영향이 주변 구성원에게 전달됩니다."],
+    ["신뢰 변화","과도한 확인과 적절한 관심이 각각 다른 반응을 만들었습니다."],
+    ["정보 주의","한 사람의 변화만 보지 말고 조직 구조까지 함께 회고하세요."]
+  ]
+];
+
+const hypotheses = [
+  "업무 과부하 가능성",
+  "역할 상실 또는 성장 정체 가능성",
+  "평가·승진 영향 가능성",
+  "리더 관계 확인 필요",
+  "동료 관계 확인 필요",
+  "개인 일정 변화 가능성",
+  "프로젝트 일정에 따른 일시적 변화",
+  "현재 정보 부족"
+];
+
+const actions = [
+  {id:"data",name:"추가 데이터 확인",cost:1,desc:"최근 8주 기준 패턴과 프로젝트 일정을 비교합니다."},
+  {id:"tl",name:"TL에게 상황 문의",cost:1,desc:"현장 업무량과 역할 배분에 대한 관찰을 확인합니다."},
+  {id:"pl",name:"PL에게 조직 비교 문의",cost:1,desc:"여러 TL 사이의 업무량과 자원 편차를 확인합니다."},
+  {id:"checkin",name:"가벼운 체크인",cost:2,desc:"부담이 적은 방식으로 최근 업무와 필요한 지원을 묻습니다."},
+  {id:"meeting",name:"정식 면담",cost:3,desc:"구조화된 대화를 통해 개인 맥락과 요구를 더 깊게 확인합니다."},
+  {id:"workload",name:"업무량·역할 조정 제안",cost:3,desc:"업무 재배분, 일정 조정 또는 역할 명확화를 제안합니다."},
+  {id:"coaching",name:"리더 코칭·조직 개입",cost:3,desc:"TL 또는 PL 단위의 구조적 변화를 제안합니다."},
+  {id:"observe",name:"추가 관찰",cost:0,desc:"지금은 개입하지 않고 다음 확인 시점을 기록합니다."}
+];
+
+const state = {
+  week:1,
+  ap:8,
+  trust:60,
+  selectedEmployee:null,
+  selectedHypotheses:{},
+  logs:[],
+  usedActions:{}
+};
+
+const $ = (id) => document.getElementById(id);
+
+function renderStatus() {
+  $("weekLabel").textContent = `${state.week} / 4주`;
+  $("apLabel").textContent = state.ap;
+  const count = Object.values(state.selectedHypotheses).reduce((a,b)=>a+b.length,0);
+  $("hypothesisCount").textContent = count;
+  $("trustLabel").textContent = state.trust >= 66 ? "높음" : state.trust >= 52 ? "보통" : "주의 필요";
+  $("weekProgress").style.width = `${state.week*25}%`;
+  $("nextWeekBtn").textContent = state.week === 4 ? "회차 회고 보기" : "이번 주 마무리";
+}
+
+function renderBriefing() {
+  $("briefingSubtitle").textContent = `${state.week}주차 · 새로운 조직 변화가 도착했습니다.`;
+  $("briefingList").innerHTML = weeklyBriefings[state.week-1].map(item => `
+    <div class="briefing-item">
+      <strong>${item[0]}</strong>
+      <div class="muted">${item[1]}</div>
+    </div>`).join("");
+  animateNumber("metricChanges", employees.filter(e=>e.signals.length).length);
+  animateNumber("metricOrg", state.week < 3 ? 2 : 3);
+}
+
+function renderOrgTree() {
+  $("orgTree").innerHTML = `
+    <button onclick="filterOrg('all')">강서윤 팀장 · 전체</button>
+    <button class="indent-1" onclick="filterOrg('PL-A')">김도현 PL · 제품개발</button>
+    <button class="indent-2" onclick="filterOrg('TL-A1')">이현우 TL · 회로설계</button>
+    <button class="indent-2" onclick="filterOrg('TL-A2')">최민서 TL · 펌웨어</button>
+    <button class="indent-1" onclick="filterOrg('PL-B')">박지수 PL · 평가·분석</button>
+    <button class="indent-2" onclick="filterOrg('TL-B1')">정유진 TL · 품질평가</button>
+    <button class="indent-2" onclick="filterOrg('TL-B2')">오세훈 TL · 데이터분석</button>`;
+}
+
+let orgFilter = "all";
+
+function filterOrg(value) {
+  orgFilter = value;
+  renderEmployees();
+}
+
+function renderEmployees() {
+  const search = $("searchInput").value.trim().toLowerCase();
+  const filter = $("signalFilter").value;
+
+  const list = employees.filter(e => {
+    const orgOk = orgFilter === "all" || e.pl === orgFilter || e.tl === orgFilter;
+    const searchOk = !search || [e.name,e.job,e.pl,e.tl,e.role].join(" ").toLowerCase().includes(search);
+    const signalOk = filter === "all" || (filter === "changed" && e.signals.length) || (filter === "leader" && e.leader);
+    return orgOk && searchOk && signalOk;
+  });
+
+  $("employeeList").innerHTML = list.map(e => `
+    <div class="employee-row">
+      <div class="employee-identity"><div class="employee-avatar" style="${getEmployeeGender(e)==='female' ? 'background:linear-gradient(135deg,#694663,#2d314f);border-color:#855a7a;' : 'background:linear-gradient(135deg,#29436e,#1d2d4d);border-color:#3b5680;'}">${e.name.slice(-2)}</div><div><div class="employee-name">${e.name}</div><div class="muted">${e.type}</div></div></div>
+      <div>${e.role}</div>
+      <div>${e.tl === "-" ? e.pl : e.tl}</div>
+      <div>${e.signals.length ? `<span class="signal-text">${e.signals[0]}</span>` : `<span class="muted">큰 변화 없음</span>`}</div>
+      <button class="small primary" onclick="selectEmployee(${e.id})">분석하기</button>
+    </div>`).join("") || `<div class="empty">조건에 맞는 직원이 없습니다.</div>`;
+}
+
+function selectEmployee(id) {
+  state.selectedEmployee = employees.find(e=>e.id===id);
+  showView("actions");
+  renderActionWorkspace();
+}
+
+function renderActionWorkspace() {
+  const e = state.selectedEmployee;
+  if (!e) {
+    $("actionWorkspace").innerHTML = `<div class="empty">조직 탐색에서 직원을 선택하세요.</div>`;
+    return;
+  }
+  const selected = state.selectedHypotheses[e.id] || [];
+  $("actionWorkspace").innerHTML = `
+    <div class="card">
+      <div class="detail-header">
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div class="employee-avatar" style="width:54px;height:54px;border-radius:16px;font-size:16px;${getEmployeeGender(e)==='female' ? 'background:linear-gradient(135deg,#694663,#2d314f);border-color:#855a7a;' : 'background:linear-gradient(135deg,#29436e,#1d2d4d);border-color:#3b5680;'}">${e.name.slice(-2)}</div>
+          <div>
+            <div class="eyebrow">${e.role} · ${e.pl} ${e.tl !== "-" ? "· "+e.tl : ""}</div>
+            <h2 style="margin:6px 0 4px;">${e.name}</h2>
+            <div class="muted">${e.job} · ${e.type}</div>
+          </div>
+        </div>
+        <div class="chip context">조직 신뢰 ${e.trust}</div>
+      </div>
+    </div>
+
+    ${(() => {
+      const m = employeeMetrics(e);
+      return `
+      <div class="card" style="margin-top:16px;">
+        <div class="eyebrow">Employee Analysis</div>
+        <h3 style="margin-top:6px;">직원 분석 대시보드</h3>
+        <div class="analysis-grid">
+          <div class="analysis-metric">
+            <span class="muted">출근시간</span>
+            <strong>${minsToTime(m.recentStart)}</strong>
+            <span class="metric-delta">평소 대비 ${formatDelta(m.recentStart - m.baseStart, "분")}</span>
+          </div>
+          <div class="analysis-metric">
+            <span class="muted">사내 체류</span>
+            <strong>${Math.floor(m.recentStay/60)}시간 ${m.recentStay%60}분</strong>
+            <span class="metric-delta">평소 대비 ${formatDelta(m.recentStay - m.baseStay, "분")}</span>
+          </div>
+          <div class="analysis-metric">
+            <span class="muted">회의 참여</span>
+            <strong>${m.meetingRecent}%</strong>
+            <span class="metric-delta">평소 ${m.meetingBase}%</span>
+          </div>
+          <div class="analysis-metric">
+            <span class="muted">주말 출입</span>
+            <strong>${m.weekendRecent}회</strong>
+            <span class="metric-delta">평소 ${m.weekendBase}회</span>
+          </div>
+        </div>
+        <div class="mini-bars">${m.bars.map((v,i)=>`<span style="height:${v}%;" title="${i+1}주차 변화"></span>`).join("")}</div>
+        <div class="analysis-note">
+          이 분석은 진단이나 평가가 아니라, 최근 변화가 개인의 평소 패턴에서 얼마나 달라졌는지 보여주는 참고 정보입니다.
+        </div>
+      </div>`;
+    })()}
+
+    <div class="grid grid-2" style="margin-top:16px;">
+      <div class="card">
+        <h3>기준 패턴과 최근 변화</h3>
+        <div class="briefing-item"><strong>평소 근무 패턴</strong><div class="muted">${e.baseline}</div></div>
+        <div class="briefing-item"><strong>최근 관찰</strong><div class="muted">${e.recent}</div></div>
+        <div class="briefing-item"><strong>현재 확인된 맥락</strong><div class="muted">${e.context}</div></div>
+      </div>
+      <div class="card">
+        <h3>관찰 신호</h3>
+        ${e.signals.length ? e.signals.map(s=>`<div class="signal-card">${s}<div class="muted" style="margin-top:5px;">이 신호만으로 개인 상태를 단정할 수 없습니다.</div></div>`).join("") : `<div class="empty">현재 큰 패턴 변화가 관찰되지 않았습니다.</div>`}
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3>관심 메모: 가능한 가설</h3>
+      <div class="hypothesis-grid">
+        ${hypotheses.map(h=>`
+          <button class="choice ${selected.includes(h)?"selected":""}" onclick="toggleHypothesis('${h.replaceAll("'","\\'")}')">
+            <strong>${h}</strong>
+            <span>가설은 확정 판단이 아니며 새로운 정보에 따라 수정할 수 있습니다.</span>
+          </button>`).join("")}
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3>행동 선택</h3>
+      <div class="connection-hint">정식 면담을 선택하면 비주얼노벨 면담 장면으로 전환됩니다.</div>
+      <div class="action-grid" style="margin-top:10px;">
+        ${actions.map(a=>`
+          <button class="choice" ${state.ap < a.cost ? "disabled":""} onclick="performAction('${a.id}')">
+            <strong>${a.name} · ${a.cost}P</strong>
+            <span>${a.desc}</span>
+          </button>`).join("")}
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3>이 대상의 타임라인</h3>
+      ${(state.logs.filter(l=>l.employeeId===e.id).map(l=>`
+        <div class="timeline-item"><strong>${l.week}주차 · ${l.action}</strong><div class="muted">${l.result}</div></div>`).join("")) || `<div class="muted">아직 기록된 행동이 없습니다.</div>`}
+    </div>`;
+}
+
+function toggleHypothesis(h) {
+  const id = state.selectedEmployee.id;
+  if (!state.selectedHypotheses[id]) state.selectedHypotheses[id] = [];
+  const list = state.selectedHypotheses[id];
+  if (list.includes(h)) state.selectedHypotheses[id] = list.filter(x=>x!==h);
+  else state.selectedHypotheses[id].push(h);
+  renderActionWorkspace();
+  renderStatus();
+}
+
+function performAction(actionId) {
+  const a = actions.find(x=>x.id===actionId);
+  const e = state.selectedEmployee;
+  if (state.ap < a.cost) return;
+
+  state.ap -= a.cost;
+  flashActionPoints();
+  if (a.cost > 0) showToast(`${a.name} 실행`, `행동 포인트 ${a.cost}P를 사용했습니다.`);
+  const key = `${state.week}-${e.id}-${actionId}`;
+  state.usedActions[key] = (state.usedActions[key] || 0) + 1;
+
+  let result = "";
+  let trustDelta = 0;
+
+  if (actionId === "data") {
+    result = e.signals.length
+      ? `최근 8주를 비교한 결과, ${e.signals.join(", ")} 변화가 확인되었습니다. 프로젝트 일정과 개인 기준 패턴을 함께 봐야 합니다.`
+      : "최근 8주 기준으로 큰 변화는 확인되지 않았습니다. 현재는 추가 관찰도 합리적인 선택입니다.";
+  } else if (actionId === "tl") {
+    result = e.role === "구성원"
+      ? `TL은 “최근 일정이 바쁘지만 업무는 진행되고 있다”고 설명했습니다. 다만 TL의 관찰만으로 개인의 경험을 모두 알 수는 없습니다.`
+      : "해당 리더는 본인의 부담보다 조직 목표와 구성원 상황을 먼저 이야기했습니다.";
+  } else if (actionId === "pl") {
+    result = e.pl === "PL-A"
+      ? "PL-A에서는 특정 TL에 마감 업무가 집중되어 있음을 확인했습니다. 개인 변화보다 구조적 업무 배분을 함께 볼 필요가 있습니다."
+      : "PL-B는 조직별 업무량은 비교적 안정적이지만 성장 기회 배분에 편차가 있음을 인정했습니다.";
+  } else if (actionId === "checkin") {
+    trustDelta = 2;
+    result = e.type.includes("회피")
+      ? "직원은 처음에는 괜찮다고 답했지만, 업무보다 최근 생활 일정이 달라졌다고 짧게 공유했습니다. 추가 압박 없이 후속 확인이 적절해 보입니다."
+      : "직원은 최근 변화의 일부 맥락을 공유했고, 부담 없는 관심을 긍정적으로 받아들였습니다.";
+  } else if (actionId === "meeting") {
+    if (!$("vnOverlay")) {
+      showModal("면담 실행 오류", "비주얼 면담 화면을 찾지 못했습니다. 파일을 다시 열어주세요.");
+      state.ap += a.cost;
+      renderStatus();
+      return;
+    }
+    openVisualNovelInterview(e);
+    autoSave("면담 시작 자동 저장");
+    renderStatus();
+    renderActionWorkspace();
+    return;
+  } else if (actionId === "workload") {
+    if (e.type.includes("경력") || e.type.includes("과몰입")) {
+      trustDelta = -1;
+      result = "업무 조정 제안은 부담을 줄일 수 있지만, 직원은 성장 기회나 책임을 빼앗기는 것으로 느낄 가능성도 보였습니다.";
+    } else {
+      trustDelta = 2;
+      result = "일정과 역할을 일부 조정하면서 업무 부담이 완화되었습니다. 다만 다른 구성원에게 부담이 이동하지 않는지 확인이 필요합니다.";
+    }
+  } else if (actionId === "coaching") {
+    trustDelta = e.leader || e.pl === "PL-A" ? 3 : 1;
+    result = "개인 문제로만 접근하지 않고 리더와 업무 배분 구조를 함께 점검했습니다. 영향은 다음 주 조직 단위 변화에서 확인됩니다.";
+  } else if (actionId === "observe") {
+    result = "현재 정보만으로 판단하기 어렵다고 기록했습니다. 다음 주에도 변화가 지속되는지 확인합니다.";
+  }
+
+  state.trust = Math.max(35, Math.min(80, state.trust + trustDelta));
+  state.logs.push({week:state.week,employeeId:e.id,employee:e.name,action:a.name,result,trustDelta});
+  autoSave("행동 후 자동 저장");
+  showModal(`${a.name} 결과`, result + (trustDelta ? `<br><br><strong>조직 신뢰 변화: ${trustDelta > 0 ? "+" : ""}${trustDelta}</strong>` : ""));
+  renderStatus();
+  renderActionWorkspace();
+  renderReview();
+  renderOutcome();
+  renderEndgame();
+}
+
+function showModal(title, body) {
+  $("modalTitle").textContent = title;
+  $("modalBody").innerHTML = body;
+  $("resultModal").classList.add("open");
+}
+
+function nextWeek() {
+  if (state.week < 4) {
+    const next = state.week + 1;
+    playWeekTransition(next, () => {
+      state.week = next;
+      state.ap = 8;
+      autoSave("주차 전환 자동 저장");
+      renderAll();
+      showView("briefing");
+      showToast(`${state.week}주차 시작`, "지속되는 변화와 자연 회복된 변화를 구분해보세요.");
+    });
+  } else {
+    playWeekTransition("REVIEW", () => {
+      renderReview(true);
+      renderOutcome();
+      renderEndgame();
+      showView("endgame");
+      setTimeout(openEnding, 650);
+      showToast("캠페인 완료", "CEO 리포트와 장기 에필로그가 생성되었습니다.");
+    });
+  }
+}
+
+function renderReview(final=false) {
+  const logs = state.logs;
+  const positive = logs.filter(l=>l.trustDelta>0);
+  const negative = logs.filter(l=>l.trustDelta<0);
+  const orgActions = logs.filter(l=>l.action.includes("리더") || l.action.includes("PL"));
+  const observations = logs.filter(l=>l.action==="추가 관찰");
+  const touched = new Set(logs.map(l=>l.employeeId)).size;
+
+  $("reviewContent").innerHTML = `
+    <div class="grid grid-3">
+      <div class="card"><div class="eyebrow">Attention Coverage</div><div class="metric">${touched}</div><div class="muted">직접 살펴본 대상</div></div>
+      <div class="card"><div class="eyebrow">Trust Impact</div><div class="metric">${state.trust}</div><div class="muted">현재 조직 신뢰 지표</div></div>
+      <div class="card"><div class="eyebrow">Resource Use</div><div class="metric">${logs.length}</div><div class="muted">실행한 행동 수</div></div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <div class="review-box">
+        <h3>관심을 적절하게 연결한 장면</h3>
+        <div class="muted">${positive.length ? `${positive.length}회의 행동에서 신뢰가 긍정적으로 변화했습니다. 가벼운 체크인이나 구조적 접근이 효과적이었습니다.` : "아직 뚜렷한 긍정적 신뢰 변화가 기록되지 않았습니다."}</div>
+      </div>
+      <div class="review-box">
+        <h3>과도했을 수 있는 개입</h3>
+        <div class="muted">${negative.length ? `${negative.length}회의 행동에서 부담감이 증가했습니다. 변화 신호와 개입 강도의 균형을 다시 살펴볼 수 있습니다.` : "현재까지 과도한 개입으로 기록된 행동은 없습니다."}</div>
+      </div>
+      <div class="review-box">
+        <h3>개인과 구조의 균형</h3>
+        <div class="muted">${orgActions.length ? `개인 확인뿐 아니라 ${orgActions.length}회의 조직·리더 맥락 확인을 수행했습니다.` : "개인 단위 행동에 집중했습니다. 같은 조직에서 여러 변화가 보인다면 구조적 원인도 검토할 수 있습니다."}</div>
+      </div>
+      <div class="review-box">
+        <h3>기다림의 사용</h3>
+        <div class="muted">${observations.length ? `${observations.length}회 추가 관찰을 선택했습니다. 개입하지 않음도 이유와 확인 시점이 있을 때 유효한 판단입니다.` : "추가 관찰을 사용하지 않았습니다. 모든 변화가 즉시 개입을 요구하는 것은 아닙니다."}</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3>${final ? "회차 학습 포인트" : "현재까지의 학습 포인트"}</h3>
+      <div class="briefing-item">1. 근태 변화가 없는 직원도 역할, 관계, 교육 참여 변화를 함께 확인하세요.</div>
+      <div class="briefing-item">2. 같은 TL에서 여러 변화가 보이면 개인보다 조직의 업무 배분을 먼저 확인할 수 있습니다.</div>
+      <div class="briefing-item">3. 관심의 강도는 현재 정보 수준과 직원의 반응 방식에 맞춰 조정하세요.</div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3>행동 기록</h3>
+      ${logs.length ? logs.slice().reverse().map(l=>`
+        <div class="timeline-item"><strong>${l.week}주차 · ${l.employee} · ${l.action}</strong><div class="muted">${l.result}</div></div>`).join("") : `<div class="muted">아직 실행한 행동이 없습니다.</div>`}
+    </div>`;
+}
+
+function showView(id) {
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+  $(id).classList.add("active");
+  document.querySelector(`nav button[data-view="${id}"]`).classList.add("active");
+  if (id==="review") renderReview();
+  if (id==="outcome") renderOutcome();
+  if (id==="endgame") renderEndgame();
+}
+
+function resetGame() {
+  state.week=1; state.ap=8; state.trust=60; state.selectedEmployee=null;
+  state.selectedHypotheses={}; state.logs=[]; state.usedActions={};
+  orgFilter="all";
+  renderAll();
+  showView("briefing");
+}
+
+
+
+
+
+const internalMails = [
+  {
+    id:1, unread:true, sender:"조직운영팀", subject:"[주간 브리핑] PL-A 프로젝트 일정 및 인력 변화",
+    body:"PL-A 산하 두 개 TL에서 최근 야간 체류가 함께 증가했습니다.<br><br>이번 주에는 프로젝트 마감 일정과 업무 인수 상황을 함께 확인해주시기 바랍니다. 개별 구성원의 근무시간만으로 상황을 판단하지 않도록 유의해주세요."
+  },
+  {
+    id:2, unread:true, sender:"인재개발팀", subject:"신기술 교육 신청 취소 인원 확인 요청",
+    body:"최근 교육 신청 후 취소한 인원이 일부 확인되었습니다.<br><br>교육 참여 감소가 단순 일정 문제인지, 역할 또는 성장 기대 변화와 연결되는지 현장 맥락을 확인해주시기 바랍니다."
+  },
+  {
+    id:3, unread:true, sender:"김도현 PL", subject:"TL-A1 인력 운영 관련 의견 요청",
+    body:"TL-A1에서 핵심 구성원 퇴사 이후 업무 인수가 진행 중입니다.<br><br>성과는 유지되고 있으나 특정 구성원에게 업무가 집중되고 있다는 의견이 있어 HR 관점의 점검을 요청드립니다."
+  },
+  {
+    id:4, unread:false, sender:"시스템", subject:"SIGNAL 데모 운영 안내",
+    body:"본 시스템은 합성 데이터 기반 교육용 HR 의사결정 시뮬레이션입니다.<br><br>화면에 표시되는 변화 신호는 평가, 진단 또는 징계 판단을 위한 정보가 아닙니다."
+  }
+];
+
+let tutorialStep = 0;
+const tutorialSteps = [
+  ["주간 브리핑", "먼저 이번 주의 프로젝트, 인력, 조직 변화를 확인하세요."],
+  ["조직 탐색", "변화 신호가 있는 직원 또는 리더를 선택해 분석 화면으로 이동하세요."],
+  ["가설과 행동", "하나의 신호로 판단하지 말고 여러 가설을 세운 뒤 행동 포인트를 사용하세요."],
+  ["면담", "정식 면담을 선택하면 비주얼노벨 방식으로 대화가 진행됩니다."],
+  ["회고", "게임은 정답 대신 판단 과정과 조직 신뢰의 변화를 보여줍니다."]
+];
+
+
+
+function calculateCareerRank(metrics){
+  const score=Math.round((metrics.trust+metrics.recovery+metrics.workload+metrics.leaderSupport+metrics.contextQuality)/5);
+  if(score>=82)return{level:5,rank:"Head of HR",badge:"H",text:"개인과 구조를 함께 보며 조직 회복을 이끈 최고 수준의 HR 리더십"};
+  if(score>=74)return{level:4,rank:"HR Manager",badge:"M",text:"제한된 자원을 균형 있게 활용하며 조직 단위 변화를 만든 리더"};
+  if(score>=65)return{level:3,rank:"Lead HRBP",badge:"L",text:"개인 지원과 리더 코칭을 함께 수행하는 숙련된 HRBP"};
+  if(score>=55)return{level:2,rank:"Senior HRBP",badge:"S",text:"불완전한 정보 속에서 신중한 판단을 이어가는 성장 단계"};
+  return{level:1,rank:"HRBP",badge:"1",text:"조직의 신호를 읽는 첫 번째 회차를 완료한 HRBP"};
+}
+
+function buildNewsStories(m){
+  return[
+    m.workload>=65?["TL-A1 업무 편중 완화","업무 재배분과 리더 단위 점검 이후 특정 구성원에게 집중되던 업무가 완화되었습니다."]:["TL-A1 업무 집중 지속","성과는 유지되고 있으나 특정 구성원에게 업무가 집중되는 흐름이 남아 있습니다."],
+    m.leaderSupport>=65?["리더 지원 체계 개선","TL과 PL의 상태가 조직 운영의 핵심 변수로 인식되며 코칭과 자원 조정이 확대되었습니다."]:["리더 부담 신호 지속","구성원 지원에 비해 TL·PL의 회복과 지원 체계는 상대적으로 부족한 것으로 나타났습니다."],
+    m.contextQuality>=70?["성급한 판단 감소","근태 하나만으로 결론을 내리지 않고 프로젝트, 역할, 관계 변화가 함께 확인되었습니다."]:["추가 맥락 확인 권장","일부 변화는 충분한 확인 전에 개입으로 이어져 구성원의 부담감을 높였습니다."]
+  ];
+}
+
+function buildEpilogues(m){
+  const strong=m.trust>=65&&m.contextQuality>=65, leader=m.leaderSupport>=65, workload=m.workload>=65;
+  return[
+    {year:"2028",title:strong?"윤하진 · 핵심 프로젝트 참여":"윤하진 · 조직 이동 검토",body:strong?"관계 변화와 경력 기대가 함께 확인되면서 새로운 프로젝트 참여 기회가 연결되었습니다.":"회의 참여 감소와 교육 취소가 장기간 이어졌고, 뒤늦게 역할 변화를 검토하기 시작했습니다.",quote:strong?"그때 바로 판단하지 않고 제 이야기를 들어준 것이 큰 차이를 만들었습니다.":"조용하다는 이유로 괜찮다고 생각한 시간이 길었습니다."},
+    {year:"2029",title:leader?"이현우 TL · 안정적 리더십 회복":"이현우 TL · 리더 역할 재조정",body:leader?"리더 개인의 과부하가 구조적 문제로 다뤄지며 구성원 체크인과 업무 배분이 회복되었습니다.":"실무와 리더 역할의 중첩이 지속되며 조직 운영 체계를 다시 설계하게 되었습니다.",quote:leader?"리더도 지원 대상이라는 관점이 조직 전체를 바꿨습니다.":"구성원을 챙기느라 정작 리더 자신의 상태는 오래 방치되었습니다."},
+    {year:"2030",title:workload?"PL-A · 핵심인력 유지율 개선":"PL-A · 연쇄 이동 발생",body:workload?"업무 편중 완화와 성장 기회 재배분으로 핵심인력 이동 희망이 감소했습니다.":"높은 성과 뒤에 가려진 업무 집중이 누적되며 복수의 구성원이 이동을 선택했습니다.",quote:workload?"성과를 유지하면서도 사람을 소진시키지 않는 운영이 가능해졌습니다.":"숫자는 좋았지만 조직의 지속 가능성은 충분히 확인되지 않았습니다."}
+  ];
+}
+
+function renderEndgame(){
+  const m=calculateOutcomeMetrics();
+  const overall=Math.round((m.trust+m.recovery+m.workload+m.leaderSupport+m.contextQuality)/5);
+  const rank=calculateCareerRank(m);
+  const grade=overall>=75?"조직 회복 기반 강화":overall>=60?"균형 있는 운영":overall>=45?"지속 관찰 필요":"구조적 확인 필요";
+  $("executiveReport").innerHTML=`
+    <div class="executive-header">
+      <div><div class="eyebrow">CEO WEEKLY REPORT</div><h2 style="margin:6px 0 4px;">Week ${state.week} Organizational Report</h2><div class="muted">HRBP 의사결정과 조직 변화 요약</div></div>
+      <div class="result-grade">${overall} · ${grade}</div>
+    </div>
+    <div class="executive-score-grid">
+      ${[["조직 신뢰",m.trust],["회복 여력",m.recovery],["업무 균형",m.workload],["리더 지원",m.leaderSupport],["맥락 확인",m.contextQuality]].map(([n,v])=>`<div class="executive-score"><span class="muted">${n}</span><strong>${v}</strong></div>`).join("")}
+    </div>
+    <div class="review-box" style="margin-bottom:0;"><h3>CEO 메시지</h3><div class="muted">${overall>=75?"개인 지원과 조직 구조 개선이 균형 있게 이루어졌습니다. 다음 회차에서는 장기적 성장 기회와 리더 승계 체계까지 확장해주시기 바랍니다.":overall>=60?"조직은 전반적으로 안정적이나 일부 영역에서 지속적인 후속 확인이 필요합니다. 낮은 지표에 자원을 집중해주시기 바랍니다.":"개별 변화는 확인되었지만 조직 단위 원인과 리더 상태에 대한 대응이 충분하지 않았습니다. 구조적 관점의 재점검이 필요합니다."}</div></div>`;
+  const stories=buildNewsStories(m);
+  $("signalDaily").innerHTML=`<div class="news-kicker">Internal HR News</div><h2 class="news-title">SIGNAL DAILY</h2><div class="muted" style="margin-top:4px;">조직 안에서 실제로 일어난 변화</div>${stories.map(([t,b])=>`<div class="news-story"><strong>${t}</strong><div class="muted" style="margin-top:6px;line-height:1.65;">${b}</div></div>`).join("")}`;
+  const ranks=["HRBP","Senior HRBP","Lead HRBP","HR Manager","Head of HR"];
+  $("careerPanel").innerHTML=`<div class="career-badge">${rank.badge}</div><div><div class="eyebrow">HR CAREER</div><h2 style="margin:6px 0;">${rank.rank}</h2><div class="muted">${rank.text}</div><div class="career-track">${ranks.map((r,i)=>`<span class="career-step ${i<rank.level?"active":""}">${r}</span>`).join("")}</div></div>`;
+  $("epilogueGrid").innerHTML=buildEpilogues(m).map(e=>`<div class="epilogue-card"><div class="epilogue-year">${e.year}</div><h3>${e.title}</h3><div class="muted" style="line-height:1.65;">${e.body}</div><div class="epilogue-quote">“${e.quote}”</div></div>`).join("");
+}
+
+function openEnding(){
+  const m=calculateOutcomeMetrics();
+  const overall=Math.round((m.trust+m.recovery+m.workload+m.leaderSupport+m.contextQuality)/5);
+  const rank=calculateCareerRank(m);
+  $("endingTitle").textContent=overall>=75?"조직 회복 기반 강화":overall>=60?"균형 있는 운영":"지속 관찰 필요";
+  $("endingBody").innerHTML=`당신은 4주 동안 제한된 정보와 행동 포인트 속에서 조직의 신호를 살폈습니다.<br><br>최종 조직 종합 점수는 <strong>${overall}</strong>, HR 커리어 평가는 <strong>${rank.rank}</strong>입니다.<br><br>이 결과는 사람을 평가한 점수가 아니라, 당신의 판단이 조직 신뢰·회복 여력·업무 균형·리더 지원에 어떤 영향을 주었는지를 보여주는 게임 결과입니다.<br><br>몇 년 후의 결과는 한 번의 정답이 아니라, 반복된 관심과 지원의 누적으로 만들어졌습니다.`;
+  $("endingOverlay").classList.add("open");
+}
+
+function calculateOutcomeMetrics() {
+  const logs = state.logs || [];
+  const positive = logs.filter(l => (l.trustDelta || 0) > 0).length;
+  const negative = logs.filter(l => (l.trustDelta || 0) < 0).length;
+  const interviews = logs.filter(l => l.action === "정식 면담").length;
+  const orgActions = logs.filter(l => l.action.includes("리더") || l.action.includes("PL") || l.action.includes("업무량")).length;
+  const observations = logs.filter(l => l.action === "추가 관찰").length;
+  const checked = new Set(logs.map(l => l.employeeId)).size;
+
+  const trust = Math.max(35, Math.min(85, state.trust));
+  const recovery = Math.max(35, Math.min(90, 52 + positive*4 + observations*2 - negative*3));
+  const workload = Math.max(30, Math.min(90, 48 + orgActions*5 + observations - negative*2));
+  const leaderSupport = Math.max(30, Math.min(90, 44 + orgActions*7 + interviews - negative*2));
+  const contextQuality = Math.max(30, Math.min(95, 42 + checked*2 + interviews*3 + observations*2));
+
+  return {
+    trust, recovery, workload, leaderSupport, contextQuality,
+    positive, negative, interviews, orgActions, observations, checked
+  };
+}
+
+function getMetricLevel(value) {
+  if (value >= 75) return {label:"안정적", cls:"score-positive"};
+  if (value >= 55) return {label:"관찰 필요", cls:"score-neutral"};
+  return {label:"추가 확인 권장", cls:"score-caution"};
+}
+
+function buildWeeklyTrend(finalMetrics) {
+  const base = {
+    trust: 60,
+    recovery: 52,
+    workload: 48,
+    leaderSupport: 44
+  };
+
+  const weekly = [base];
+  for (let w=1; w<=4; w++) {
+    const logs = state.logs.filter(l => l.week <= w);
+    const positive = logs.filter(l => (l.trustDelta || 0) > 0).length;
+    const negative = logs.filter(l => (l.trustDelta || 0) < 0).length;
+    const org = logs.filter(l => l.action.includes("리더") || l.action.includes("PL") || l.action.includes("업무량")).length;
+    const observe = logs.filter(l => l.action === "추가 관찰").length;
+
+    weekly.push({
+      trust: Math.max(35, Math.min(85, 60 + logs.reduce((s,l)=>s+(l.trustDelta||0),0))),
+      recovery: Math.max(35, Math.min(90, 52 + positive*4 + observe*2 - negative*3)),
+      workload: Math.max(30, Math.min(90, 48 + org*5 + observe - negative*2)),
+      leaderSupport: Math.max(30, Math.min(90, 44 + org*7 - negative*2))
+    });
+  }
+  return weekly;
+}
+
+function trendPolyline(points, key, color) {
+  const width = 500, height = 180;
+  const step = width / (points.length - 1);
+  const coords = points.map((p,i) => {
+    const x = i * step;
+    const y = height - ((p[key]-20)/80)*height;
+    return `${x},${y}`;
+  }).join(" ");
+
+  const circles = points.map((p,i) => {
+    const x = i * step;
+    const y = height - ((p[key]-20)/80)*height;
+    return `<circle cx="${x}" cy="${y}" r="4" fill="${color}"><title>${i===0?"시작":i+"주차"}: ${p[key]}</title></circle>`;
+  }).join("");
+
+  return `<polyline points="${coords}" fill="none" stroke="${color}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>${circles}`;
+}
+
+function calculateOrgScores(metrics) {
+  const orgs = [
+    {name:"TL-A1 · 회로설계", base:43, signal:4},
+    {name:"TL-A2 · 펌웨어", base:47, signal:3},
+    {name:"TL-B1 · 품질평가", base:61, signal:2},
+    {name:"TL-B2 · 데이터분석", base:56, signal:2}
+  ];
+
+  const actionBoost = metrics.orgActions*3 + metrics.positive*2 - metrics.negative*2;
+  return orgs.map((o,i)=>({
+    ...o,
+    score: Math.max(30, Math.min(88, o.base + actionBoost - i + metrics.observations))
+  }));
+}
+
+function renderOutcome() {
+  const m = calculateOutcomeMetrics();
+  const metrics = [
+    ["조직 신뢰", m.trust, "관심과 개입을 조직이 받아들이는 정도"],
+    ["회복 여력", m.recovery, "업무 이후 회복할 수 있는 여유"],
+    ["업무 균형", m.workload, "업무 집중과 자원 배분의 균형"],
+    ["리더 지원", m.leaderSupport, "TL·PL이 지원받고 있는 정도"],
+    ["맥락 확인", m.contextQuality, "성급한 판단 없이 정보를 확인한 정도"]
+  ];
+
+  $("scoreDashboard").innerHTML = metrics.map(([name,value,desc]) => {
+    const level = getMetricLevel(value);
+    return `
+      <div class="score-card">
+        <span class="muted">${name}</span>
+        <div class="score-value ${level.cls}">${value}</div>
+        <div>${level.label}</div>
+        <div class="muted" style="font-size:11px;margin-top:5px;">${desc}</div>
+      </div>`;
+  }).join("");
+
+  const overall = Math.round((m.trust + m.recovery + m.workload + m.leaderSupport + m.contextQuality)/5);
+  $("resultGrade").textContent =
+    overall >= 75 ? "조직 회복 기반 강화" :
+    overall >= 60 ? "균형 있는 운영" :
+    overall >= 45 ? "지속 관찰 필요" : "구조적 확인 필요";
+
+  const weekly = buildWeeklyTrend(m);
+  $("trendChart").innerHTML = `
+    <span class="trend-axis-label" style="top:14px;">100</span>
+    <span class="trend-axis-label" style="top:52%;">60</span>
+    <span class="trend-axis-label" style="bottom:23px;">20</span>
+    <div class="trend-lines">
+      <svg class="trend-svg" viewBox="0 0 500 180" preserveAspectRatio="none">
+        ${trendPolyline(weekly,"trust","#7ce3c0")}
+        ${trendPolyline(weekly,"recovery","#73a7ff")}
+        ${trendPolyline(weekly,"workload","#efc77b")}
+        ${trendPolyline(weekly,"leaderSupport","#b795ff")}
+      </svg>
+    </div>`;
+
+  const orgScores = calculateOrgScores(m);
+  $("orgHealthList").innerHTML = orgScores.map(o => {
+    const level = getMetricLevel(o.score);
+    return `
+      <div class="org-health-row">
+        <div><strong>${o.name}</strong><div class="muted">${level.label}</div></div>
+        <div class="health-meter"><div style="width:${o.score}%"></div></div>
+        <div style="text-align:right;font-weight:800;">${o.score}</div>
+      </div>`;
+  }).join("");
+
+  const impacts = [
+    ["긍정적 신뢰 변화", `+${m.positive}회`, "가벼운 체크인, 경청, 구조적 접근이 조직 신뢰에 기여했습니다."],
+    ["부담을 높인 개입", `${m.negative}회`, "근거보다 강한 개입은 일부 직원에게 부담으로 작용했습니다."],
+    ["조직·리더 단위 접근", `${m.orgActions}회`, "개인 문제를 넘어 업무 배분과 리더 상태를 확인했습니다."],
+    ["추가 관찰 활용", `${m.observations}회`, "즉시 개입하지 않고 지속 여부를 확인하는 판단을 사용했습니다."],
+    ["직접 확인한 대상", `${m.checked}명`, "제한된 자원 안에서 우선순위를 두고 살펴본 인원입니다."]
+  ];
+
+  $("impactList").innerHTML = impacts.map(([title,value,desc])=>`
+    <div class="impact-item">
+      <strong><span>${title}</span><span>${value}</span></strong>
+      <div class="muted" style="margin-top:5px;">${desc}</div>
+    </div>`).join("");
+
+  let narrative = "";
+  if (overall >= 75) {
+    narrative = "플레이어는 개인 신호와 조직 구조를 함께 확인하며 지원을 연결했습니다. 조직 신뢰와 회복 여력이 함께 개선되었고, 리더 단위 접근이 여러 구성원에게 긍정적인 파급 효과를 만들었습니다.";
+  } else if (overall >= 60) {
+    narrative = "대부분의 판단은 균형 있게 이루어졌습니다. 다만 일부 조직에서는 업무 집중 또는 리더 지원 부족이 남아 있어 다음 회차에서도 후속 확인이 필요합니다.";
+  } else {
+    narrative = "개별 구성원 확인은 이루어졌지만 조직 구조와 리더 상태에 대한 접근이 충분하지 않았습니다. 다음 회차에서는 동일 조직에서 반복되는 신호를 묶어서 살펴보는 것이 좋습니다.";
+  }
+
+  const weakest = metrics.slice().sort((a,b)=>a[1]-b[1])[0];
+  $("outcomeNarrative").innerHTML = `
+    <strong>종합 결과: ${$("resultGrade").textContent}</strong><br><br>
+    ${narrative}<br><br>
+    가장 낮은 지표는 <strong>${weakest[0]} ${weakest[1]}점</strong>입니다. 이 수치는 사람을 평가하는 점수가 아니라, 다음 회차에서 어떤 조직 맥락을 더 살펴볼지 알려주는 게임 지표입니다.
+  `;
+}
+
+function renderMail() {
+  $("mailList").innerHTML = internalMails.map(m => `
+    <div class="mail-item ${m.unread ? "unread" : ""}" onclick="openMail(${m.id})">
+      <div class="mail-meta"><span>${m.sender}</span><span>${m.unread ? "미확인" : "확인"}</span></div>
+      <strong>${m.subject}</strong>
+    </div>`).join("");
+  const count = internalMails.filter(m=>m.unread).length;
+  $("mailBadge").textContent = count;
+  $("mailBadge").style.display = count ? "inline-grid" : "none";
+}
+
+function openMail(id) {
+  const mail = internalMails.find(m=>m.id===id);
+  if (!mail) return;
+  mail.unread = false;
+  $("mailSubject").textContent = mail.subject;
+  $("mailBody").innerHTML = `<div class="muted" style="margin-bottom:12px;">보낸 사람: ${mail.sender}</div>${mail.body}`;
+  renderMail();
+  showToast("메일 확인", mail.subject);
+}
+
+function updateSystemClock() {
+  const now = new Date();
+  $("systemDate").textContent = now.toLocaleDateString("ko-KR", {year:"numeric",month:"long",day:"numeric",weekday:"short"});
+  $("systemTime").textContent = now.toLocaleTimeString("ko-KR", {hour:"2-digit",minute:"2-digit",second:"2-digit"});
+}
+
+function showTutorial(reset=false) {
+  if (reset) tutorialStep = 0;
+  if (tutorialStep >= tutorialSteps.length) {
+    $("tutorialTip").classList.remove("show");
+    localStorage.setItem("signal_tutorial_done","1");
+    return;
+  }
+  const [title, body] = tutorialSteps[tutorialStep];
+  $("tutorialTitle").textContent = title;
+  $("tutorialBody").textContent = body;
+  $("tutorialTip").classList.add("show");
+}
+
+function nextTutorial() {
+  tutorialStep += 1;
+  showTutorial();
+}
+
+function bootSequence(callback) {
+  const lines = [
+    "SIGNAL OS v0.6",
+    "Secure HR Simulation Kernel ... OK",
+    "Synthetic Employee Database ... 37 profiles loaded",
+    "Decision Support Modules ... ONLINE",
+    "Privacy Safeguard ... ACTIVE",
+    "Opening HRBP Workspace ..."
+  ];
+  $("bootContent").innerHTML = "";
+  $("bootScreen").classList.add("open");
+  lines.forEach((line,i)=>{
+    setTimeout(()=>{
+      const div = document.createElement("div");
+      div.className = "boot-line";
+      div.textContent = "> " + line;
+      $("bootContent").appendChild(div);
+    }, i*300);
+  });
+  setTimeout(()=>{
+    $("bootScreen").classList.remove("open");
+    callback();
+  }, lines.length*300 + 600);
+}
+
+function performLogin() {
+  const user = $("loginUser").value.trim();
+  if (!user) {
+    showModal("접속 오류","USER ID를 입력해주세요.");
+    return;
+  }
+  bootSequence(()=>{
+    $("loginOverlay").classList.add("hide");
+    $("introScreen").classList.add("hide");
+    showToast("보안 접속 완료", `${user} 계정으로 SIGNAL OS에 접속했습니다.`);
+    if (!localStorage.getItem("signal_tutorial_done")) setTimeout(()=>showTutorial(true),700);
+  });
+}
+
+const employeeGenderMap = {
+  "강서윤":"female",
+  "김도현":"male",
+  "박지수":"female",
+  "이현우":"male",
+  "최민서":"female",
+  "정유진":"female",
+  "오세훈":"male",
+  "윤하진":"female",
+  "한재민":"male",
+  "서예린":"female",
+  "배준호":"male",
+  "문소연":"female",
+  "임태경":"male",
+  "신가은":"female",
+  "류민규":"male",
+  "조아라":"female",
+  "권민석":"male",
+  "홍서진":"female",
+  "고은찬":"male",
+  "남지혜":"female",
+  "송현석":"male",
+  "장예원":"female",
+  "유승민":"male",
+  "전하늘":"female",
+  "노유나":"female",
+  "차동욱":"male",
+  "백수현":"female",
+  "양지훈":"male",
+  "허나연":"female",
+  "심재욱":"male",
+  "도은비":"female",
+  "진우성":"male",
+  "마서연":"female",
+  "라민호":"male",
+  "하예진":"female",
+  "구도윤":"male",
+  "표가람":"female"
+};
+
+function getEmployeeGender(employee) {
+  return employeeGenderMap[employee.name] || (employee.id % 2 === 0 ? "male" : "female");
+}
+
+function getPortraitPalette(employee) {
+  const palettes = [
+    {skin:"#e2b38f", hair:"#273247", jacket:"#263c63", shirt:"#dbe6f7", accent:"#78a9ff"},
+    {skin:"#d7a27d", hair:"#3b2f36", jacket:"#344d42", shirt:"#eef3ed", accent:"#7ce3c0"},
+    {skin:"#efc29e", hair:"#4a3940", jacket:"#583d52", shirt:"#f3eaf1", accent:"#d8a8d0"},
+    {skin:"#c98f69", hair:"#202938", jacket:"#51442e", shirt:"#eee6d7", accent:"#efc77b"}
+  ];
+  return palettes[employee.id % palettes.length];
+}
+
+function buildPortrait(employee, expression="neutral") {
+  const gender = getEmployeeGender(employee);
+  const p = getPortraitPalette(employee);
+  const isLeader = employee.leader;
+  const variant = employee.id % 4;
+
+  const maleHair = [
+    {
+      back:`<path class="portrait-hair-back" d="M92 146 Q91 68 154 45 Q226 55 228 151 Q210 111 185 94 Q140 92 92 146Z" fill="${p.hair}"/>`,
+      front:`<path class="portrait-hair-front" d="M103 105 Q123 55 167 56 Q206 61 218 102 Q191 77 166 88 Q135 75 103 105Z" fill="${p.hair}"/><path d="M121 83 Q142 69 155 109" stroke="${p.hair}" stroke-width="20" stroke-linecap="round"/>`
+    },
+    {
+      back:`<path class="portrait-hair-back" d="M93 145 Q93 77 152 49 Q216 49 229 142 Q205 105 172 91 Q132 94 93 145Z" fill="${p.hair}"/>`,
+      front:`<path class="portrait-hair-front" d="M102 101 Q130 53 174 57 Q206 61 222 102 Q192 83 168 87 Q135 70 102 101Z" fill="${p.hair}"/><path d="M188 63 Q219 88 214 124" stroke="${p.hair}" stroke-width="18" stroke-linecap="round"/>`
+    },
+    {
+      back:`<path class="portrait-hair-back" d="M91 143 Q94 60 160 49 Q223 60 229 143 Q201 105 179 97 Q138 101 91 143Z" fill="${p.hair}"/>`,
+      front:`<path class="portrait-hair-front" d="M101 99 Q121 60 158 58 Q195 58 219 100 Q188 79 162 92 Q132 78 101 99Z" fill="${p.hair}"/><path d="M137 63 Q154 53 173 91" stroke="${p.hair}" stroke-width="18" stroke-linecap="round"/>`
+    },
+    {
+      back:`<path class="portrait-hair-back" d="M96 142 Q92 73 148 48 Q213 48 225 142 Q200 108 174 94 Q137 93 96 142Z" fill="${p.hair}"/>`,
+      front:`<path class="portrait-hair-front" d="M105 101 Q129 55 169 57 Q204 61 219 103 Q191 84 164 90 Q136 77 105 101Z" fill="${p.hair}"/><path d="M119 71 Q143 56 158 97" stroke="${p.hair}" stroke-width="17" stroke-linecap="round"/>`
+    }
+  ];
+
+  const femaleHair = [
+    {
+      back:`<path class="portrait-hair-back" d="M83 167 Q78 67 157 43 Q239 62 235 179 L224 306 Q201 330 184 298 L139 298 Q116 330 91 306Z" fill="${p.hair}"/>`,
+      front:`<path class="portrait-hair-front" d="M94 110 Q116 53 161 50 Q209 53 229 112 Q200 80 169 88 Q130 73 94 110Z" fill="${p.hair}"/><path d="M113 75 Q134 54 156 100" stroke="${p.hair}" stroke-width="20" stroke-linecap="round"/>`
+    },
+    {
+      back:`<path class="portrait-hair-back" d="M85 161 Q80 71 158 45 Q235 61 234 171 L222 323 Q199 339 183 302 L138 302 Q118 338 93 319Z" fill="${p.hair}"/>`,
+      front:`<path class="portrait-hair-front" d="M93 111 Q119 52 164 52 Q208 56 228 112 Q194 83 167 91 Q132 72 93 111Z" fill="${p.hair}"/><path d="M189 60 Q223 81 222 124" stroke="${p.hair}" stroke-width="19" stroke-linecap="round"/>`
+    },
+    {
+      back:`<path class="portrait-hair-back" d="M88 157 Q86 65 158 45 Q232 62 231 167 L224 290 Q204 309 188 280 L134 280 Q115 312 94 292Z" fill="${p.hair}"/>`,
+      front:`<path class="portrait-hair-front" d="M99 106 Q119 60 158 54 Q202 56 222 108 Q193 81 168 90 Q136 77 99 106Z" fill="${p.hair}"/><path d="M128 61 Q151 49 170 95" stroke="${p.hair}" stroke-width="18" stroke-linecap="round"/>`
+    },
+    {
+      back:`<path class="portrait-hair-back" d="M86 165 Q78 73 154 44 Q236 58 237 178 L225 320 Q199 339 184 298 L135 298 Q113 337 91 316Z" fill="${p.hair}"/>`,
+      front:`<path class="portrait-hair-front" d="M95 111 Q118 55 160 51 Q205 53 229 113 Q196 82 168 90 Q133 74 95 111Z" fill="${p.hair}"/><path d="M113 69 Q139 53 154 98" stroke="${p.hair}" stroke-width="19" stroke-linecap="round"/>`
+    }
+  ];
+
+  const hair = gender === "male" ? maleHair[variant] : femaleHair[variant];
+  const faceRx = gender === "male" ? 68 : 66;
+  const faceRy = gender === "male" ? 91 : 94;
+  const shoulderLeft = gender === "male" ? 62 : 72;
+  const shoulderRight = gender === "male" ? 258 : 248;
+  const eyeWidth = gender === "male" ? 8 : 9;
+  const lash = gender === "female"
+    ? `<path d="M119 164 l-7 -4 M201 164 l7 -4" stroke="#172032" stroke-width="2.5" stroke-linecap="round"/>`
+    : "";
+
+  const clothing = gender === "male"
+    ? `
+      <path class="portrait-clothes" d="M${shoulderLeft} 535 Q67 393 115 342 Q137 320 160 320 Q185 320 207 342 Q253 392 ${shoulderRight} 535Z" fill="url(#jacketGrad${employee.id})"/>
+      <path d="M126 342 L160 383 L194 342 Q178 320 160 320 Q141 320 126 342Z" fill="${p.shirt}"/>
+      <path d="M148 365 L160 383 L172 365 L168 445 L160 472 L152 445Z" fill="${p.accent}" opacity=".92"/>
+      <path d="M104 353 L143 383 L125 447 L89 390Z" fill="rgba(255,255,255,.035)"/>
+      <path d="M216 353 L177 383 L195 447 L231 390Z" fill="rgba(255,255,255,.025)"/>`
+    : `
+      <path class="portrait-clothes" d="M${shoulderLeft} 535 Q76 397 119 344 Q139 321 160 320 Q184 320 203 344 Q245 396 ${shoulderRight} 535Z" fill="url(#jacketGrad${employee.id})"/>
+      <path d="M124 343 Q141 323 160 321 Q181 322 198 344 L184 394 Q160 408 136 394Z" fill="${p.shirt}"/>
+      <path d="M139 364 Q160 386 181 364 L176 416 Q160 429 144 416Z" fill="${p.accent}" opacity=".78"/>
+      <path d="M108 354 Q128 369 139 403 L121 467 L92 395Z" fill="rgba(255,255,255,.04)"/>
+      <path d="M212 354 Q192 369 181 403 L199 467 L228 395Z" fill="rgba(255,255,255,.028)"/>`;
+
+  const accessory = employee.role === "팀장"
+    ? `<circle class="portrait-accessory" cx="216" cy="377" r="7" fill="${p.accent}"/><circle cx="216" cy="377" r="3" fill="#f8fbff"/>`
+    : employee.leader
+      ? `<rect class="portrait-accessory" x="205" y="366" width="25" height="7" rx="3.5" fill="${p.accent}" opacity=".95"/>`
+      : "";
+
+  return `
+  <svg class="portrait-svg" viewBox="0 0 320 560" role="img" aria-label="${employee.name} 초상화">
+    <defs>
+      <linearGradient id="jacketGrad${employee.id}" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="${p.jacket}"/>
+        <stop offset="58%" stop-color="#243754"/>
+        <stop offset="100%" stop-color="#111a2c"/>
+      </linearGradient>
+      <radialGradient id="skinGrad${employee.id}" cx="43%" cy="34%">
+        <stop offset="0%" stop-color="#f6cfaf"/>
+        <stop offset="58%" stop-color="${p.skin}"/>
+        <stop offset="100%" stop-color="#bf7f63"/>
+      </radialGradient>
+      <linearGradient id="eyeGrad${employee.id}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#334a6d"/>
+        <stop offset="100%" stop-color="#101827"/>
+      </linearGradient>
+    </defs>
+
+    <ellipse cx="160" cy="528" rx="121" ry="25" fill="rgba(0,0,0,.27)"/>
+    ${hair.back}
+    ${clothing}
+    ${accessory}
+
+    <path d="M135 286 Q136 322 124 343 Q160 365 197 343 Q183 322 185 286Z" fill="${p.skin}"/>
+    <ellipse class="portrait-face" cx="160" cy="183" rx="${faceRx}" ry="${faceRy}" fill="url(#skinGrad${employee.id})"/>
+    <ellipse cx="${160-faceRx+1}" cy="191" rx="10" ry="20" fill="${p.skin}"/>
+    <ellipse cx="${160+faceRx-1}" cy="191" rx="10" ry="20" fill="${p.skin}"/>
+    ${hair.front}
+
+    <path class="portrait-brow-left" d="M115 149 Q132 140 147 149" stroke="${p.hair}" stroke-width="${gender==="female"?5:6}" stroke-linecap="round" fill="none"/>
+    <path class="portrait-brow-right" d="M173 149 Q190 140 205 149" stroke="${p.hair}" stroke-width="${gender==="female"?5:6}" stroke-linecap="round" fill="none"/>
+
+    <ellipse class="portrait-eye-left" cx="132" cy="169" rx="${eyeWidth}" ry="${gender==="female"?6:5}" fill="url(#eyeGrad${employee.id})"/>
+    <ellipse class="portrait-eye-right" cx="189" cy="169" rx="${eyeWidth}" ry="${gender==="female"?6:5}" fill="url(#eyeGrad${employee.id})"/>
+    <circle cx="129" cy="166" r="2.2" fill="#fff" opacity=".92"/>
+    <circle cx="186" cy="166" r="2.2" fill="#fff" opacity=".92"/>
+    <circle cx="134" cy="171" r="1.2" fill="${p.accent}" opacity=".8"/>
+    <circle cx="191" cy="171" r="1.2" fill="${p.accent}" opacity=".8"/>
+    ${lash}
+
+    <path d="M158 170 Q151 194 160 199 Q168 197 172 194" stroke="#a46f5d" stroke-width="3" fill="none" stroke-linecap="round" opacity=".62"/>
+    <path class="portrait-mouth" d="M142 188 Q160 193 178 188" stroke="${gender==="female"?"#a85167":"#874c51"}" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M114 225 Q160 249 206 225" stroke="#c78773" stroke-width="2" opacity=".24" fill="none"/>
+    ${gender === "female" ? `<ellipse cx="111" cy="203" rx="13" ry="6" fill="#dd8d99" opacity=".16"/><ellipse cx="209" cy="203" rx="13" ry="6" fill="#dd8d99" opacity=".16"/>` : ""}
+  </svg>
+  <div class="vn-character-nameplate">${employee.name} · ${employee.role}</div>`;
+}
+function getInterviewProfile(employee) {
+  return interviewProfiles[employee.type] || interviewProfiles.default;
+}
+
+function emotionLabel(emotion) {
+  return {
+    neutral:"차분함",
+    open:"조금 열린 태도",
+    worried:"고민스러움",
+    guarded:"경계함",
+    relieved:"안도함"
+  }[emotion] || "차분함";
+}
+
+function typeDialogue(text, onDone) {
+  clearInterval(vnState.typingTimer);
+  const el = $("vnDialogue");
+  el.textContent = "";
+  el.classList.add("typing");
+  $("vnChoices").innerHTML = "";
+  let i = 0;
+  vnState.typingTimer = setInterval(() => {
+    el.textContent += text[i] || "";
+    i += 1;
+    if (i >= text.length) {
+      clearInterval(vnState.typingTimer);
+      el.classList.remove("typing");
+      if (onDone) onDone();
+    }
+  }, 24);
+}
+
+function setPortraitExpression(emotion) {
+  const portrait = $("vnPortrait");
+  portrait.className = `vn-portrait expression-${emotion}`;
+  portrait.classList.remove("react");
+  void portrait.offsetWidth;
+  portrait.classList.add("react");
+}
+
+function openVisualNovelInterview(employee) {
+  vnState = {
+    employee,
+    node:"start",
+    step:1,
+    trustDelta:0,
+    choices:[],
+    tags:[],
+    typingTimer:null,
+    completed:false
+  };
+  $("vnOverlay").classList.add("open");
+  $("vnScene").style.display = "grid";
+  $("vnUi").style.display = "block";
+  $("vnSummary").classList.remove("open");
+  $("vnPortrait").innerHTML = buildPortrait(employee, "neutral");
+  $("vnSpeaker").textContent = employee.name;
+  $("vnTrustChip").textContent = `신뢰 ${employee.trust >= 65 ? "높음" : employee.trust >= 52 ? "보통" : "조심스러움"}`;
+  $("vnTopicChip").textContent = employee.signals[0] || "최근 변화 확인";
+  $("vnSceneLabel").textContent = `${employee.tl !== "-" ? employee.tl : employee.pl} 면담실 · ${state.week}주차`;
+  renderInterviewNode("start", true);
+}
+
+function closeVisualNovelInterview(force=false) {
+  if (!force && !vnState.completed && vnState.step > 1) {
+    const ok = confirm("진행 중인 면담을 종료할까요? 사용한 행동 포인트는 반환되지 않습니다.");
+    if (!ok) return;
+  }
+  clearInterval(vnState.typingTimer);
+  $("vnOverlay").classList.remove("open");
+}
+
+function renderInterviewNode(nodeId, first=false) {
+  const node = interviewFlow[nodeId];
+  const profile = getInterviewProfile(vnState.employee);
+  vnState.node = nodeId;
+  $("vnStepLabel").textContent = `${Math.min(vnState.step,3)} / 3`;
+  $("vnSpeaker").textContent = vnState.employee.name;
+  $("vnEmotion").textContent = emotionLabel(node.emotion);
+  setPortraitExpression(node.emotion);
+
+  let line = "";
+  if (first) line = profile.opening;
+  else if (node.end) line = interviewEndLines[nodeId];
+  else line = profile[node.emotion] || profile.open;
+
+  typeDialogue(line, () => {
+    if (node.end) {
+      setTimeout(showInterviewSummary, 550);
+    } else {
+      renderInterviewChoices(node.choices || []);
+    }
+  });
+}
+
+function renderInterviewChoices(choices) {
+  $("vnChoices").innerHTML = choices.map((c,i)=>`
+    <button class="vn-choice" onclick="chooseInterviewOption(${i})">
+      <span class="vn-choice-num">${i+1}</span>
+      <span class="vn-choice-copy">
+        <strong>${c.label}</strong>
+        <span>${c.hint}</span>
+      </span>
+    </button>`).join("");
+}
+
+function chooseInterviewOption(index) {
+  const node = interviewFlow[vnState.node];
+  const choice = node.choices[index];
+  vnState.trustDelta += choice.trust;
+  vnState.choices.push(choice.label);
+  vnState.tags.push(choice.tag);
+  vnState.step += 1;
+  renderInterviewNode(choice.next);
+}
+
+function showInterviewSummary() {
+  vnState.completed = true;
+  $("vnUi").style.display = "none";
+  $("vnPortrait").parentElement.style.opacity = ".30";
+  const quality =
+    vnState.trustDelta >= 4 ? "신뢰를 높이는 면담" :
+    vnState.trustDelta >= 1 ? "균형 있는 면담" :
+    vnState.trustDelta >= -1 ? "정보 중심 면담" : "부담을 높인 면담";
+
+  const learned = interviewEndLines[vnState.node];
+  $("vnSummaryBody").innerHTML = `
+    <div class="vn-summary-item">
+      <strong>면담 흐름</strong>
+      <div class="muted" style="margin-top:6px;">${vnState.choices.join(" → ")}</div>
+    </div>
+    <div class="vn-summary-item">
+      <strong>새롭게 확인된 맥락</strong>
+      <div class="muted" style="margin-top:6px;">${learned}</div>
+    </div>
+    <div class="vn-summary-item">
+      <strong>대화 방식</strong>
+      <div class="chip-row" style="margin-top:8px;">${vnState.tags.map(t=>`<span class="chip context">${t}</span>`).join("")}</div>
+    </div>
+    <div class="vn-summary-item">
+      <strong>면담 평가</strong>
+      <div style="margin-top:6px;">${quality}</div>
+      <div class="muted" style="margin-top:4px;">조직 신뢰 변화 ${vnState.trustDelta > 0 ? "+" : ""}${vnState.trustDelta}</div>
+    </div>
+    <div class="vn-summary-item">
+      <strong>권장 후속 조치</strong>
+      <div class="muted" style="margin-top:6px;">${vnState.trustDelta >= 2 ? "직원이 공유한 범위 안에서 후속 확인 일정을 잡고, 필요한 경우 역할 또는 업무 맥락을 추가로 점검합니다." : "추가 질문을 서두르지 말고 면담 목적과 정보 사용 범위를 다시 설명한 뒤 후속 확인을 검토합니다."}</div>
+    </div>`;
+  $("vnSummary").classList.add("open");
+}
+
+function finishVisualNovelInterview() {
+  const e = vnState.employee;
+  const result = `비주얼 면담을 통해 다음 맥락을 확인했습니다: ${interviewEndLines[vnState.node]}`;
+  state.trust = Math.max(35, Math.min(80, state.trust + vnState.trustDelta));
+  state.logs.push({
+    week:state.week,
+    employeeId:e.id,
+    employee:e.name,
+    action:"정식 면담",
+    result,
+    trustDelta:vnState.trustDelta
+  });
+  autoSave("면담 후 자동 저장");
+  closeVisualNovelInterview(true);
+  $("vnPortrait").parentElement.style.opacity = "1";
+  renderStatus();
+  renderActionWorkspace();
+  renderReview();
+  showToast("면담 완료", `${e.name} 면담이 타임라인에 기록되었습니다.`);
+}
+
+
+function applyMotionSetting(value) {
+  if (value === "off") {
+    document.documentElement.style.setProperty("--motion-scale","0");
+    document.body.classList.add("reduce-motion");
+    const style = document.getElementById("dynamicMotionStyle") || document.createElement("style");
+    style.id = "dynamicMotionStyle";
+    style.textContent = ".reduce-motion *, .reduce-motion *::before, .reduce-motion *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}";
+    document.head.appendChild(style);
+  } else {
+    document.body.classList.remove("reduce-motion");
+  }
+}
+
+function animateNumber(elementId, target, duration=520) {
+  const el = $(elementId);
+  if (!el) return;
+  const start = Number(el.textContent.replace(/\D/g, "")) || 0;
+  const startTime = performance.now();
+
+  function step(now) {
+    const progress = Math.min(1, (now - startTime) / duration);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(start + (target - start) * eased);
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function showToast(title, message) {
+  if (audioSystem.ctx && audioSystem.ctx.state === "running") audioSystem.notify();
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.innerHTML = `<strong>${title}</strong><span>${message}</span>`;
+  $("toastStack").appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transform = "translateX(20px)";
+    setTimeout(() => toast.remove(), 250);
+  }, 2600);
+}
+
+function flashActionPoints() {
+  $("apLabel").classList.remove("ap-flash");
+  void $("apLabel").offsetWidth;
+  $("apLabel").classList.add("ap-flash");
+}
+
+function playWeekTransition(nextWeek, callback) {
+  $("weekTransitionNumber").textContent = `WEEK ${nextWeek}`;
+  $("weekTransitionCopy").textContent =
+    nextWeek === 4 ? "최종 판단과 조직의 변화를 확인합니다." : "새로운 변화가 조직에 반영됩니다.";
+  $("weekTransition").classList.add("open");
+  setTimeout(() => {
+    callback();
+    setTimeout(() => $("weekTransition").classList.remove("open"), 800);
+  }, 700);
+}
+
+function renderAll() {
+  renderStatus();
+  renderBriefing();
+  renderOrgTree();
+  renderEmployees();
+  renderActionWorkspace();
+  renderReview();
+}
+
+document.querySelectorAll("nav button").forEach(btn=>{
+  btn.addEventListener("click",()=>showView(btn.dataset.view));
+});
+$("searchInput").addEventListener("input", renderEmployees);
+$("signalFilter").addEventListener("change", renderEmployees);
+$("nextWeekBtn").addEventListener("click", nextWeek);
+$("resetBtn").addEventListener("click", resetGame);
+$("modalCloseBtn").addEventListener("click",()=>$("resultModal").classList.remove("open"));
+
+
+
+$("playEndingBtn").addEventListener("click", openEnding);
+$("endingCloseBtn").addEventListener("click", () => $("endingOverlay").classList.remove("open"));
+$("endingNewGameBtn").addEventListener("click", () => {
+  $("endingOverlay").classList.remove("open");
+  resetGame();
+  showView("briefing");
+  showToast("새 회차 시작", "새로운 조직 시뮬레이션을 시작합니다.");
+});
+$("endingOverlay").addEventListener("click", e => {
+  if (e.target.id === "endingOverlay") $("endingOverlay").classList.remove("open");
+});
+
+$("loginBtn").addEventListener("click", performLogin);
+$("loginPassword").addEventListener("keydown", e => { if (e.key === "Enter") performLogin(); });
+$("tutorialNextBtn").addEventListener("click", nextTutorial);
+$("restartTutorialBtn").addEventListener("click", () => {
+  localStorage.removeItem("signal_tutorial_done");
+  showTutorial(true);
+});
+$("settingsBgmVolume").addEventListener("input", e => {
+  $("audioVolume").value = e.target.value;
+  audioSystem.setVolume(e.target.value);
+});
+$("motionSetting").addEventListener("change", e => applyMotionSetting(e.target.value));
+$("fullscreenBtn").addEventListener("click", async () => {
+  try {
+    if (!document.fullscreenElement) await document.documentElement.requestFullscreen();
+    else await document.exitFullscreen();
+  } catch {
+    showModal("전체화면", "브라우저에서 전체화면 전환을 허용하지 않았습니다.");
+  }
+});
+
+$("audioToggleBtn").addEventListener("click", async () => {
+  if (audioSystem.started) audioSystem.stop();
+  else await audioSystem.start();
+});
+
+$("audioVolume").addEventListener("input", (e) => {
+  audioSystem.setVolume(e.target.value);
+});
+
+document.addEventListener("click", (e) => {
+  if (e.target.closest("button") && audioSystem.ctx && audioSystem.ctx.state === "running") {
+    audioSystem.click();
+  }
+});
+
+$("quickSaveBtn").addEventListener("click",()=>saveGame(MANUAL_SAVE_KEY, "수동 저장"));
+$("openLoadBtn").addEventListener("click", openSaveModal);
+$("saveModalCloseBtn").addEventListener("click",()=>$("saveModal").classList.remove("open"));
+$("saveModal").addEventListener("click",(e)=>{ if(e.target.id==="saveModal") $("saveModal").classList.remove("open"); });
+$("vnCloseBtn").addEventListener("click",()=>closeVisualNovelInterview());
+$("vnFinishBtn").addEventListener("click", finishVisualNovelInterview);
+$("startGameBtn").addEventListener("click",()=>{
+  $("introScreen").classList.add("hide");
+  setTimeout(() => showToast("시뮬레이션 시작", "첫 주 브리핑에서 조직의 변화를 확인하세요."), 450);
+});
+$("resultModal").addEventListener("click",(e)=>{ if(e.target.id==="resultModal") $("resultModal").classList.remove("open"); });
+
+renderAll();
+renderMail();
+updateSaveMeta();
+renderSaveSlots();
+updateSystemClock();
+setInterval(updateSystemClock, 1000);
+// v0.6에서는 SIGNAL OS 로그인 화면이 시작 진입점입니다.
+$("introScreen").classList.add("hide");
+</script>
+</body>
+</html>
