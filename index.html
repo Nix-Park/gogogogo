@@ -4,7 +4,7 @@
 <!-- GitHub Pages lightweight asset-split build v2.2.1 -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SIGNAL v2.2.2 · RUNNING-GU POLISH</title>
+  <title>SIGNAL v2.2.3 · CLEAN RUNNING-GU BACKGROUND</title>
   <style>
     :root {
       --bg: #0b1020;
@@ -3938,8 +3938,7 @@ body.running-gu-active .running-achievements{
   display:none!important;
 }
 
-/* ===== v2.2.2 NATURAL CAMPUS SCROLL =====
-   Long asymmetric panorama; no mirrored scene inside one viewport. */
+/* ===== v2.2.3 CLEAN NATURAL CAMPUS SCROLL ===== */
 .running-bg-photo{
   position:absolute;
   left:0;right:0;
@@ -3947,48 +3946,25 @@ body.running-gu-active .running-achievements{
   height:calc(100% - 76px);
   z-index:0;
   background-image:
-    linear-gradient(180deg,rgba(255,255,255,.015),rgba(6,21,35,.035) 62%,rgba(5,18,29,.18)),
-    url("assets/images/running_gu_campus_v222.webp");
+    linear-gradient(180deg,rgba(255,255,255,.01),rgba(5,18,29,.03) 66%,rgba(4,15,25,.18)),
+    url("assets/images/running_gu_campus_v223_clean.webp");
   background-repeat:repeat-x;
-  background-size:2400px 100%;
+  background-size:3200px 100%;
   background-position:0 0;
-  filter:saturate(1.02) brightness(1.025) contrast(.99);
-  animation:runningCampusPhoto 31s linear infinite;
+  filter:saturate(1.01) brightness(1.025) contrast(.99);
+  animation:runningCampusPhotoV223 38s linear infinite;
   animation-play-state:paused;
   will-change:background-position;
 }
 .running-stage.is-running .running-bg-photo{
   animation-play-state:running;
 }
-@keyframes runningCampusPhoto{
+.running-stage.hongeo-rush .running-bg-photo{
+  animation-duration:19s!important;
+}
+@keyframes runningCampusPhotoV223{
   from{background-position:0 0,0 0}
-  to{background-position:-2400px 0,-2400px 0}
-}
-  to{background-position:-1800px 0,-1800px 0}
-}
-
-/* Keep just subtle near layers so the photo stays detailed rather than looking like circles */
-.running-bg-trees{
-  bottom:69px!important;
-  height:115px!important;
-  opacity:.30!important;
-  filter:blur(.8px)!important;
-  background-image:
-    radial-gradient(ellipse at 60px 80px,rgba(40,112,71,.72) 0 38px,transparent 40px),
-    radial-gradient(ellipse at 145px 72px,rgba(60,135,82,.60) 0 32px,transparent 34px)!important;
-  background-size:200px 115px,200px 115px!important;
-  animation-duration:14s!important;
-}
-.running-bg-near{
-  bottom:67px!important;
-  height:54px!important;
-  opacity:.38!important;
-  filter:blur(1.3px)!important;
-  background-image:
-    radial-gradient(ellipse at 34px 45px,rgba(45,111,67,.75) 0 27px,transparent 29px),
-    radial-gradient(ellipse at 98px 42px,rgba(66,139,82,.66) 0 30px,transparent 32px)!important;
-  background-size:140px 54px,140px 54px!important;
-  animation-duration:7.5s!important;
+  to{background-position:-3200px 0,-3200px 0}
 }
 
 /* Make the runner slightly smaller with safe head margin */
@@ -4156,6 +4132,17 @@ body.running-gu-active .running-gameover{
   50%{transform:translateX(3px)}
   75%{transform:translateX(-2px)}
   100%{transform:translateX(0)}
+}
+
+
+/* ===== v2.2.3 CLEAN BACKGROUND ===== */
+/* Legacy procedural foliage removed: the photo panorama supplies all scenery. */
+.running-bg-trees,
+.running-bg-near,
+.running-bg-campus{
+  display:none!important;
+  background:none!important;
+  animation:none!important;
 }
 
 </style>
@@ -4503,8 +4490,6 @@ body.running-gu-active .running-gameover{
         <div id="runningStage" class="running-stage" tabindex="0" aria-label="RUNNING-GU 미니게임">
           <div class="running-loop-bg" aria-hidden="true">
             <div class="running-bg-photo"></div>
-            <div class="running-bg-trees"></div>
-            <div class="running-bg-near"></div>
           </div>
           <canvas id="runningCanvas" width="1100" height="500"></canvas>
           <div id="runningCountdown" class="running-countdown"></div>
@@ -6746,7 +6731,7 @@ function playWeekTransition(nextWeek, callback) {
 
 
 const RUNNING_GU_ASSETS = {
-  stageBg:'assets/images/image_019_1f86a1e48bf94ca2.jpg',
+  stageBg:'assets/images/running_gu_campus_v223_clean.webp',
   runner:'assets/images/image_020_6af4c5f257d8a203.png',
   coffeeCut:'assets/images/image_021_f1a95e9521d2486d.jpg',
   hongeoCut:'assets/images/image_007_eb03d90b228b8e37.jpg',
