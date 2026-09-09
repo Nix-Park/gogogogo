@@ -4185,7 +4185,7 @@ body.running-gu-active .running-gameover{
     </div>
     <div class="login-field">
       <label>PASSWORD</label>
-      <input id="loginPassword" type="password" value="1q2w3e4r" autocomplete="off">
+      <input id="loginPassword" type="password" value="" autocomplete="off">
     </div>
     <div id="loginError" class="login-error" role="alert" aria-live="polite">
       <span class="login-error-icon">×</span>
@@ -6359,8 +6359,8 @@ function performLogin() {
   const password = $("loginPassword").value;
 
   // SIGNAL demo credential
-  const validUser = user.toUpperCase() === "";
-  const validPassword = password === "";
+  const validUser = user.toUpperCase() === "memoryhr";
+  const validPassword = password === "1q2w3e4r";
 
   clearLoginError();
 
