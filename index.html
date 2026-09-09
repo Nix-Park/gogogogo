@@ -4,7 +4,7 @@
 <!-- GitHub Pages lightweight asset-split build v2.2.1 -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SIGNAL v2.2.1: WEEKLY SIGNAL MAIL</title>
+  <title>SIGNAL v2.2.2 · RUNNING-GU POLISH</title>
   <style>
     :root {
       --bg: #0b1020;
@@ -3938,7 +3938,8 @@ body.running-gu-active .running-achievements{
   display:none!important;
 }
 
-/* High-detail endlessly looping campus */
+/* ===== v2.2.2 NATURAL CAMPUS SCROLL =====
+   Long asymmetric panorama; no mirrored scene inside one viewport. */
 .running-bg-photo{
   position:absolute;
   left:0;right:0;
@@ -3946,13 +3947,13 @@ body.running-gu-active .running-achievements{
   height:calc(100% - 76px);
   z-index:0;
   background-image:
-    linear-gradient(180deg,rgba(255,255,255,.02),rgba(8,26,40,.06) 62%,rgba(7,19,30,.23)),
-    url("assets/images/image_005_acfbeaaa4aecf178.jpg");
+    linear-gradient(180deg,rgba(255,255,255,.015),rgba(6,21,35,.035) 62%,rgba(5,18,29,.18)),
+    url("assets/images/running_gu_campus_v222.webp");
   background-repeat:repeat-x;
-  background-size:1800px 100%;
+  background-size:2400px 100%;
   background-position:0 0;
-  filter:saturate(1.03) brightness(1.02);
-  animation:runningCampusPhoto 25s linear infinite;
+  filter:saturate(1.02) brightness(1.025) contrast(.99);
+  animation:runningCampusPhoto 31s linear infinite;
   animation-play-state:paused;
   will-change:background-position;
 }
@@ -3961,6 +3962,8 @@ body.running-gu-active .running-achievements{
 }
 @keyframes runningCampusPhoto{
   from{background-position:0 0,0 0}
+  to{background-position:-2400px 0,-2400px 0}
+}
   to{background-position:-1800px 0,-1800px 0}
 }
 
@@ -4035,7 +4038,7 @@ body.running-gu-active .running-gameover{
 }
 
 .running-stage.hongeo-rush .running-bg-photo{
-  animation-duration:12s!important;
+  animation-duration:15.5s!important;
   filter:saturate(1.22) brightness(1.10) contrast(1.04)!important;
 }
 .running-stage.hongeo-rush .running-bg-trees{
@@ -4133,6 +4136,27 @@ body.running-gu-active .running-gameover{
 .career-up-card h2{font-size:38px;margin:8px 0 4px}
 .career-up-level{font-size:13px;color:#a7bdd5}
 .career-up-glow{font-size:54px;margin-bottom:3px;filter:drop-shadow(0 0 20px rgba(104,196,255,.45))}
+
+
+/* ===== v2.2.2 RUNNING IMPACT FEEDBACK ===== */
+.running-stage.pickup-impact{
+  animation:runningPickupImpact .16s ease-out;
+}
+.running-stage.hit-impact{
+  animation:runningHitImpact .20s ease-out;
+}
+@keyframes runningPickupImpact{
+  0%{filter:brightness(1)}
+  45%{filter:brightness(1.14) saturate(1.12)}
+  100%{filter:brightness(1)}
+}
+@keyframes runningHitImpact{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-3px)}
+  50%{transform:translateX(3px)}
+  75%{transform:translateX(-2px)}
+  100%{transform:translateX(0)}
+}
 
 </style>
 </head>
@@ -6745,27 +6769,52 @@ function applyRunningStageVisual(){
 function runningSfx(kind){
   if(!audioSystem.ctx || audioSystem.ctx.state!=="running") return;
   const n=audioSystem.ctx.currentTime;
+
   if(kind==="pickup"){
-    audioSystem.tone(660,n,.09,.018,"triangle");
-    audioSystem.tone(880,n+.055,.13,.014,"sine");
+    audioSystem.tone(740,n,.07,.026,"triangle");
+    audioSystem.tone(990,n+.045,.10,.022,"sine");
+
   } else if(kind==="coffee"){
-    audioSystem.tone(523,n,.08,.014,"triangle");
-    audioSystem.tone(784,n+.05,.14,.018,"sine");
+    // Bright caffeine "pop"
+    audioSystem.tone(392,n,.055,.025,"triangle");
+    audioSystem.tone(659,n+.035,.09,.028,"triangle");
+    audioSystem.tone(988,n+.085,.14,.023,"sine");
+
   } else if(kind==="water"){
-    audioSystem.tone(440,n,.08,.010,"sine");
-    audioSystem.tone(660,n+.06,.12,.013,"sine");
+    // Clean two-drop chime
+    audioSystem.tone(784,n,.055,.020,"sine");
+    audioSystem.tone(1047,n+.055,.08,.022,"sine");
+    audioSystem.tone(1319,n+.105,.12,.016,"sine");
+
   } else if(kind==="boost"){
-    audioSystem.tone(110,n,.28,.035,"sawtooth");
-    [392,523,659,784].forEach((f,i)=>audioSystem.tone(f,n+.07*i,.28,.018,"triangle"));
+    // Hongeo power-up: bass launch + rising fanfare
+    audioSystem.tone(98,n,.26,.050,"sawtooth");
+    audioSystem.tone(147,n+.035,.20,.030,"sine");
+    [392,523,659,784,1047].forEach((f,i)=>
+      audioSystem.tone(f,n+.055*i,.26,.027,"triangle")
+    );
+
   } else if(kind==="combo"){
-    [392,523,659,784,1047].forEach((f,i)=>audioSystem.tone(f,n+.055*i,.34,.022,"triangle"));
+    [392,523,659,784,1047,1319].forEach((f,i)=>
+      audioSystem.tone(f,n+.045*i,.32,.028,"triangle")
+    );
+    audioSystem.tone(110,n,.34,.042,"sawtooth");
+
   } else if(kind==="hit"){
-    audioSystem.tone(115,n,.20,.035,"sawtooth");
-    audioSystem.tone(72,n+.05,.24,.028,"sine");
+    // Strong but short obstacle impact
+    audioSystem.tone(105,n,.16,.052,"sawtooth");
+    audioSystem.tone(68,n+.025,.21,.040,"square");
+    audioSystem.tone(155,n+.075,.09,.022,"sawtooth");
+
   } else if(kind==="milestone"){
-    [523,659,784].forEach((f,i)=>audioSystem.tone(f,n+.08*i,.30,.017,"triangle"));
+    [523,659,784].forEach((f,i)=>
+      audioSystem.tone(f,n+.075*i,.28,.021,"triangle")
+    );
+
   } else if(kind==="finish"){
-    [392,523,659,784].forEach((f,i)=>audioSystem.tone(f,n+.11*i,.45,.022,"sine"));
+    [392,523,659,784].forEach((f,i)=>
+      audioSystem.tone(f,n+.10*i,.43,.024,"sine")
+    );
   }
 }
 
@@ -6915,6 +6964,17 @@ function rectsHit(a,b){
   return a.x < b.x+b.w && a.x+a.w > b.x && a.y < b.y+b.h && a.y+a.h > b.y;
 }
 
+function runningImpact(kind="pickup"){
+  const stage=$("runningStage");
+  if(!stage) return;
+  const cls=kind==="hit"?"hit-impact":"pickup-impact";
+  stage.classList.remove(cls);
+  void stage.offsetWidth;
+  stage.classList.add(cls);
+  clearTimeout(runningImpact.t);
+  runningImpact.t=setTimeout(()=>stage.classList.remove(cls),220);
+}
+
 function showRunningCallout(text,ms=850){
   const el=$("runningCallout"); if(!el)return;
   el.textContent=text; el.classList.add("show");
@@ -6924,6 +6984,7 @@ function showRunningCallout(text,ms=850){
 
 function applyRunningPickup(kind,now){
   if(kind==="coffee"){
+    runningImpact("pickup");
     runningGame.coffee++;
     runningGame.energy=Math.min(100,runningGame.energy+20);
     if(now<runningGame.hongeoComboUntil){
@@ -6938,11 +6999,13 @@ function applyRunningPickup(kind,now){
       runningSfx("coffee");
     }
   }else if(kind==="water"){
+    runningImpact("pickup");
     runningGame.water++;
     runningGame.energy=Math.min(100,runningGame.energy+10);
     showRunningCallout("WATER · ENERGY +10");
     runningSfx("water");
   }else if(kind==="hongeo"){
+    runningImpact("pickup");
     runningGame.hongeo++;
     runningGame.energy=Math.min(100,runningGame.energy+35);
     runningGame.boostUntil=now+5000;
@@ -7004,15 +7067,22 @@ function runningLoop(now){
         applyRunningPickup(e.kind,now);
         runningGame.score+=220;
       }else if(!invincible){
+        // v2.2.2: obstacle is consumed on collision instead of lingering on screen.
+        e.remove=true;
         const damage=e.kind==="laptop"?22:e.kind==="meeting"?18:15;
         runningGame.energy-=damage;
         runningGame.collisions++;
+        runningImpact("hit");
         runningSfx("hit");
         showRunningCallout(e.kind==="meeting"?"긴급 회의! -18":`${e.emoji} -${damage}`);
         audioSystem.deny?.();
       }else{
+        // Boost breaks through the obstacle and removes it immediately.
+        e.remove=true;
         runningGame.avoided++;
         runningGame.score+=150;
+        runningImpact("pickup");
+        runningSfx("pickup");
         showRunningCallout("BOOST BLOCK!");
       }
     }
