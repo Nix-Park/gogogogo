@@ -4,7 +4,7 @@
 <!-- GitHub Pages lightweight asset-split build v2.2.1 -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SIGNAL v2.3 · BRIGHT MISSION CONTROL</title>
+  <title>SIGNAL v2.4 · BRIGHT SIGNAL OS</title>
   <style>
     :root {
       --bg: #0b1020;
@@ -4233,6 +4233,547 @@ body.running-gu-active .running-gameover{
   .briefing-v23::before,.briefing-v23::after{inset:0}
   .briefing-hero-v23{min-height:235px;border-radius:18px}.briefing-hero-content{padding:18px 16px 8px}.briefing-title-wrap{gap:9px}.briefing-week-chip{font-size:9px;padding:7px 8px}.briefing-title-wrap h2{font-size:22px}.briefing-reset-btn{font-size:10px;padding:8px 10px}.briefing-hud-v23{grid-template-columns:repeat(3,1fr);padding:4px 14px 16px}.briefing-hud-item{display:block;padding:9px}.briefing-hud-item strong{font-size:19px}.briefing-hud-item span{display:block;margin-top:2px;font-size:8px}.briefing-mission-v23{grid-template-columns:auto 1fr;padding:13px}.mission-progress-v23{grid-column:1/-1;min-width:0}.mission-progress-v23 span{text-align:left}.briefing-main-grid-v23{gap:10px}.case-board-v23,.briefing-actions-v23,.briefing-feed-v23,.principle-card-v23{border-radius:16px;padding:13px}.case-board-title-v23{display:block}.context-status-v23{margin-top:8px;width:max-content}.case-flow-v23{margin-top:12px}.org-pulse-v23{grid-template-columns:1fr 1fr;border-radius:16px}.org-pulse-title-v23{grid-column:1/-1}.org-pulse-metric-v23{border-left:none;border-top:1px solid rgba(91,142,174,.12)}.briefing-feed-v23 .briefing-game-layout{grid-template-columns:1fr!important}.briefing-feed-v23 .signal-radar{min-height:190px}.case-hypothesis-v23{display:block}.case-hypothesis-v23>span{display:block;margin-top:6px}.briefing-action-v23{grid-template-columns:auto 1fr auto}.briefing-action-v23 .action-badge-v23{position:absolute;right:42px}.briefing-action-v23{position:relative}}
 
+
+/* =========================================================
+   v2.4 BRIGHT SIGNAL OS
+   Login-screen freshness carried into the in-game workspace.
+   ========================================================= */
+
+:root{
+  --os-ink:#1a3553;
+  --os-ink-2:#294766;
+  --os-muted:#647b93;
+  --os-line:#cbd9e8;
+  --os-line-strong:#a9c4df;
+  --os-glass:rgba(248,252,255,.91);
+  --os-glass-2:rgba(239,247,255,.88);
+  --os-blue:#397dc6;
+  --os-blue-soft:#e8f2ff;
+  --os-mint:#42b89d;
+  --os-mint-soft:#eaf9f5;
+  --os-amber:#bd842d;
+  --os-amber-soft:#fff6e7;
+  --os-shadow:0 16px 42px rgba(38,76,111,.12);
+}
+
+/* Left OS rail */
+.app > aside{
+  width:auto;
+  border-right:1px solid rgba(151,181,211,.56)!important;
+  background:
+    linear-gradient(180deg,rgba(251,253,255,.95),rgba(238,247,255,.91))!important;
+  backdrop-filter:blur(22px) saturate(1.18)!important;
+  box-shadow:12px 0 34px rgba(42,82,119,.08);
+  color:var(--os-ink)!important;
+}
+.app > aside .brand{
+  padding:2px 4px 18px;
+  margin-bottom:4px;
+  border-bottom:1px solid rgba(144,177,208,.30);
+}
+.app > aside .brand h1{
+  color:#1e4164!important;
+  font-size:24px!important;
+  letter-spacing:.12em!important;
+}
+.app > aside .brand p{
+  color:#6d849b!important;
+  line-height:1.55;
+  margin-bottom:0!important;
+}
+.signal-nav{
+  gap:6px!important;
+}
+.signal-nav .nav-group-label{
+  margin:15px 8px 5px;
+  color:#83a0bb;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.18em;
+}
+.signal-nav .nav-group-label.utility{
+  margin-top:18px;
+  padding-top:13px;
+  border-top:1px solid rgba(149,181,211,.30);
+}
+.signal-nav button{
+  display:grid!important;
+  grid-template-columns:32px 1fr auto;
+  align-items:center;
+  gap:8px;
+  min-height:45px;
+  padding:7px 10px!important;
+  color:#466078!important;
+  background:rgba(255,255,255,.42)!important;
+  border:1px solid transparent!important;
+  border-radius:12px!important;
+  box-shadow:none!important;
+}
+.signal-nav button:hover{
+  color:#20496f!important;
+  background:rgba(255,255,255,.78)!important;
+  border-color:#c7dced!important;
+  transform:translateX(2px)!important;
+}
+.signal-nav button.active{
+  color:#174c7c!important;
+  background:linear-gradient(90deg,#e4f1ff,#f5fbff)!important;
+  border-color:#9fc4e7!important;
+  box-shadow:0 8px 22px rgba(61,119,176,.11)!important;
+}
+.signal-nav .nav-icon{
+  width:29px;height:29px;
+  display:grid;place-items:center;
+  border-radius:9px;
+  color:#4f7faa;
+  background:#edf5fd;
+  border:1px solid #d7e6f3;
+  font-size:13px;
+  font-weight:900;
+}
+.signal-nav button.active .nav-icon{
+  color:white;
+  background:linear-gradient(145deg,#5a9be0,#3977b9);
+  border-color:#4d8bc9;
+  box-shadow:0 5px 14px rgba(55,115,176,.20);
+}
+.signal-nav .mail-badge{
+  position:static!important;
+  justify-self:end;
+  color:#fff!important;
+  background:#e66a75!important;
+  border:none!important;
+  min-width:22px;height:22px;
+  display:grid;place-items:center;
+  border-radius:999px;
+  font-size:9px;
+  font-weight:900;
+}
+
+.app > aside .status-card{
+  margin-top:18px!important;
+  background:rgba(255,255,255,.70)!important;
+  border:1px solid #cbddeb!important;
+  box-shadow:0 14px 34px rgba(52,91,126,.09)!important;
+}
+.app > aside .status-line{
+  color:#6d8298!important;
+}
+.app > aside .status-line strong{
+  color:#203c58!important;
+}
+.app > aside .progress{
+  background:#e6eef6!important;
+  border-color:#c9d9e8!important;
+}
+.app > aside .primary{
+  color:white!important;
+  background:linear-gradient(135deg,#4f8dcc,#3974b2)!important;
+  border-color:#4a84c0!important;
+}
+.app > aside .energy-recharge-btn{
+  background:linear-gradient(135deg,#e9faf5,#eef7ff)!important;
+  border-color:#a8dcca!important;
+}
+.app > aside .energy-recharge-btn span{color:#287f70!important}
+.app > aside .energy-recharge-btn small{color:#569d91!important}
+.app > aside .save-actions button{
+  color:#46627d!important;
+  background:#f6faff!important;
+  border-color:#d4e0ec!important;
+}
+.app > aside .save-meta,
+.app > aside .desktop-clock,
+.app > aside .footer-note{
+  color:#7a8fa4!important;
+}
+.app > aside .footer-note{
+  border-top:1px solid rgba(149,181,211,.28);
+  padding-top:12px;
+}
+
+/* Main workspace - retain the campus world underneath, but lighten the operating surface. */
+.app > main{
+  position:relative;
+}
+.app > main::before{
+  content:"";
+  position:fixed;
+  inset:0 0 0 260px;
+  pointer-events:none;
+  z-index:-1;
+  background:
+    linear-gradient(180deg,rgba(235,246,255,.12),rgba(233,244,254,.24)),
+    radial-gradient(circle at 70% 0%,rgba(255,255,255,.24),transparent 36%);
+}
+.bright-os-view{
+  color:var(--os-ink)!important;
+}
+.bright-os-view .topbar{
+  position:relative;
+  padding:19px 22px;
+  margin-bottom:16px!important;
+  border:1px solid rgba(180,204,225,.74);
+  border-radius:18px;
+  background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(238,247,255,.91));
+  box-shadow:var(--os-shadow);
+  overflow:hidden;
+}
+.bright-os-view .topbar::after{
+  content:"";
+  position:absolute;
+  right:-45px;top:-75px;
+  width:240px;height:170px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(77,157,226,.13),transparent 68%);
+}
+.bright-os-view .topbar h2{
+  color:#183956!important;
+  font-size:29px!important;
+}
+.bright-os-view .topbar .sub{
+  color:#6a8096!important;
+}
+.os-eyebrow{
+  margin-bottom:5px;
+  color:#428abf;
+  font-size:9px;
+  font-weight:950;
+  letter-spacing:.17em;
+}
+.bright-os-view .eyebrow{color:#428abf!important}
+
+/* Generic bright cards across non-mini-game operating views */
+.bright-os-view .card,
+#reviewContent .card{
+  color:var(--os-ink)!important;
+  background:linear-gradient(180deg,rgba(253,254,255,.94),rgba(242,248,253,.91))!important;
+  border-color:#cbdce9!important;
+  box-shadow:var(--os-shadow)!important;
+}
+.bright-os-view .card h2,
+.bright-os-view .card h3,
+.bright-os-view strong,
+#reviewContent strong{
+  color:#203c58;
+}
+.bright-os-view .muted,
+#reviewContent .muted{
+  color:#677e94!important;
+}
+.bright-os-view button:not(.primary){
+  color:#365570;
+  background:rgba(251,253,255,.86);
+  border-color:#c9d9e7;
+}
+.bright-os-view button:not(.primary):hover{
+  background:#eef6fd;
+  border-color:#8cb8dd;
+}
+.bright-os-view .primary{
+  color:#fff!important;
+  background:linear-gradient(135deg,#568fca,#3975b3)!important;
+  border-color:#4c85bd!important;
+}
+
+/* ORGANIZATION */
+#organization .org-layout{
+  grid-template-columns:300px 1fr!important;
+  gap:14px!important;
+}
+#organization .org-tree{
+  background:linear-gradient(180deg,rgba(247,252,255,.95),rgba(236,246,253,.92))!important;
+}
+#organization .org-tree h3{
+  color:#1d4262!important;
+}
+#organization .org-tree button{
+  color:#42617c!important;
+  background:rgba(255,255,255,.54)!important;
+  border:1px solid #d5e2ed!important;
+  border-radius:10px!important;
+}
+#organization .org-tree button:hover{
+  color:#1f4d74!important;
+  background:#f4f9fd!important;
+  border-color:#9fc3df!important;
+}
+#organization .toolbar{
+  padding:11px;
+  border-radius:13px;
+  background:rgba(232,243,252,.74);
+  border:1px solid #d0dfeb;
+}
+#organization .toolbar input,
+#organization .toolbar select{
+  color:#29445f!important;
+  background:#fff!important;
+  border-color:#c7d9e7!important;
+}
+#organization .employee-row{
+  background:rgba(255,255,255,.78)!important;
+  border-color:#d4e0eb!important;
+  box-shadow:0 7px 18px rgba(48,83,115,.045);
+}
+#organization .employee-row:hover{
+  background:#f8fbfe!important;
+  border-color:#8fb9dd!important;
+  box-shadow:0 10px 24px rgba(44,93,137,.08);
+  transform:translateY(-1px);
+}
+#organization .employee-name{color:#203d59!important}
+#organization .signal-text{color:#a56c1d!important}
+#organization .signal-text::before{background:#dda143!important}
+#organization .employee-row button{
+  color:#246299!important;
+  background:#edf6ff!important;
+  border-color:#afcde6!important;
+}
+
+/* DECISION STUDIO */
+#actions #actionWorkspace>.card:first-child{
+  background:
+    radial-gradient(circle at 92% 0%,rgba(76,158,221,.12),transparent 26%),
+    linear-gradient(135deg,#fbfdff,#edf6fd)!important;
+}
+#actions .analysis-grid{
+  gap:10px!important;
+}
+#actions .analysis-metric{
+  background:#f5faff!important;
+  border-color:#d2e2ef!important;
+}
+#actions .analysis-metric strong{color:#1f4568!important}
+#actions .metric-delta{color:#587796!important}
+#actions .analysis-note{
+  color:#5f768c!important;
+  background:#eef7fb!important;
+  border-color:#d2e4ed!important;
+}
+#actions .mini-bars{
+  background:#eef5fb!important;
+  border-color:#d6e3ed!important;
+}
+#actions .mini-bars span{
+  background:linear-gradient(180deg,#54bba4,#5d96d0)!important;
+}
+#actions .signal-card{
+  color:#6c4b17!important;
+  background:var(--os-amber-soft)!important;
+  border-left-color:#dda044!important;
+}
+#actions .choice{
+  color:#2e4b68!important;
+  background:#fbfdff!important;
+  border-color:#cbdce9!important;
+  box-shadow:0 6px 16px rgba(42,74,101,.04);
+}
+#actions .choice:hover{
+  background:#eef7ff!important;
+  border-color:#8bb7db!important;
+}
+#actions .choice.selected{
+  color:#1f5682!important;
+  background:linear-gradient(135deg,#e1f0ff,#edf9f6)!important;
+  border-color:#75add8!important;
+  box-shadow:0 8px 22px rgba(53,112,167,.10);
+}
+#actions .choice span{color:#71879c!important}
+#actions .chip.context{
+  color:#247f6e!important;
+  background:#e8f8f3!important;
+  border-color:#a9dacb!important;
+}
+#actions .timeline-item,
+#review .timeline-item,
+#review .briefing-item{
+  border-color:#d8e3ec!important;
+}
+
+/* REVIEW */
+#review #reviewContent{
+  border-radius:18px;
+}
+#review .review-box{
+  color:#385570;
+  background:rgba(239,250,247,.75);
+  border:1px solid #c9e3da;
+  border-left:4px solid #4db99f;
+  border-radius:12px;
+  padding:14px 16px;
+}
+
+/* OUTCOME */
+#outcome .result-grade{
+  color:#236c5e!important;
+  background:#e9f8f4!important;
+  border-color:#a8dacc!important;
+}
+#outcome .executive-score,
+#outcome .score-dashboard>div,
+#outcome .impact-list>div{
+  background:rgba(255,255,255,.78)!important;
+  border-color:#d2e0eb!important;
+  color:#26435f!important;
+}
+#outcome .trend-chart{
+  background:linear-gradient(180deg,#f6fbff,#edf5fb)!important;
+  border-color:#d3e0eb!important;
+}
+#outcome .trend-legend{color:#617991!important}
+
+/* FINAL REPORT */
+#endgame .executive-report{
+  color:#203e5a!important;
+  background:
+    radial-gradient(circle at 90% 0%,rgba(72,157,223,.12),transparent 27%),
+    linear-gradient(180deg,rgba(254,255,255,.96),rgba(239,247,253,.94))!important;
+  border-color:#c6dae9!important;
+  box-shadow:var(--os-shadow)!important;
+}
+#endgame .news-paper{
+  color:#314b62!important;
+  background:
+    linear-gradient(rgba(255,255,255,.96),rgba(244,249,252,.96)),
+    repeating-linear-gradient(to bottom,transparent 0 25px,rgba(66,107,139,.035) 26px)!important;
+  border-color:#d1dde6!important;
+}
+#endgame .career-card{
+  color:#203d58!important;
+  background:linear-gradient(135deg,#f7fbff,#eaf4fc)!important;
+  border-color:#c5d9e8!important;
+  box-shadow:var(--os-shadow)!important;
+}
+#endgame .career-badge{
+  color:#fff!important;
+  background:radial-gradient(circle at 35% 25%,rgba(255,255,255,.27),transparent 24%),linear-gradient(145deg,#5b9adb,#326fae)!important;
+  border-color:#82acd3!important;
+}
+#endgame .career-step{
+  color:#6e8297!important;
+  border-color:#d2dfeb!important;
+  background:#f9fcff!important;
+}
+#endgame .career-step.active{
+  color:#255e8f!important;
+  border-color:#9fc0dc!important;
+  background:#eaf4fd!important;
+}
+#endgame .epilogue-card{
+  color:#304b63!important;
+  background:rgba(250,253,255,.88)!important;
+  border-color:#d3e0eb!important;
+}
+
+/* MAIL */
+#mail .grid.grid-2{
+  grid-template-columns:minmax(300px,.78fr) minmax(420px,1.22fr)!important;
+}
+#mail .mail-item{
+  color:#34526c!important;
+  background:#f8fbfe!important;
+  border-color:#d5e2ec!important;
+}
+#mail .mail-item:hover{
+  background:#edf6fd!important;
+  border-color:#99bdd9!important;
+}
+#mail .mail-item.unread{
+  background:linear-gradient(135deg,#eaf4ff,#effaf7)!important;
+  border-color:#91bddf!important;
+  box-shadow:inset 3px 0 0 #4f9ad5;
+}
+#mail .mail-item span{color:#6c849a!important}
+#mail #mailSubject{color:#21425f!important}
+
+/* SETTINGS */
+#settings .settings-row{
+  border-color:#d9e4ec!important;
+}
+#settings .settings-row strong{color:#27455f!important}
+#settings .settings-row select,
+#settings .settings-row input[type="range"]{
+  color:#29445f!important;
+}
+
+/* Shared visual polish */
+.bright-os-view .chip{
+  color:#58728a!important;
+  background:#f7fbfe!important;
+  border-color:#d1dfe9!important;
+}
+.bright-os-view .empty{
+  color:#74899c!important;
+}
+.bright-os-view textarea{
+  color:#29445f!important;
+  background:#fff!important;
+  border-color:#c7d9e7!important;
+}
+.bright-os-view .progress{
+  background:#e6eef5!important;
+  border-color:#d1dee8!important;
+}
+
+/* Mobile: sidebar becomes a compact top navigation strip rather than a dark wall. */
+@media(max-width:900px){
+  .app > aside{
+    background:rgba(247,251,255,.97)!important;
+    border-right:0!important;
+    border-bottom:1px solid #d0dfeb!important;
+  }
+  .signal-nav{
+    display:flex!important;
+    overflow-x:auto;
+    gap:6px!important;
+    padding-bottom:4px;
+    scrollbar-width:none;
+  }
+  .signal-nav::-webkit-scrollbar{display:none}
+  .signal-nav .nav-group-label{display:none}
+  .signal-nav button{
+    min-width:max-content!important;
+    grid-template-columns:28px auto auto!important;
+    padding:6px 10px!important;
+  }
+  .signal-nav .nav-icon{
+    width:26px;height:26px;
+  }
+  .app > aside .status-card{
+    background:rgba(255,255,255,.78)!important;
+  }
+  .bright-os-view .topbar{
+    padding:16px!important;
+    border-radius:15px!important;
+  }
+  #organization .org-layout{
+    grid-template-columns:1fr!important;
+  }
+  #organization .org-tree{
+    max-height:280px;
+    overflow:auto;
+  }
+  #mail .grid.grid-2{
+    grid-template-columns:1fr!important;
+  }
+}
+
+@media(max-width:620px){
+  .bright-os-view .topbar h2{font-size:24px!important}
+  #organization .employee-row{
+    grid-template-columns:1fr auto!important;
+    gap:8px!important;
+  }
+  #organization .employee-row>*:nth-child(2),
+  #organization .employee-row>*:nth-child(3){
+    display:none;
+  }
+  #actions .hypothesis-grid,
+  #actions .action-grid{
+    grid-template-columns:1fr!important;
+  }
+}
+
 </style>
 </head>
 <body class="signal-login-hero">
@@ -4369,19 +4910,23 @@ body.running-gu-active .running-gameover{
 <div class="app">
   <aside>
     <div class="brand">
+      <div class="os-eyebrow">PEOPLE · DATA · DECISION</div>
       <h1>SIGNAL</h1>
       <p>보이지 않는 신호 · HR 의사결정 시뮬레이션</p>
     </div>
 
-    <nav>
-      <button data-view="briefing" class="active">주간 브리핑</button>
-      <button data-view="organization">조직 탐색</button>
-      <button data-view="actions">판단과 행동</button>
-      <button data-view="review">회고</button>
-      <button data-view="outcome">조직 결과</button>
-      <button data-view="endgame">최종 리포트</button>
-      <button data-view="mail">사내 메일 <span id="mailBadge" class="mail-badge">3</span></button>
-      <button data-view="settings">설정</button>
+    <nav class="signal-nav">
+      <div class="nav-group-label">PLAY FLOW</div>
+      <button data-view="briefing" class="active"><span class="nav-icon">◉</span><span>주간 브리핑</span></button>
+      <button data-view="organization"><span class="nav-icon">⌕</span><span>조직 탐색</span></button>
+      <button data-view="actions"><span class="nav-icon">◆</span><span>판단과 행동</span></button>
+      <button data-view="review"><span class="nav-icon">↺</span><span>회고</span></button>
+      <button data-view="outcome"><span class="nav-icon">▥</span><span>조직 결과</span></button>
+      <button data-view="endgame"><span class="nav-icon">★</span><span>최종 리포트</span></button>
+
+      <div class="nav-group-label utility">UTILITY</div>
+      <button data-view="mail"><span class="nav-icon">✉</span><span>사내 메일</span><span id="mailBadge" class="mail-badge">3</span></button>
+      <button data-view="settings"><span class="nav-icon">⚙</span><span>설정</span></button>
     </nav>
 
     <div class="status-card">
@@ -4514,10 +5059,10 @@ body.running-gu-active .running-gameover{
       </div>
     </section>
 
-    <section id="organization" class="view">
+    <section id="organization" class="view bright-os-view">
       <div class="topbar">
         <div>
-          <h2>조직 탐색</h2>
+          <div class="os-eyebrow">PEOPLE EXPLORER</div><h2>조직 탐색</h2>
           <div class="sub">조직과 개인의 변화를 함께 비교합니다.</div>
         </div>
       </div>
@@ -4542,10 +5087,10 @@ body.running-gu-active .running-gameover{
       </div>
     </section>
 
-    <section id="actions" class="view">
+    <section id="actions" class="view bright-os-view">
       <div class="topbar">
         <div>
-          <h2>판단과 행동</h2>
+          <div class="os-eyebrow">DECISION STUDIO</div><h2>판단과 행동</h2>
           <div class="sub">대상을 선택하고 가설을 세운 뒤 제한된 행동 포인트를 사용합니다.</div>
         </div>
       </div>
@@ -4654,10 +5199,10 @@ body.running-gu-active .running-gameover{
       </div>
     </section>
 
-    <section id="review" class="view">
+    <section id="review" class="view bright-os-view">
       <div class="topbar">
         <div>
-          <h2>회고</h2>
+          <div class="os-eyebrow">REFLECTION LOG</div><h2>회고</h2>
           <div class="sub">정답과 오답 대신, 판단 과정과 조직에 남긴 영향을 살펴봅니다.</div>
         </div>
       </div>
@@ -4665,10 +5210,10 @@ body.running-gu-active .running-gameover{
     </section>
 
 
-    <section id="outcome" class="view">
+    <section id="outcome" class="view bright-os-view">
       <div class="topbar">
         <div>
-          <h2>조직 결과 대시보드</h2>
+          <div class="os-eyebrow">ORGANIZATION OUTCOME</div><h2>조직 결과</h2>
           <div class="sub">플레이어의 판단과 행동이 조직의 변화에 어떤 영향을 주었는지 확인합니다.</div>
         </div>
         <div id="resultGrade" class="result-grade">진행 중</div>
@@ -4707,9 +5252,9 @@ body.running-gu-active .running-gameover{
     </section>
 
 
-    <section id="endgame" class="view">
+    <section id="endgame" class="view bright-os-view">
       <div class="topbar">
-        <div><h2>최종 리포트</h2><div class="sub">CEO 보고, 조직 뉴스, HRBP 커리어, 장기 에필로그를 확인합니다.</div></div>
+        <div><div class="os-eyebrow">FINAL REPORT</div><h2>최종 리포트</h2><div class="sub">CEO 보고, 조직 뉴스, HRBP 커리어, 장기 에필로그를 확인합니다.</div></div>
         <button id="playEndingBtn" class="primary">엔딩 연출 보기</button>
       </div>
       <div id="executiveReport" class="executive-report"></div>
@@ -4724,10 +5269,10 @@ body.running-gu-active .running-gameover{
       </div>
     </section>
 
-    <section id="mail" class="view">
+    <section id="mail" class="view bright-os-view">
       <div class="topbar">
         <div>
-          <h2>사내 메일</h2>
+          <div class="os-eyebrow">SIGNAL INBOX</div><h2>사내 메일</h2>
           <div class="sub">조직의 변화는 데이터보다 먼저 메시지로 도착하기도 합니다.</div>
         </div>
       </div>
@@ -4743,10 +5288,10 @@ body.running-gu-active .running-gameover{
       </div>
     </section>
 
-    <section id="settings" class="view">
+    <section id="settings" class="view bright-os-view">
       <div class="topbar">
         <div>
-          <h2>설정</h2>
+          <div class="os-eyebrow">SYSTEM SETTINGS</div><h2>설정</h2>
           <div class="sub">사운드와 화면 연출을 조정합니다.</div>
         </div>
       </div>
