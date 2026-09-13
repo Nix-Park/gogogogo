@@ -4,7 +4,7 @@
 <!-- GitHub Pages lightweight asset-split build v2.2.1 -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SIGNAL v2.4 · BRIGHT SIGNAL OS</title>
+  <title>SIGNAL v3.0 · ENTERPRISE HR DECISION OS</title>
   <style>
     :root {
       --bg: #0b1020;
@@ -4774,6 +4774,293 @@ body.running-gu-active .running-gameover{
   }
 }
 
+
+/* ==========================================================================
+   SIGNAL v3.0 · ENTERPRISE HR DECISION OS
+   Non-destructive UI refactor: legacy selectors remain for behavior safety.
+   ========================================================================== */
+:root{
+  --bg-primary:#eef5fa;
+  --bg-secondary:#f7fbfe;
+  --surface:#ffffff;
+  --surface-soft:#f4f8fb;
+  --surface-glass:rgba(255,255,255,.90);
+  --border:#cfdae4;
+  --border-strong:#afc4d7;
+  --text-primary:#16344f;
+  --text-secondary:#667d92;
+  --accent:#397dc6;
+  --accent-soft:#e9f3fd;
+  --signal:#3e8fcb;
+  --signal-soft:#eaf4fb;
+  --watch:#bd8b3f;
+  --watch-soft:#fff7e9;
+  --stable:#3a9b83;
+  --stable-soft:#edf9f5;
+  --human-bg:#f7f3ec;
+  --human-ink:#2f353c;
+  --radius-sm:9px;
+  --radius-md:14px;
+  --radius-lg:20px;
+  --space-1:6px;
+  --space-2:10px;
+  --space-3:14px;
+  --space-4:20px;
+  --space-5:28px;
+  --shadow-soft:0 8px 26px rgba(35,72,103,.07);
+  --shadow-float:0 18px 46px rgba(34,70,101,.10);
+}
+
+/* General OS: fewer shadows, clearer hierarchy */
+body{background:#dfeaf2!important}
+.app > main{
+  background:
+    linear-gradient(rgba(239,247,252,.86),rgba(239,247,252,.90)),
+    var(--app-bg-image,none);
+}
+.view{animation:osViewFade .22s ease both}
+@keyframes osViewFade{from{opacity:.25;transform:translateY(3px)}to{opacity:1;transform:none}}
+.os-kicker,.panel-label-v30{
+  color:#5d88aa;font-size:9px;font-weight:900;letter-spacing:.16em;text-transform:uppercase
+}
+.os-page-head{
+  display:flex;justify-content:space-between;gap:24px;align-items:flex-end;
+  padding:8px 2px 18px;border-bottom:1px solid rgba(142,169,191,.46);margin-bottom:20px
+}
+.os-page-head.compact{align-items:center}
+.os-page-head h2{margin:4px 0 4px;color:var(--text-primary);font-size:31px;letter-spacing:-.035em}
+.os-page-head p{margin:0;color:var(--text-secondary);font-size:12px;line-height:1.6}
+.signal-os-view{color:var(--text-primary)}
+.signal-os-view .card{box-shadow:none!important}
+
+/* PLAY FLOW navigation */
+.app>aside{background:rgba(248,252,255,.96)!important;border-right:1px solid #ccdbe7!important;box-shadow:none!important}
+.app>aside .brand{border-bottom:1px solid #dbe5ed!important}
+.signal-nav{position:relative}
+.signal-nav:before{
+  content:"";position:absolute;left:22px;top:45px;bottom:114px;width:1px;background:#d3e0e9;z-index:0
+}
+.signal-nav button{
+  position:relative;z-index:1;
+  grid-template-columns:18px 29px 1fr auto!important;
+  min-height:50px!important;background:transparent!important;border:0!important;
+  padding:5px 8px!important;border-radius:10px!important;color:#6a8093!important
+}
+.signal-nav button:hover{background:#f2f7fb!important;transform:none!important}
+.signal-nav button.active,.signal-nav button.flow-current{
+  background:#eaf3fb!important;color:#1c5079!important;box-shadow:none!important
+}
+.signal-nav button.flow-complete{color:#476a85!important}
+.signal-nav button.locked{opacity:.46;cursor:not-allowed}
+.signal-nav button.locked:hover{background:transparent!important}
+.nav-flow-mark{
+  width:18px;display:grid;place-items:center;font-size:10px;color:#7ca3c0;background:#f8fbfd
+}
+.signal-nav button.flow-current .nav-flow-mark{color:#2e80bc}
+.signal-nav button.flow-complete .nav-flow-mark{color:var(--stable)}
+.signal-nav .nav-icon{
+  width:28px;height:28px;background:#f2f7fb!important;border:1px solid #d7e4ed!important;color:#60829d!important;box-shadow:none!important
+}
+.signal-nav button.active .nav-icon{background:#dcecf9!important;border-color:#a9cbe4!important;color:#2d73a8!important}
+.nav-copy{display:flex;flex-direction:column;min-width:0}
+.nav-copy b{font-size:9px;letter-spacing:.08em;color:inherit;white-space:nowrap}
+.nav-copy small{font-size:11px;margin-top:2px;color:inherit;white-space:nowrap}
+.signal-rail-status{box-shadow:none!important;border:1px solid #d6e2eb!important;background:#fff!important}
+.rail-status-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;color:#7890a4;font-size:8px;letter-spacing:.12em}
+.rail-status-head b{color:#315c7e;font-size:10px}
+.rail-status-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px 0}
+.rail-status-grid>div{display:flex;justify-content:space-between;border-bottom:1px solid #edf2f6;padding:5px 0}
+.rail-status-grid span{color:#7d91a3;font-size:9px}.rail-status-grid strong{color:#24445e!important;font-size:12px}
+.rail-primary{width:100%;margin-top:12px}
+.rail-save-panel{margin-top:10px;border-top:1px solid #e3ebf1;padding-top:9px}
+.rail-save-panel summary{cursor:pointer;color:#73899b;font-size:8px;letter-spacing:.13em}
+.footer-note{font-size:9px!important;line-height:1.55!important}
+
+/* BRIEFING */
+.briefing-v30{color:var(--text-primary)}
+.briefing-head-v30{align-items:flex-start}
+.week-signal-line{display:flex;align-items:center;gap:9px;margin-top:7px}
+.week-signal-line span{color:#2c6e9d;font-size:11px;font-weight:900;letter-spacing:.1em}
+.week-signal-line i{width:5px;height:5px;border-radius:50%;background:#5ab7a1}
+.week-signal-line b{color:#408ab8;font-size:10px;letter-spacing:.13em}
+.briefing-head-v30 h2{font-size:38px;max-width:760px;margin-top:10px}
+.briefing-head-actions{display:flex;align-items:flex-start;gap:12px}
+.briefing-compact-stats{display:flex;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.74);overflow:hidden}
+.briefing-compact-stats span{min-width:84px;padding:10px 13px;border-right:1px solid #e3ebf1}
+.briefing-compact-stats span:last-child{border:0}
+.briefing-compact-stats small{display:block;color:#8195a6;font-size:8px;letter-spacing:.1em}
+.briefing-compact-stats strong{display:block;color:#1c4564;font-size:18px;margin-top:3px}
+.briefing-hero-statement-v30{
+  display:flex;align-items:center;justify-content:space-between;gap:28px;
+  padding:22px 26px;background:linear-gradient(100deg,#fff,#f2f8fd);border:1px solid #cbdce8;border-radius:18px;margin-bottom:18px
+}
+.briefing-hero-statement-v30 small{color:#628aa9;font-size:9px;font-weight:900;letter-spacing:.14em}
+.briefing-hero-statement-v30 strong{display:block;color:#173b58;font-size:24px;margin-top:5px}
+.briefing-hero-statement-v30 p{margin:5px 0 0;color:#687e91}
+.signal-cta-v30{border:1px solid #7dacd0!important;background:#eff7fd!important;color:#276b9c!important;border-radius:999px!important;padding:11px 17px!important}
+.case-board-v30{position:relative;background:#fff;border:1px solid #cbd9e5;border-radius:18px;padding:20px 22px;margin-bottom:14px;overflow:hidden}
+.case-board-v30:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(#5fa7d2,#5bb79f)}
+.case-board-head-v30,.case-board-foot-v30{display:flex;justify-content:space-between;gap:20px;align-items:center}
+.case-board-head-v30 small,.case-core-v30 small,.case-point-v30 small,.next-move-v30 small{color:#718da3;font-size:8px;font-weight:900;letter-spacing:.14em}
+.case-board-head-v30 strong{display:block;color:#284760;margin-top:3px}
+.context-status-v30{display:flex;align-items:center;gap:8px}.context-status-v30 span{font-size:8px;color:#7891a5}.context-status-v30 b{font-size:10px;color:#3d6c8e}
+.case-map-v30{position:relative;min-height:235px;margin:20px 0 13px;background:linear-gradient(#fbfdff,#f8fbfd);border:1px solid #e0e8ef;border-radius:13px}
+.case-point-v30,.case-core-v30{position:absolute;background:#fff;border:1px solid #cfdce6;border-radius:11px;padding:12px 14px;z-index:2}
+.case-point-v30{width:210px}.case-point-v30 b,.case-core-v30 b{display:block;color:#23445e;margin:5px 0 3px}.case-point-v30 span,.case-core-v30 span{font-size:10px;color:#718699}
+.point-observation{left:4%;top:23px}.point-organization{right:4%;top:23px}.point-leader{left:8%;bottom:22px}.point-context{right:8%;bottom:22px}
+.case-core-v30{left:50%;top:50%;transform:translate(-50%,-50%);width:300px;text-align:center;border-color:#a9c7dc;background:#f3f9fd}
+.case-wire-v30{position:absolute;height:1px;background:#b9cedd;transform-origin:left center;z-index:1}
+.wire-a{left:23%;top:74px;width:29%;transform:rotate(18deg)}
+.wire-b{left:52%;top:74px;width:24%;transform:rotate(-18deg)}
+.wire-c{left:24%;top:175px;width:28%;transform:rotate(-18deg)}
+.wire-d{left:52%;top:175px;width:24%;transform:rotate(18deg)}
+.next-move-v30 strong{display:block;margin-top:4px;color:#2e5674;font-size:12px}
+.briefing-shortcuts-v30{display:flex;gap:7px}.briefing-shortcuts-v30 button{padding:8px 11px!important;border-radius:999px!important;background:#f5f9fc!important;border-color:#d3e1eb!important;color:#42657e!important}.briefing-shortcuts-v30 em{font-style:normal;color:#a36e22;font-size:9px}
+.bottom-status-v30{display:grid;grid-template-columns:150px 150px 180px 1fr;align-items:center;background:rgba(255,255,255,.72);border:1px solid #d6e1e9;border-radius:14px;margin-bottom:14px}
+.bottom-status-v30>div{padding:12px 16px;border-right:1px solid #e3ebf1}.bottom-status-v30>div:last-child{border:0}
+.bottom-status-v30 small{display:block;color:#8194a5;font-size:8px;letter-spacing:.11em}.bottom-status-v30 strong{display:block;color:#21455f;font-size:18px}.bottom-status-v30 span{font-size:9px;color:#748a9d}
+.briefing-disclosure-v30{background:rgba(255,255,255,.55);border:1px solid #d5e1e9;border-radius:13px}
+.briefing-disclosure-v30 summary{cursor:pointer;padding:12px 15px;color:#506f86;font-size:11px}.briefing-disclosure-v30 summary span{font-size:8px;letter-spacing:.12em;margin-right:12px;color:#7b94a6}
+.briefing-disclosure-grid-v30{display:grid;grid-template-columns:1.6fr .8fr;gap:18px;padding:4px 15px 15px}.disclosure-head-v30{font-size:8px;color:#7891a5;letter-spacing:.13em;margin-bottom:9px}.principle-v30{border-left:1px solid #dce5ec;padding-left:18px}.principle-v30 blockquote{margin:0 0 12px;color:#36576f;line-height:1.55}.principle-v30 ol{margin:0;padding-left:18px;color:#71889a;font-size:10px;line-height:1.8}
+
+/* PEOPLE EXPLORER */
+.people-layout-v30{display:grid;grid-template-columns:minmax(230px,27%) minmax(500px,1fr) minmax(285px,25%);gap:14px;align-items:start}
+.org-tree-v30,.people-list-v30,.signal-inspector-v30{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:16px;min-height:590px}
+.org-tree-v30{padding:16px}.org-tree-v30 #orgTree{margin-top:10px;max-height:650px;overflow:auto}
+.org-tree-v30 #orgTree button{display:block;width:100%;text-align:left;margin-bottom:5px;background:transparent!important;border:0!important;border-bottom:1px solid #edf2f5!important;border-radius:7px!important;color:#426079!important;padding:9px 7px!important}
+.org-tree-v30 #orgTree button:hover{background:#f0f6fa!important;color:#245c84!important}
+.people-list-v30{padding:14px}
+.people-toolbar-v30{display:grid;grid-template-columns:1fr 170px;gap:8px;padding-bottom:12px;border-bottom:1px solid #e3ebf1}.people-toolbar-v30 input,.people-toolbar-v30 select{background:#f8fbfd!important;color:#2b4b64!important;border:1px solid #d2dfe8!important}
+.people-list-head-v30{display:grid;grid-template-columns:1.4fr .55fr .65fr .85fr;padding:10px 12px;color:#8497a6;font-size:8px;letter-spacing:.12em}
+.employee-row-v30{display:grid!important;grid-template-columns:1.4fr .55fr .65fr .85fr!important;align-items:center!important;gap:9px;padding:11px 12px!important;border:0!important;border-top:1px solid #edf2f5!important;border-radius:0!important;background:transparent!important;cursor:pointer}
+.employee-row-v30:hover,.employee-row-v30.selected{background:#f0f7fc!important}
+.employee-row-v30 .employee-avatar,.inspector-head-v30 .employee-avatar,.decision-person-v30 .employee-avatar{background:linear-gradient(145deg,#e5eff7,#cddfea)!important;color:#2f5c7c!important;border:1px solid #bfd2e1!important}
+.employee-row-v30>div:last-child{display:flex;align-items:center;gap:8px}.employee-row-v30>div:last-child small{color:#8395a4;font-size:9px}
+.signal-state-v30{display:inline-flex;padding:4px 7px;border-radius:999px;font-size:8px;font-weight:900;letter-spacing:.09em}
+.signal-state-v30.stable{color:#247663;background:var(--stable-soft);border:1px solid #bfe3d8}
+.signal-state-v30.watch{color:#8d6727;background:var(--watch-soft);border:1px solid #ead3a8}
+.signal-state-v30.signal{color:#2d6e9d;background:var(--signal-soft);border:1px solid #b7d4e9}
+.signal-inspector-v30{padding:17px;position:sticky;top:12px}.inspector-empty-v30{height:520px;display:grid;place-items:center;align-content:center;text-align:center;color:#7890a3;padding:30px}.inspector-empty-v30>span{font-size:28px;color:#7ea4bf}.inspector-empty-v30 p{font-size:11px;line-height:1.6}
+.inspector-head-v30{display:grid;grid-template-columns:48px 1fr auto;gap:11px;align-items:center;padding-bottom:14px;border-bottom:1px solid #e3ebf1}.inspector-head-v30 h3{margin:2px 0;color:#1d425e}.inspector-head-v30 p,.inspector-head-v30 small{margin:0;color:#748b9d;font-size:9px}
+.inspector-state-list-v30{padding:10px 0}.inspector-state-list-v30>div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #edf2f5}.inspector-state-list-v30 span{font-size:8px;color:#8195a5;letter-spacing:.1em}.inspector-state-list-v30 b{font-size:9px;color:#395e77}
+.inspector-trend-v30,.inspector-context-v30{padding:12px 0;border-bottom:1px solid #e7edf2}.inspector-trend-v30 small,.inspector-context-v30 small{color:#8095a7;font-size:8px;letter-spacing:.1em}.inspector-context-v30 p{color:#536e82;font-size:11px;line-height:1.6}
+.inspector-actions-v30{display:grid;gap:7px;padding-top:14px}.inspector-actions-v30 button{width:100%}
+
+/* DECISION STUDIO */
+.decision-ap-fixed-v30{padding:8px 12px;border-left:2px solid #6ea6ce}.decision-ap-fixed-v30 small{display:block;color:#7e93a3;font-size:8px;letter-spacing:.12em}.decision-ap-fixed-v30 strong{color:#245b82;font-size:22px}
+.decision-shell-v30{background:#fff;border:1px solid var(--border);border-radius:17px;overflow:hidden}
+.decision-case-head-v30{display:grid;grid-template-columns:1fr auto auto;gap:16px;align-items:center;padding:18px 20px;border-bottom:1px solid #e1e9ef;background:#f8fbfd}
+.decision-person-v30{display:flex;gap:12px;align-items:center}.decision-person-v30 small,.decision-person-v30 p{color:#768c9e;font-size:9px;margin:0}.decision-person-v30 h3{margin:2px 0;color:#1c425e}
+.decision-ap-v30{text-align:right;padding-left:16px;border-left:1px solid #dce6ed}.decision-ap-v30 small{display:block;color:#8194a5;font-size:8px}.decision-ap-v30 strong{font-size:24px;color:#2d6d9a}
+.decision-strategy-v30{display:grid;grid-template-columns:1.2fr .8fr;gap:0;border-bottom:1px solid #e1e9ef}.hypothesis-focus-v30,.evidence-v30{padding:20px}.hypothesis-focus-v30{border-right:1px solid #e1e9ef}.hypothesis-focus-v30 small,.evidence-v30>small{color:#7e93a4;font-size:8px;font-weight:900;letter-spacing:.13em}.hypothesis-focus-v30 h3{color:#1f4663;font-size:22px;margin:7px 0}.hypothesis-focus-v30 p{color:#758b9c;font-size:10px}
+.confidence-v30{display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;margin:13px 0}.confidence-v30 span{font-size:8px;color:#8296a5}.confidence-v30>div{height:7px;background:#e7eef3;border-radius:999px;overflow:hidden}.confidence-v30 i{display:block;height:100%;background:linear-gradient(90deg,#4aa18b,#4283ba)}.confidence-v30 b{font-size:10px;color:#41637b}
+.evidence-v30>div{display:grid;grid-template-columns:22px 1fr;gap:6px;align-items:center;padding:8px 0;border-bottom:1px solid #edf2f5}.evidence-v30>div span{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:9px}.evidence-v30 .done span{background:#e8f6f1;color:#287865}.evidence-v30 .open span{background:#fff5e5;color:#94671f}.evidence-v30 b{font-size:10px;color:#4b687d}
+.decision-baseline-v30{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid #e1e9ef}.decision-baseline-v30>div{padding:14px 17px;border-right:1px solid #e4ebf1}.decision-baseline-v30>div:last-child{border:0}.decision-baseline-v30 small{display:block;color:#8295a5;font-size:8px;letter-spacing:.1em}.decision-baseline-v30 b{display:block;color:#48657a;font-size:10px;line-height:1.55;margin-top:5px}
+.decision-hypotheses-v30,.decision-actions-v30{padding:18px 20px;border-bottom:1px solid #e1e9ef}.section-line-v30{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.section-line-v30>div{display:flex;gap:9px;align-items:center}.section-line-v30 small{color:#5790b6}.section-line-v30 strong{color:#254961}.section-line-v30>span{color:#8496a4;font-size:9px}
+.action-grid-v30{grid-template-columns:repeat(4,minmax(0,1fr))!important}.action-choice-v30{position:relative;min-height:110px!important;text-align:left!important}.action-cost-v30{position:absolute;right:9px;top:9px;color:#3275a6!important;background:#edf6fd;padding:3px 6px;border-radius:999px;font-size:8px!important}
+.decision-history-v30{margin:0}.decision-history-v30 summary{cursor:pointer;padding:13px 20px;color:#668095;font-size:9px;letter-spacing:.1em}.decision-history-v30>div{padding:0 20px 18px}
+.decision-empty-v30{min-height:420px;display:grid;place-items:center;align-content:center}.decision-empty-v30 b{color:#54748b}.decision-empty-v30 span{color:#8194a4;margin-top:6px}
+
+/* HUMAN MOMENT / INTERVIEW */
+.human-moment-view{color:var(--human-ink)}
+.human-head-v30{border-bottom-color:#d9d0c5}
+body.human-moment-active .vn-overlay{background:rgba(31,34,38,.92)!important}
+body.human-moment-active .vn-shell{background:#f6f1e9!important;border-color:#d2c7b9!important;box-shadow:0 28px 80px rgba(0,0,0,.30)!important}
+body.human-moment-active .vn-topbar{background:rgba(246,241,233,.94)!important;border-color:#d8cfc4!important;color:#3c4348!important}
+body.human-moment-active .vn-relation-chip{background:#fffaf2!important;border-color:#d6c8b6!important;color:#665b50!important}
+body.human-moment-active .vn-ui{background:linear-gradient(180deg,rgba(248,244,238,.90),#f5f0e9)!important;border-color:#d7ccbf!important;color:#313940!important}
+body.human-moment-active .vn-dialogue{color:#313940!important;font-size:18px!important;line-height:1.7!important}
+body.human-moment-active .vn-choice{background:#fffaf4!important;border-color:#ddd1c4!important;color:#3e474d!important}
+body.human-moment-active .vn-choice:hover{border-color:#aa8f73!important;background:#fff!important;transform:none!important}
+body.human-moment-active .vn-choice-num{background:#eee4d7!important;color:#705d49!important}
+body.human-moment-active .vn-scene-label{color:#766858!important}
+body.human-moment-active .fma-hud-ring,body.human-moment-active .fma-scan-line,body.human-moment-active .fma-corner{opacity:.18!important}
+
+/* REFLECTION */
+.reflection-layout-v30{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+.decision-path-v30,.play-style-v30{background:#fff;border:1px solid #d6dfe6;border-radius:16px;padding:20px}
+.path-start-v30,.path-end-v30{display:inline-flex;padding:6px 10px;border-radius:999px;background:#edf5fa;color:#45677f;font-size:9px;font-weight:900;letter-spacing:.1em}
+.path-step-v30{position:relative;display:grid;grid-template-columns:34px 1fr;gap:10px;padding:14px 0 14px 12px;margin-left:10px;border-left:1px solid #cddbe4}.path-step-v30>span{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;margin-left:-25px;background:#fff;border:1px solid #b8cbd9;color:#52758d;font-size:8px}.path-step-v30 small{display:block;color:#8698a6;font-size:8px}.path-step-v30 b{display:block;color:#334e60;margin-top:3px}
+.path-end-v30{margin-top:2px}
+.style-meter-v30{margin-top:13px}.style-meter-v30>div:first-child{display:flex;justify-content:space-between;color:#526e82;font-size:9px}.style-meter-v30>div:nth-child(2){height:6px;background:#e9eef2;border-radius:999px;overflow:hidden;margin-top:5px}.style-meter-v30 i{display:block;height:100%;background:#557f9d}
+.play-style-v30 blockquote{margin:24px 0 0;padding:15px;border-left:2px solid #739db9;background:#f6f9fb;color:#435f72;line-height:1.6}
+.reflection-detail-v30{margin-top:14px;background:rgba(255,255,255,.75);border:1px solid #d8e1e7;border-radius:13px}.reflection-detail-v30 summary{cursor:pointer;padding:12px 15px;color:#607b8e}.reflection-insights-v30{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #e1e8ed}.reflection-insights-v30>div{padding:15px;border-right:1px solid #e1e8ed}.reflection-insights-v30>div:last-child{border:0}.reflection-insights-v30 small{color:#8194a2;font-size:8px}.reflection-insights-v30 strong{display:block;font-size:22px;color:#335b75}.reflection-insights-v30 p{color:#758898;font-size:10px}
+
+/* OUTCOME */
+.outcome-primary-v30{display:grid;grid-template-columns:1.25fr .75fr;background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.outcome-primary-v30>div{padding:20px}.outcome-primary-v30>div+div{border-left:1px solid #e0e8ee}
+.score-dashboard-v30{margin-top:8px}.metric-row-v30{display:grid;grid-template-columns:150px 1fr 44px;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid #edf2f5}.metric-row-v30>div:first-child small{display:block;color:#3e5f76}.metric-row-v30>div:first-child b{display:block;color:#8495a2;font-size:8px;margin-top:2px}.metric-row-v30 strong{color:#2c526d;font-size:16px;text-align:right}.metric-row-v30 p{grid-column:2/4;margin:0;color:#7e91a0;font-size:9px}.metric-line-v30{height:6px;background:#e8eef2;border-radius:999px;overflow:hidden}.metric-line-v30 i{display:block;height:100%;background:linear-gradient(90deg,#4ba28c,#4b82ad)}
+.outcome-meaning-score-v30{font-size:54px;font-weight:300;color:#3976a0;line-height:1}.outcome-meaning-v30 h3{color:#244960;margin:7px 0}.outcome-meaning-v30 p{color:#61798c;line-height:1.7}.meaning-pair-v30{display:grid;gap:7px;margin-top:18px}.meaning-pair-v30 span{display:flex;justify-content:space-between;padding-top:7px;border-top:1px solid #e5ebf0;color:#7c8f9d;font-size:9px}.meaning-pair-v30 b{color:#3d6076}
+.outcome-trend-v30{margin-top:14px;background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px}.outcome-section-head-v30{display:flex;justify-content:space-between;align-items:center}.outcome-section-head-v30 small{display:block;color:#8195a5;font-size:8px}.outcome-section-head-v30 strong{color:#2c5069}.outcome-details-v30{margin-top:14px;background:rgba(255,255,255,.7);border:1px solid #d7e1e8;border-radius:13px}.outcome-details-v30 summary{cursor:pointer;padding:12px 15px;color:#607a8d}.outcome-details-grid-v30{display:grid;grid-template-columns:1fr 1fr;gap:20px;border-top:1px solid #e1e8ee;padding:16px}
+
+/* ENDING */
+.ending-view-v30{color:var(--text-primary)}
+.ending-cover-v30{padding:34px 36px;margin-bottom:20px;background:linear-gradient(120deg,#fff,#eef6fc);border:1px solid #c9dce9;border-radius:20px}.ending-cover-v30 small{color:#4f8db7;font-size:9px;letter-spacing:.16em;font-weight:900}.ending-cover-v30 h2{font-size:34px;color:#173c58;margin:8px 0}.ending-cover-v30 p{color:#687f92}.ending-cover-v30 button{margin-top:10px}
+.ending-chapter-v30{display:flex;align-items:center;gap:12px;margin:24px 2px 9px}.ending-chapter-v30>span{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:1px solid #adc7da;color:#477696;font-size:9px}.ending-chapter-v30 small{display:block;color:#7891a4;font-size:8px;letter-spacing:.12em}.ending-chapter-v30 strong{color:#2a4f67}
+.ending-view-v30 .executive-report,.ending-view-v30 .news-paper,.ending-view-v30 .career-card,.ending-view-v30 .epilogue-card{box-shadow:none!important;border-color:#ccdce7!important;background:#fff!important;color:#2d4a60!important}
+.ending-view-v30 .epilogue-grid{grid-template-columns:repeat(3,1fr)}
+.ending-chapter-v30.finale{margin-top:32px}
+
+/* ENTERPRISE MAIL */
+.mail-shell-v30{display:grid;grid-template-columns:390px 1fr;min-height:650px;background:#fff;border:1px solid #cfdce6;border-radius:16px;overflow:hidden}
+.mail-list-pane-v30{border-right:1px solid #dce5ec;background:#f8fbfd}.mail-toolbar-v30{display:flex;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #dde6ed;color:#34566f}.mail-toolbar-v30 small{color:#899aa7;font-size:8px;letter-spacing:.12em}
+.mail-v30 .mail-list{padding:0!important}.mail-v30 .mail-item{border:0!important;border-bottom:1px solid #e3eaf0!important;border-radius:0!important;background:transparent!important;padding:13px 16px!important}.mail-v30 .mail-item:hover{background:#f0f6fa!important}.mail-v30 .mail-item.unread{background:#edf5fb!important;box-shadow:inset 3px 0 0 #4d91bf!important}.mail-v30 .mail-item strong{display:block;color:#294960;font-size:11px;margin-top:4px}.mail-v30 .mail-item small{color:#8999a5;font-size:9px}.mail-kind-v30{display:inline-flex;padding:2px 5px;border-radius:4px;background:#e7f1f8;color:#39739d!important;font-size:7px!important}
+.mail-ambient .mail-kind-v30{background:#f0f2f4;color:#778692!important}.mail-system .mail-kind-v30{background:#edf1f5;color:#586d7d!important}
+.mail-reader-v30{padding:24px 28px}.mail-reader-head-v30{padding-bottom:16px;border-bottom:1px solid #e2e9ee}.mail-reader-head-v30 small{color:#8496a3;font-size:8px;letter-spacing:.12em}.mail-reader-head-v30 h3{color:#24445b;font-size:22px;margin:6px 0}.mail-reader-body-v30{padding-top:18px;color:#4f6779;line-height:1.8;font-size:12px}.mail-message-meta-v30{display:grid;grid-template-columns:60px 1fr;gap:5px 12px;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid #e6ecf1}.mail-message-meta-v30 span{font-size:8px;color:#8495a2;letter-spacing:.1em}.mail-message-meta-v30 b{font-size:10px;color:#415f74}
+
+/* SETTINGS */
+.settings-surface-v30{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden}.settings-v30 .settings-row{padding:18px 20px!important;border-bottom:1px solid #e4ebf0!important}.settings-v30 .settings-row:last-child{border:0!important}
+
+/* RUNNING-GU stays intentionally separate: retro office Easter Egg */
+#clubhouse{--arcade-cyan:#61d9ee;--arcade-green:#69e0a7}
+#clubhouse .running-hero{border:1px solid rgba(90,201,224,.26)!important;background:linear-gradient(135deg,#081624,#0d2030)!important;box-shadow:0 16px 44px rgba(0,0,0,.20)!important}
+#clubhouse .running-hero-copy h2{font-family:monospace;letter-spacing:.06em}
+.running-subtitle-v30{color:#62d7e7;font-family:monospace;font-size:12px;letter-spacing:.12em}
+.running-deadpan-v30{color:#d9f7e9!important;font-size:18px!important;font-weight:800}
+.running-hud-v30{grid-template-columns:1fr 1fr 1.4fr!important}
+.running-result-flavor-v30{margin:8px 0 14px;color:#9fb9ca;font-family:monospace;font-size:11px}
+
+/* Minimal animation policy */
+.card,.employee-row,.choice,.mail-item{transition:background .14s ease,border-color .14s ease!important;transform:none}
+.signal-state-v30.signal{animation:signalPulseV30 2.4s ease-in-out infinite}
+@keyframes signalPulseV30{0%,100%{box-shadow:0 0 0 0 rgba(62,143,203,0)}50%{box-shadow:0 0 0 4px rgba(62,143,203,.06)}}
+
+/* 1366x768 resilience */
+@media(max-width:1450px){
+  .people-layout-v30{grid-template-columns:240px minmax(430px,1fr) 275px}
+  .action-grid-v30{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .briefing-head-v30 h2{font-size:32px}
+  .briefing-compact-stats span{min-width:70px;padding:9px 10px}
+}
+@media(max-height:800px){
+  .os-page-head{margin-bottom:13px;padding-bottom:12px}
+  .people-layout-v30>*,.signal-inspector-v30{min-height:510px}
+  .case-map-v30{min-height:205px}
+  .case-point-v30{padding:9px 11px}
+}
+@media(max-width:1100px){
+  .people-layout-v30{grid-template-columns:220px 1fr}
+  .signal-inspector-v30{grid-column:1/-1;position:static;min-height:0}
+  .inspector-empty-v30{height:auto;min-height:180px}
+  .action-grid-v30{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .briefing-head-actions{display:none}
+}
+@media(max-width:900px){
+  .signal-nav:before{display:none}
+  .signal-nav button{grid-template-columns:18px 26px auto!important}
+  .nav-copy b{display:none}.nav-copy small{font-size:10px}
+  .bottom-status-v30{grid-template-columns:1fr 1fr}.bottom-status-v30>div:nth-child(2){border-right:0}.bottom-status-v30>div:nth-child(-n+2){border-bottom:1px solid #e3ebf1}
+  .briefing-disclosure-grid-v30,.reflection-layout-v30,.outcome-primary-v30,.outcome-details-grid-v30,.mail-shell-v30{grid-template-columns:1fr}
+  .mail-list-pane-v30{border-right:0;border-bottom:1px solid #dce5ec}
+  .decision-strategy-v30{grid-template-columns:1fr}.hypothesis-focus-v30{border-right:0;border-bottom:1px solid #e1e9ef}
+  .decision-baseline-v30{grid-template-columns:1fr}
+  .decision-baseline-v30>div{border-right:0;border-bottom:1px solid #e4ebf1}
+  .people-layout-v30{grid-template-columns:1fr}
+  .org-tree-v30,.people-list-v30,.signal-inspector-v30{min-height:0}
+  .case-map-v30{min-height:360px}.point-observation{left:4%;top:20px}.point-organization{right:4%;top:20px}.point-leader{left:4%;bottom:20px}.point-context{right:4%;bottom:20px}
+  .case-core-v30{width:260px}
+}
+
 </style>
 </head>
 <body class="signal-login-hero">
@@ -4915,41 +5202,57 @@ body.running-gu-active .running-gameover{
       <p>보이지 않는 신호 · HR 의사결정 시뮬레이션</p>
     </div>
 
-    <nav class="signal-nav">
+    <nav class="signal-nav" aria-label="SIGNAL Play Flow">
       <div class="nav-group-label">PLAY FLOW</div>
-      <button data-view="briefing" class="active"><span class="nav-icon">◉</span><span>주간 브리핑</span></button>
-      <button data-view="organization"><span class="nav-icon">⌕</span><span>조직 탐색</span></button>
-      <button data-view="actions"><span class="nav-icon">◆</span><span>판단과 행동</span></button>
-      <button data-view="review"><span class="nav-icon">↺</span><span>회고</span></button>
-      <button data-view="outcome"><span class="nav-icon">▥</span><span>조직 결과</span></button>
-      <button data-view="endgame"><span class="nav-icon">★</span><span>최종 리포트</span></button>
-
-      <div class="nav-group-label utility">UTILITY</div>
-      <button data-view="mail"><span class="nav-icon">✉</span><span>사내 메일</span><span id="mailBadge" class="mail-badge">3</span></button>
-      <button data-view="settings"><span class="nav-icon">⚙</span><span>설정</span></button>
-    </nav>
-
-    <div class="status-card">
-      <div class="status-line"><span>현재 주차</span><strong id="weekLabel">1 / 4주</strong></div>
-      <div class="status-line"><span>행동 포인트</span><strong id="apLabel">8</strong></div>
-      <div class="status-line"><span>관심 메모</span><strong id="hypothesisCount">0</strong></div>
-      <div class="status-line"><span>조직 신뢰</span><strong id="trustLabel">보통</strong></div>
-      <div class="progress"><div id="weekProgress" style="width:25%"></div></div>
-      <button id="nextWeekBtn" class="primary" style="width:100%; margin-top:14px;">이번 주 마무리</button>
-      <button id="energyRechargeBtn" class="energy-recharge-btn" type="button">
-        <span>⚡ 에너지 충전</span><small>RUNNING-GU</small>
+      <button data-view="briefing" data-flow="briefing" class="active">
+        <span class="nav-flow-mark">●</span><span class="nav-icon">◉</span><span class="nav-copy"><b>WEEK BRIEFING</b><small>주간 브리핑</small></span>
+      </button>
+      <button data-view="organization" data-flow="organization">
+        <span class="nav-flow-mark">○</span><span class="nav-icon">⌕</span><span class="nav-copy"><b>PEOPLE EXPLORER</b><small>조직 탐색</small></span>
+      </button>
+      <button data-view="actions" data-flow="actions">
+        <span class="nav-flow-mark">○</span><span class="nav-icon">◆</span><span class="nav-copy"><b>DECISION STUDIO</b><small>판단과 행동</small></span>
+      </button>
+      <button data-view="review" data-flow="review">
+        <span class="nav-flow-mark">○</span><span class="nav-icon">↺</span><span class="nav-copy"><b>REFLECTION</b><small>회고</small></span>
+      </button>
+      <button data-view="outcome" data-flow="outcome">
+        <span class="nav-flow-mark">○</span><span class="nav-icon">▥</span><span class="nav-copy"><b>ORG OUTCOME</b><small>조직 결과</small></span>
+      </button>
+      <button data-view="endgame" data-flow="endgame">
+        <span class="nav-flow-mark">🔒</span><span class="nav-icon">★</span><span class="nav-copy"><b>FINAL REPORT</b><small>최종 리포트</small></span>
       </button>
 
-      <div class="save-actions">
-        <button id="quickSaveBtn" class="small">현재 진행 저장</button>
-        <button id="openLoadBtn" class="small ghost">저장·불러오기</button>
-      </div>
-      <div id="saveMeta" class="save-meta">저장 기록 없음</div>
-      <div class="desktop-clock">
-        <div id="systemDate"></div>
-        <div id="systemTime"></div>
-      </div>
+      <div class="nav-group-label utility">UTILITY</div>
+      <button data-view="mail"><span class="nav-icon">✉</span><span class="nav-copy"><b>MAIL</b><small>사내 메일</small></span><span id="mailBadge" class="mail-badge">3</span></button>
+      <button data-view="settings"><span class="nav-icon">⚙</span><span class="nav-copy"><b>SETTINGS</b><small>설정</small></span></button>
+    </nav>
 
+    <div class="status-card signal-rail-status">
+      <div class="rail-status-head"><span>SESSION STATUS</span><b id="railCareerLabel">HRBP Lv.1</b></div>
+      <div class="rail-status-grid">
+        <div><span>WEEK</span><strong id="weekLabel">1 / 4주</strong></div>
+        <div><span>AP</span><strong id="apLabel">8</strong></div>
+        <div><span>TRUST</span><strong id="trustLabel">보통</strong></div>
+        <div><span>NOTES</span><strong id="hypothesisCount">0</strong></div>
+      </div>
+      <div class="progress"><div id="weekProgress" style="width:25%"></div></div>
+      <button id="nextWeekBtn" class="primary rail-primary">이번 주 마무리</button>
+      <button id="energyRechargeBtn" class="energy-recharge-btn" type="button">
+        <span>⚡ RUNNING-GU</span><small>OFFICE MINI GAME</small>
+      </button>
+      <details class="rail-save-panel">
+        <summary>SESSION DATA</summary>
+        <div class="save-actions">
+          <button id="quickSaveBtn" class="small">현재 진행 저장</button>
+          <button id="openLoadBtn" class="small ghost">저장·불러오기</button>
+        </div>
+        <div id="saveMeta" class="save-meta">저장 기록 없음</div>
+        <div class="desktop-clock">
+          <div id="systemDate"></div>
+          <div id="systemTime"></div>
+        </div>
+      </details>
     </div>
 
     <div class="footer-note">
@@ -4960,121 +5263,128 @@ body.running-gu-active .running-gameover{
   </aside>
 
   <main>
-    <section id="briefing" class="view active briefing-v23">
-      <div class="briefing-hero-v23">
-        <div class="briefing-hero-bg" aria-hidden="true"></div>
-        <div class="briefing-hero-overlay" aria-hidden="true"></div>
-        <div class="briefing-hero-content">
-          <div class="briefing-title-wrap">
-            <div class="briefing-week-chip" id="briefingWeekChip">WEEK 1</div>
-            <div>
-              <div class="briefing-signal-label"><span class="briefing-live-dot"></span>SIGNAL DETECTED</div>
-              <h2>이번 주의 변화를 읽어보세요.</h2>
-              <div class="sub" id="briefingSubtitle">1주차 · 조직 변화 스캔</div>
-            </div>
+    <section id="briefing" class="view active briefing-v30">
+      <div class="os-page-head briefing-head-v30">
+        <div>
+          <div class="os-kicker">WEEKLY DECISION BRIEF</div>
+          <div class="week-signal-line"><span id="briefingWeekChip">WEEK 1</span><i></i><b>SIGNAL DETECTED</b></div>
+          <h2>이번 주, 평소와 다른 변화가 감지되었습니다.</h2>
+          <p id="briefingSubtitle">1주차 · 조직 변화 스캔</p>
+        </div>
+        <div class="briefing-head-actions">
+          <div class="briefing-compact-stats">
+            <span><small>PATTERN</small><strong id="hudSignalCount">0</strong></span>
+            <span><small>CONTEXT</small><strong id="metricOrg">2</strong></span>
+            <span><small>AP</small><strong id="hudActionPoint">8</strong></span>
+            <span><small>TRUST</small><strong id="hudTrust">60</strong></span>
           </div>
           <button class="briefing-reset-btn" id="resetBtn">새 회차 시작</button>
         </div>
-
-        <div class="briefing-hud-v23">
-          <div class="briefing-hud-item"><small>SIGNALS</small><strong id="hudSignalCount">0</strong><span>변화 신호</span></div>
-          <div class="briefing-hud-item"><small>DECISION AP</small><strong id="hudActionPoint">8</strong><span>남은 행동 자원</span></div>
-          <div class="briefing-hud-item"><small>TRUST</small><strong id="hudTrust">60</strong><span>조직 신뢰</span></div>
-        </div>
       </div>
 
-      <div class="briefing-mission-v23">
-        <div class="mission-num-v23">01</div>
-        <div class="mission-body-v23">
-          <div class="eyebrow">THIS WEEK'S MISSION</div>
+      <div class="briefing-hero-statement-v30">
+        <div>
+          <small>THIS WEEK'S MISSION</small>
           <strong id="missionHeadlineV23">변화의 맥락을 확인하세요.</strong>
           <p id="missionCopyV23">변화가 감지된 구성원의 맥락을 확인하고 개인의 문제와 구조적 문제를 구분하세요.</p>
         </div>
-        <div class="mission-progress-v23"><span id="missionProgressTextV23">CONTEXT BUILDING</span><i></i></div>
+        <button class="signal-cta-v30" onclick="showView('organization')">SIGNAL 확인하기 <span>→</span></button>
       </div>
 
-      <div class="briefing-main-grid-v23">
-        <div class="case-board-v23">
-          <div class="case-board-title-v23">
-            <div><span>CASE BOARD</span><strong>서로 다른 신호를 연결해 맥락을 만드세요.</strong></div>
-            <div class="context-status-v23" id="contextStatusV23">
-              <small>CONTEXT STATUS</small>
-              <div class="context-dots-v23"><i class="on"></i><i></i><i></i></div>
-              <b id="contextLabelV23">정보 부족</b>
-            </div>
+      <div class="case-board-v30">
+        <div class="case-board-head-v30">
+          <div>
+            <small>CASE BOARD</small>
+            <strong>흩어진 단서를 연결해 현재 가설을 만듭니다.</strong>
           </div>
-
-          <div class="case-flow-v23">
-            <div class="case-node-v23 observation"><small>OBSERVATION</small><b>최근 근무 패턴 변화</b><span>개인 기준 변화</span></div>
-            <div class="case-link-v23"><i></i><span>맥락 비교</span></div>
-            <div class="case-node-v23 organization"><small>ORGANIZATION</small><b>프로젝트 역할 재편</b><span>조직 구조 변화</span></div>
-            <div class="case-link-v23"><i></i><span>현장 확인</span></div>
-            <div class="case-node-v23 leader"><small>LEADER NOTE</small><b>회의 참여 변화 관찰</b><span>리더 관찰</span></div>
+          <div class="context-status-v30" id="contextStatusV23">
+            <span>CONTEXT</span>
+            <div class="context-dots-v23"><i class="on"></i><i></i><i></i></div>
+            <b id="contextLabelV23">정보 부족</b>
           </div>
+        </div>
 
-          <div class="case-hypothesis-v23">
-            <div><small>CURRENT HYPOTHESIS</small><b>업무 부담 · 역할 변화 · 관계 맥락</b></div>
+        <div class="case-map-v30">
+          <div class="case-point-v30 point-observation">
+            <small>OBSERVATION</small><b>최근 근무 패턴 변화</b><span>개인 기준 변화</span>
+          </div>
+          <div class="case-wire-v30 wire-a"></div>
+          <div class="case-point-v30 point-organization">
+            <small>ORGANIZATION</small><b>프로젝트 역할 재편</b><span>조직 구조 변화</span>
+          </div>
+          <div class="case-wire-v30 wire-b"></div>
+          <div class="case-core-v30">
+            <small>CURRENT HYPOTHESIS</small>
+            <b>업무 부담 · 역할 변화 · 관계 맥락</b>
             <span>하나의 신호만으로 판단하지 않습니다.</span>
           </div>
-
-          <div class="next-move-v23">
-            <div class="next-move-icon-v23">→</div>
-            <div><small>NEXT MOVE</small><strong id="nextMoveV23">새 메일 또는 조직 탐색에서 첫 맥락을 확인하세요.</strong></div>
+          <div class="case-wire-v30 wire-c"></div>
+          <div class="case-point-v30 point-leader">
+            <small>LEADER NOTE</small><b>회의 참여 변화 관찰</b><span>리더 관찰</span>
+          </div>
+          <div class="case-wire-v30 wire-d"></div>
+          <div class="case-point-v30 point-context">
+            <small>CONTEXT</small><b id="informationStateV23">불완전</b><span>추가 확인 필요</span>
           </div>
         </div>
 
-        <div class="briefing-actions-v23">
-          <div class="briefing-actions-title-v23"><span>NEXT ACTION</span><small>어디서부터 확인할까요?</small></div>
-          <button class="briefing-action-v23 org" onclick="showView('organization')">
-            <span class="action-icon-v23">⌕</span><div><b>조직 탐색</b><small>구성원·리더·조직 맥락 확인</small></div><em>→</em>
-          </button>
-          <button class="briefing-action-v23 mail" onclick="showView('mail')">
-            <span class="action-icon-v23">✉</span><div><b>사내 메일</b><small>이번 주 새로운 SIGNAL 확인</small></div><span class="action-badge-v23" id="briefingMailBadgeV23">NEW</span><em>→</em>
-          </button>
-          <button class="briefing-action-v23 run" onclick="showView('clubhouse')">
-            <span class="action-icon-v23">⚡</span><div><b>RUNNING-GU</b><small>에너지 충전 · 60초 캠퍼스 런</small></div><em>→</em>
-          </button>
+        <div class="case-board-foot-v30">
+          <div class="next-move-v30">
+            <small>NEXT MOVE</small>
+            <strong id="nextMoveV23">새 메일 또는 조직 탐색에서 첫 맥락을 확인하세요.</strong>
+          </div>
+          <div class="briefing-shortcuts-v30">
+            <button onclick="showView('organization')"><span>⌕</span>People Explorer</button>
+            <button onclick="showView('mail')"><span>✉</span>Mail <em id="briefingMailBadgeV23">NEW</em></button>
+            <button onclick="showView('clubhouse')"><span>⚡</span>Running-gu</button>
+          </div>
         </div>
       </div>
 
-      <div class="org-pulse-v23">
-        <div class="org-pulse-title-v23"><span>ORGANIZATION PULSE</span><small>현재 조직 상태 요약</small></div>
-        <div class="org-pulse-metric-v23"><small>PATTERN</small><strong id="metricChanges">6</strong><span>개인 기준 변화</span></div>
-        <div class="org-pulse-metric-v23"><small>CONTEXT</small><strong id="metricOrg">2</strong><span>조직 확인 필요</span></div>
-        <div class="org-pulse-metric-v23 state"><small>INFORMATION</small><strong id="informationStateV23">불완전</strong><span>추가 맥락 필요</span></div>
+      <div class="bottom-status-v30">
+        <div><small>PATTERN</small><strong id="metricChanges">6</strong><span>개인 기준 변화</span></div>
+        <div><small>CONTEXT</small><strong id="metricOrgBottom">2</strong><span>조직 확인 필요</span></div>
+        <div><small>INFORMATION</small><strong id="informationStateBottom">INCOMPLETE</strong><span>현재 정보 수준</span></div>
+        <div class="bottom-status-progress">
+          <small>CONTEXT BUILDING</small>
+          <div class="mission-progress-v23"><span id="missionProgressTextV23">CONTEXT BUILDING</span><i></i></div>
+        </div>
       </div>
 
-      <div class="briefing-bottom-grid-v23">
-        <div class="briefing-feed-v23">
-          <div class="briefing-section-head-v23"><div><span>LIVE SIGNAL FEED</span><strong>이번 주 주요 상황</strong></div><small>주차별 변화</small></div>
-          <div id="briefingList"></div>
+      <details class="briefing-disclosure-v30">
+        <summary><span>MORE CONTEXT</span><b>이번 주 주요 상황과 판단 원칙 보기</b></summary>
+        <div class="briefing-disclosure-grid-v30">
+          <div>
+            <div class="disclosure-head-v30">LIVE SIGNAL FEED</div>
+            <div id="briefingList"></div>
+          </div>
+          <div class="principle-v30">
+            <div class="disclosure-head-v30">DECISION PRINCIPLE</div>
+            <blockquote>“늦고 빠름이 아니라,<br><b>그 사람답지 않은 변화</b>가 있는가?”</blockquote>
+            <ol><li>평소 패턴과 비교</li><li>개인·업무·관계 맥락 함께 확인</li><li>필요한 만큼만 개입</li></ol>
+          </div>
         </div>
-        <div class="principle-card-v23">
-          <div class="briefing-section-head-v23"><div><span>DECISION PRINCIPLE</span><strong>판단의 기준</strong></div></div>
-          <div class="principle-quote-v23">“늦고 빠름이 아니라,<br><b>그 사람답지 않은 변화</b>가 있는가?”</div>
-          <div class="principle-mini-v23"><span>01</span><p>평소 패턴과 비교</p></div>
-          <div class="principle-mini-v23"><span>02</span><p>개인·업무·관계 맥락 함께 확인</p></div>
-          <div class="principle-mini-v23"><span>03</span><p>필요한 만큼만 개입</p></div>
-        </div>
-      </div>
+      </details>
     </section>
 
-    <section id="organization" class="view bright-os-view">
-      <div class="topbar">
+    <section id="organization" class="view signal-os-view people-explorer-v30">
+      <div class="os-page-head compact">
         <div>
-          <div class="os-eyebrow">PEOPLE EXPLORER</div><h2>조직 탐색</h2>
-          <div class="sub">조직과 개인의 변화를 함께 비교합니다.</div>
+          <div class="os-kicker">PEOPLE EXPLORER</div>
+          <h2>조직 탐색</h2>
+          <p>조직과 개인의 변화를 비교하고, 평소와 다른 변화의 맥락을 확인합니다.</p>
         </div>
+        <div class="os-page-meta"><span>STABLE</span><span>WATCH</span><span>SIGNAL</span></div>
       </div>
 
-      <div class="org-layout">
-        <div class="card org-tree">
-          <h3>조직도</h3>
+      <div class="people-layout-v30">
+        <aside class="org-tree-v30">
+          <div class="panel-label-v30">ORGANIZATION TREE</div>
           <div id="orgTree"></div>
-        </div>
+        </aside>
 
-        <div class="card">
-          <div class="toolbar">
+        <section class="people-list-v30">
+          <div class="people-toolbar-v30">
             <input id="searchInput" placeholder="이름, 직무, 조직 검색" />
             <select id="signalFilter">
               <option value="all">전체 직원</option>
@@ -5082,17 +5392,28 @@ body.running-gu-active .running-gameover{
               <option value="leader">리더만 보기</option>
             </select>
           </div>
+          <div class="people-list-head-v30"><span>PEOPLE</span><span>ROLE</span><span>ORG</span><span>STATUS</span></div>
           <div id="employeeList" class="employee-list"></div>
-        </div>
+        </section>
+
+        <aside id="signalInspector" class="signal-inspector-v30">
+          <div class="inspector-empty-v30">
+            <span>⌕</span>
+            <strong>SIGNAL INSPECTOR</strong>
+            <p>구성원을 선택하면 개인의 기준 패턴과 최근 변화를 한 화면에서 확인할 수 있습니다.</p>
+          </div>
+        </aside>
       </div>
     </section>
 
-    <section id="actions" class="view bright-os-view">
-      <div class="topbar">
+    <section id="actions" class="view signal-os-view decision-studio-v30">
+      <div class="os-page-head compact">
         <div>
-          <div class="os-eyebrow">DECISION STUDIO</div><h2>판단과 행동</h2>
-          <div class="sub">대상을 선택하고 가설을 세운 뒤 제한된 행동 포인트를 사용합니다.</div>
+          <div class="os-kicker">DECISION STUDIO</div>
+          <h2>판단과 행동</h2>
+          <p>가설을 세우고, 확인할 정보를 선택하고, 제한된 Action Point를 사용합니다.</p>
         </div>
+        <div class="decision-ap-fixed-v30"><small>ACTION POINT</small><strong id="decisionApHeader">8 / 8</strong></div>
       </div>
       <div id="actionWorkspace" class="empty">조직 탐색에서 직원을 선택하세요.</div>
     </section>
@@ -5112,9 +5433,11 @@ body.running-gu-active .running-gameover{
 
       <div class="running-hero card">
         <div class="running-hero-copy">
-          <div class="eyebrow">ENERGY RECHARGE · RUNNING-GU</div>
-          <h2>오늘도 조금 더 멀리.</h2>
-          <p>달리면서 장애물은 피하고, 커피·물·홍어로 ENERGY를 회복하세요. 홍어 직후 커피를 먹으면 숨겨진 콤보가 발동합니다.</p>
+          <div class="eyebrow">OFFICE MINI GAME · EASTER EGG</div>
+          <h2>RUNNING-GU</h2>
+          <div class="running-subtitle-v30">HRBP SURVIVAL RUN</div>
+          <p class="running-deadpan-v30">오늘도 출근은 했다.</p>
+          <p>메일 폭탄과 긴급 회의를 피하고, 커피·물·홍어로 ENERGY를 회복하세요.</p>
           <div class="running-lobby-stats">
             <div><small>BEST RECORD</small><strong id="runningLobbyBest">0m</strong></div>
             <div><small>TOTAL DISTANCE</small><strong id="runningLobbyMiles">0m</strong></div>
@@ -5127,7 +5450,7 @@ body.running-gu-active .running-gameover{
             <div><b><i class="hongeo-mini"></i></b><span>HONGEO BOOST</span></div>
           </div>
           <div class="running-ap-note" id="runningApNote"></div>
-          <button id="runningStartBtn" class="primary running-start-btn">RUN START <span>→</span></button>
+          <button id="runningStartBtn" class="primary running-start-btn">START SHIFT <span>→</span></button>
         </div>
         <div class="running-hero-art">
           <img src="assets/images/image_006_7f2d2d627ae0f3a8.jpg" alt="런닝구 캐릭터">
@@ -5141,12 +5464,12 @@ body.running-gu-active .running-gameover{
           <div><strong>RUNNING-GU</strong><small>CAMPUS RUN · 60 SEC DEMO</small></div>
           <span class="running-live-indicator"><i></i> LIVE</span>
         </div>
-        <div class="running-hud">
+        <div class="running-hud running-hud-v30">
           <div><small>DISTANCE</small><strong id="runningDistance">0m</strong></div>
-          <div class="running-energy-wrap"><small>HP / ENERGY</small><div class="running-energy-bar"><i id="runningEnergyBar"></i></div><strong id="runningEnergyText">100</strong></div>
-          <div><small>BOOST</small><strong id="runningBoost">READY</strong></div>
+          <div><small>SCORE</small><strong id="runningScore">0</strong></div>
+          <div class="running-energy-wrap"><small>ENERGY</small><div class="running-energy-bar"><i id="runningEnergyBar"></i></div><strong id="runningEnergyText">100</strong></div>
         </div>
-        <div id="runningScore" hidden>0</div>
+        <div id="runningBoost" hidden>READY</div>
 
         <div id="runningStage" class="running-stage" tabindex="0" aria-label="RUNNING-GU 미니게임">
           <div class="running-loop-bg" aria-hidden="true">
@@ -5164,15 +5487,15 @@ body.running-gu-active .running-gameover{
           </div>
           <div id="runningGameOver" class="running-gameover">
             <img class="running-result-art" src="assets/images/image_008_8a287520ca97eba6.jpg" alt="">
-            <div class="eyebrow">RUN COMPLETE</div>
-            <h2 id="runningResultTitle">GOOD RUN</h2>
+            <div class="eyebrow">TODAY'S SHIFT COMPLETE</div>
+            <h2 id="runningResultTitle">TODAY'S SHIFT COMPLETE</h2>
             <div class="running-result-grid">
               <div><small>DISTANCE</small><strong id="runningResultDistance">0m</strong></div>
               <div><small>HONGEO</small><strong id="runningResultHongeo">0</strong></div>
               <div><small>COFFEE</small><strong id="runningResultCoffee">0</strong></div>
               <div><small>AVOIDED</small><strong id="runningResultAvoided">0</strong></div>
             </div>
-            <div id="runningReward" class="running-reward"></div>
+            <div id="runningReward" class="running-reward"></div><div id="runningResultFlavor" class="running-result-flavor-v30">메일은 피했지만 회의는 피하지 못했습니다.</div>
             <div class="running-result-actions">
               <button id="runningRetryBtn" class="primary">다시 달리기</button>
               <button id="runningReturnBtn">SIGNAL로 복귀</button>
@@ -5199,117 +5522,127 @@ body.running-gu-active .running-gameover{
       </div>
     </section>
 
-    <section id="review" class="view bright-os-view">
-      <div class="topbar">
+    <section id="review" class="view human-moment-view reflection-v30">
+      <div class="os-page-head compact human-head-v30">
         <div>
-          <div class="os-eyebrow">REFLECTION LOG</div><h2>회고</h2>
-          <div class="sub">정답과 오답 대신, 판단 과정과 조직에 남긴 영향을 살펴봅니다.</div>
+          <div class="os-kicker">REFLECTION</div>
+          <h2>당신은 어떻게 판단했나요?</h2>
+          <p>정답이 아니라, 어떤 순서로 맥락을 확인하고 개입했는지를 돌아봅니다.</p>
         </div>
       </div>
       <div id="reviewContent"></div>
     </section>
 
-
-    <section id="outcome" class="view bright-os-view">
-      <div class="topbar">
+    <section id="outcome" class="view signal-os-view outcome-v30">
+      <div class="os-page-head compact">
         <div>
-          <div class="os-eyebrow">ORGANIZATION OUTCOME</div><h2>조직 결과</h2>
-          <div class="sub">플레이어의 판단과 행동이 조직의 변화에 어떤 영향을 주었는지 확인합니다.</div>
+          <div class="os-kicker">ORGANIZATION OUTCOME</div>
+          <h2>조직 결과</h2>
+          <p>숫자 자체보다, 4주 동안 어떤 방향으로 조직이 움직였는지를 확인합니다.</p>
         </div>
         <div id="resultGrade" class="result-grade">진행 중</div>
       </div>
 
-      <div id="scoreDashboard" class="score-dashboard"></div>
+      <div class="outcome-primary-v30">
+        <div>
+          <div class="panel-label-v30">ORGANIZATION METRICS</div>
+          <div id="scoreDashboard" class="score-dashboard-v30"></div>
+        </div>
+        <div class="outcome-meaning-v30">
+          <div class="panel-label-v30">WHAT IT MEANS</div>
+          <div id="outcomeNarrative"></div>
+        </div>
+      </div>
 
-      <div class="grid grid-2" style="margin-top:16px;">
-        <div class="card">
-          <h3>주차별 조직 지표 추세</h3>
-          <div id="trendChart" class="trend-chart"></div>
+      <div class="outcome-trend-v30">
+        <div class="outcome-section-head-v30">
+          <div><small>4-WEEK TREND</small><strong>주차별 조직 변화</strong></div>
           <div class="trend-legend">
-            <span><i class="legend-dot" style="background:#7ce3c0"></i>조직 신뢰</span>
-            <span><i class="legend-dot" style="background:#73a7ff"></i>회복 여력</span>
-            <span><i class="legend-dot" style="background:#efc77b"></i>업무 균형</span>
-            <span><i class="legend-dot" style="background:#b795ff"></i>리더 지원</span>
+            <span><i class="legend-dot" style="background:#42b89d"></i>조직 신뢰</span>
+            <span><i class="legend-dot" style="background:#397dc6"></i>회복 여력</span>
+            <span><i class="legend-dot" style="background:#c99542"></i>업무 균형</span>
+            <span><i class="legend-dot" style="background:#8f79c7"></i>리더 지원</span>
           </div>
         </div>
-
-        <div class="card">
-          <h3>조직별 현재 상태</h3>
-          <div id="orgHealthList"></div>
-        </div>
+        <div id="trendChart" class="trend-chart"></div>
       </div>
 
-      <div class="grid grid-2" style="margin-top:16px;">
-        <div class="card">
-          <h3>플레이어 행동 영향</h3>
-          <div id="impactList" class="impact-list"></div>
+      <details class="outcome-details-v30">
+        <summary>조직별 상태와 행동 영향 상세보기</summary>
+        <div class="outcome-details-grid-v30">
+          <div><div class="panel-label-v30">ORGANIZATION VIEW</div><div id="orgHealthList"></div></div>
+          <div><div class="panel-label-v30">DECISION IMPACT</div><div id="impactList" class="impact-list"></div></div>
         </div>
-        <div class="card">
-          <h3>최종 해석</h3>
-          <div id="outcomeNarrative" class="muted" style="line-height:1.75;"></div>
-        </div>
-      </div>
+      </details>
     </section>
 
-
-    <section id="endgame" class="view bright-os-view">
-      <div class="topbar">
-        <div><div class="os-eyebrow">FINAL REPORT</div><h2>최종 리포트</h2><div class="sub">CEO 보고, 조직 뉴스, HRBP 커리어, 장기 에필로그를 확인합니다.</div></div>
-        <button id="playEndingBtn" class="primary">엔딩 연출 보기</button>
+    <section id="endgame" class="view ending-view-v30">
+      <div class="ending-cover-v30">
+        <small>SIGNAL CAMPAIGN COMPLETE</small>
+        <h2>4주간의 판단이 조직에 남긴 것</h2>
+        <p>한 번의 정답이 아니라, 반복된 관심과 선택의 결과를 확인합니다.</p>
+        <button id="playEndingBtn" class="primary">ENDING SEQUENCE ▶</button>
       </div>
+
+      <div class="ending-chapter-v30"><span>01</span><div><small>4 WEEKS LATER</small><strong>CEO REPORT</strong></div></div>
       <div id="executiveReport" class="executive-report"></div>
-      <div class="grid grid-2" style="margin-top:16px;">
-        <div id="signalDaily" class="news-paper"></div>
-        <div id="careerPanel" class="career-card"></div>
-      </div>
-      <div class="card" style="margin-top:16px;">
-        <div class="eyebrow">Five Years Later</div>
-        <h3 style="margin-top:6px;">몇 년 후, 당신의 선택은 어떻게 남았는가</h3>
-        <div id="epilogueGrid" class="epilogue-grid"></div>
-      </div>
+
+      <div class="ending-chapter-v30"><span>02</span><div><small>ORGANIZATION NEWS</small><strong>조직 안에서 일어난 변화</strong></div></div>
+      <div id="signalDaily" class="news-paper"></div>
+
+      <div class="ending-chapter-v30"><span>03</span><div><small>HRBP PROFILE</small><strong>플레이어의 성장</strong></div></div>
+      <div id="careerPanel" class="career-card"></div>
+
+      <div class="ending-chapter-v30 finale"><span>04</span><div><small>FIVE YEARS LATER</small><strong>작은 선택이 남긴 장기적 결과</strong></div></div>
+      <div id="epilogueGrid" class="epilogue-grid"></div>
     </section>
 
-    <section id="mail" class="view bright-os-view">
-      <div class="topbar">
+    <section id="mail" class="view human-moment-view mail-v30">
+      <div class="os-page-head compact">
         <div>
-          <div class="os-eyebrow">SIGNAL INBOX</div><h2>사내 메일</h2>
-          <div class="sub">조직의 변화는 데이터보다 먼저 메시지로 도착하기도 합니다.</div>
+          <div class="os-kicker">ENTERPRISE MAIL</div>
+          <h2>사내 메일</h2>
+          <p>모든 메일이 SIGNAL은 아닙니다. 필요한 정보를 골라 맥락을 연결하세요.</p>
         </div>
       </div>
-      <div class="grid grid-2">
-        <div class="card">
-          <h3>받은 메일</h3>
+      <div class="mail-shell-v30">
+        <aside class="mail-list-pane-v30">
+          <div class="mail-toolbar-v30"><span>받은 편지함</span><small>INBOX</small></div>
           <div id="mailList" class="mail-list"></div>
-        </div>
-        <div class="card">
-          <h3 id="mailSubject">메일을 선택하세요</h3>
-          <div id="mailBody" class="muted" style="line-height:1.75;">왼쪽 목록에서 메일을 선택하면 내용을 확인할 수 있습니다.</div>
-        </div>
+        </aside>
+        <article class="mail-reader-v30">
+          <div class="mail-reader-head-v30">
+            <small>MESSAGE</small>
+            <h3 id="mailSubject">메일을 선택하세요</h3>
+          </div>
+          <div id="mailBody" class="mail-reader-body-v30">왼쪽 목록에서 메일을 선택하면 내용을 확인할 수 있습니다.</div>
+        </article>
       </div>
     </section>
 
-    <section id="settings" class="view bright-os-view">
-      <div class="topbar">
+    <section id="settings" class="view signal-os-view settings-v30">
+      <div class="os-page-head compact">
         <div>
-          <div class="os-eyebrow">SYSTEM SETTINGS</div><h2>설정</h2>
-          <div class="sub">사운드와 화면 연출을 조정합니다.</div>
+          <div class="os-kicker">SYSTEM SETTINGS</div>
+          <h2>설정</h2>
+          <p>SIGNAL OS의 사운드와 화면 연출을 조정합니다.</p>
         </div>
       </div>
-      <div class="card">
+      <div class="settings-surface-v30">
         <div class="settings-row">
-          <div><strong>BGM 볼륨</strong><div class="muted">브라우저 생성 앰비언트 음악의 음량입니다.</div></div>
+          <div><strong>BGM 볼륨</strong><div class="muted">상황에 따라 전환되는 배경 음악의 음량</div></div>
           <input id="settingsBgmVolume" type="range" min="0" max="1" step="0.05" value="0.55">
         </div>
         <div class="settings-row">
-          <div><strong>화면 애니메이션</strong><div class="muted">카드 전환과 캐릭터 움직임을 설정합니다.</div></div>
+          <div><strong>화면 애니메이션</strong><div class="muted">전환과 상태 피드백의 움직임</div></div>
           <select id="motionSetting"><option value="on">사용</option><option value="off">최소화</option></select>
         </div>
         <div class="settings-row">
-          <div><strong>튜토리얼</strong><div class="muted">초기 플레이 안내를 다시 표시합니다.</div></div>
+          <div><strong>튜토리얼</strong><div class="muted">초기 플레이 안내를 다시 표시</div></div>
           <button id="restartTutorialBtn" class="small">다시 시작</button>
         </div>
         <div class="settings-row">
-          <div><strong>화면 모드</strong><div class="muted">브라우저 전체화면으로 전환합니다.</div></div>
+          <div><strong>화면 모드</strong><div class="muted">브라우저 전체화면 전환</div></div>
           <button id="fullscreenBtn" class="small">전체화면</button>
         </div>
       </div>
@@ -5739,6 +6072,7 @@ function serializableState() {
       runningMiles: state.runningMiles,
       runningRewardWeeks: state.runningRewardWeeks,
       runningIntroPlayed: state.runningIntroPlayed,
+      campaignComplete: state.campaignComplete,
       hrXp: state.hrXp,
       scenarioSeed: state.scenarioSeed,
       mailReadIds: state.mailReadIds
@@ -5764,6 +6098,7 @@ function applyLoadedData(data) {
   state.runningMiles = Number(data.state.runningMiles) || 0;
   state.runningRewardWeeks = data.state.runningRewardWeeks || {};
   state.runningIntroPlayed = !!data.state.runningIntroPlayed;
+  state.campaignComplete = !!data.state.campaignComplete;
   state.hrXp = Number(data.state.hrXp) || 0;
   state.scenarioSeed = Number(data.state.scenarioSeed) || Math.floor(Date.now()%1000000000);
   state.mailReadIds = Array.isArray(data.state.mailReadIds) ? data.state.mailReadIds : [];
@@ -6154,6 +6489,7 @@ const state = {
   runningMiles:0,
   runningRewardWeeks:{},
   runningIntroPlayed:false,
+  campaignComplete:false,
   hrXp:0,
   scenarioSeed:Math.floor(Date.now()%1000000000),
   mailReadIds:[]
@@ -6168,9 +6504,12 @@ function renderStatus() {
   $("hypothesisCount").textContent = count;
   $("trustLabel").textContent = state.trust >= 66 ? "높음" : state.trust >= 52 ? "보통" : "주의 필요";
   $("weekProgress").style.width = `${state.week*25}%`;
+  const career=getCareerProgress();
+  if($("railCareerLabel")) $("railCareerLabel").textContent=`${career.rank} · Lv.${career.level}`;
+  if($("decisionApHeader")) $("decisionApHeader").textContent=`${state.ap} / ${RUNNING_MAX_AP||8}`;
   refreshGameHud();
-  updateBriefingV23();
   $("nextWeekBtn").textContent = state.week === 4 ? "회차 회고 보기" : "이번 주 마무리";
+  updatePlayFlowNav();
 }
 
 
@@ -6199,6 +6538,7 @@ function updateBriefingV23(){
   const labels={1:"정보 부족",2:"맥락 형성 중",3:"의사결정 가능"};
   $("contextLabelV23").textContent=labels[level];
   $("informationStateV23").textContent=level===3?"충분":"불완전";
+  if($("informationStateBottom")) $("informationStateBottom").textContent=level===3?"SUFFICIENT":"INCOMPLETE";
   $("missionProgressTextV23").textContent=level===1?"CONTEXT BUILDING":level===2?"CONTEXT CONNECTING":"READY TO DECIDE";
   const bar=document.querySelector('.mission-progress-v23 i');
   if(bar) bar.style.background=`linear-gradient(90deg,#45c7a5 ${level*33}%,rgba(79,152,190,.15) ${level*33}%)`;
@@ -6234,7 +6574,8 @@ function renderBriefing() {
       </div>
     </div>`;
   animateNumber("metricChanges", employees.filter(e=>e.signals.length).length);
-  animateNumber("metricOrg", state.week < 3 ? 3 : 4);
+  animateNumber("metricOrg", state.week < 3 ? 2 : 3);
+  animateNumber("metricOrgBottom", state.week < 3 ? 2 : 3);
   updateBriefingV23();
 }
 
@@ -6254,6 +6595,68 @@ function filterOrg(value) {
   renderEmployees();
 }
 
+let inspectedEmployeeId = null;
+
+function getSignalState(e){
+  if(!e.signals || e.signals.length===0) return {label:"STABLE",cls:"stable",copy:"개인 기준 범위"};
+  if(e.signals.length===1) return {label:"WATCH",cls:"watch",copy:"변화 관찰"};
+  return {label:"SIGNAL",cls:"signal",copy:"맥락 확인 필요"};
+}
+
+function inspectEmployee(id){
+  inspectedEmployeeId=id;
+  renderEmployees();
+  renderSignalInspector();
+}
+
+function renderSignalInspector(){
+  const host=$("signalInspector");
+  if(!host) return;
+  const e=employees.find(x=>x.id===inspectedEmployeeId);
+  if(!e){
+    host.innerHTML=`<div class="inspector-empty-v30"><span>⌕</span><strong>SIGNAL INSPECTOR</strong><p>구성원을 선택하면 개인의 기준 패턴과 최근 변화를 한 화면에서 확인할 수 있습니다.</p></div>`;
+    return;
+  }
+  const m=employeeMetrics(e);
+  const s=getSignalState(e);
+  const selected=state.selectedHypotheses[e.id]||[];
+  const workload=Math.abs(m.recentStay-m.baseStay)<35?"STABLE":Math.abs(m.recentStay-m.baseStay)<75?"WATCH":"SIGNAL";
+  const meeting=Math.abs(m.meetingRecent-m.meetingBase)<10?"STABLE":Math.abs(m.meetingRecent-m.meetingBase)<25?"WATCH":"SIGNAL";
+  const feedback=e.signals.some(x=>x.includes("교육")||x.includes("피드백")||x.includes("체크인"))?"WATCH":"STABLE";
+  host.innerHTML=`
+    <div class="inspector-head-v30">
+      <div class="employee-avatar">${e.name.slice(-2)}</div>
+      <div><small>${e.role} · ${e.tl==="-"?e.pl:e.tl}</small><h3>${e.name}</h3><p>${e.job} · ${e.type}</p></div>
+      <span class="signal-state-v30 ${s.cls}">${s.label}</span>
+    </div>
+    <div class="inspector-state-list-v30">
+      <div><span>WORKLOAD</span><b>${workload}</b></div>
+      <div><span>MEETING</span><b>${meeting}</b></div>
+      <div><span>FEEDBACK</span><b>${feedback}</b></div>
+      <div><span>CHANGE</span><b>${s.label}</b></div>
+    </div>
+    <div class="inspector-trend-v30">
+      <small>RECENT 6-WEEK CHANGE</small>
+      <div class="mini-bars">${m.bars.map((v,i)=>`<span style="height:${v}%;" title="${i+1}주차 변화"></span>`).join("")}</div>
+    </div>
+    <div class="inspector-context-v30">
+      <small>CONTEXT NOTE</small>
+      <p>${e.context}</p>
+    </div>
+    <div class="inspector-actions-v30">
+      <button class="primary" onclick="selectEmployee(${e.id})">판단과 행동으로 이동 →</button>
+      <button onclick="toggleInspectorMemo(${e.id})">${selected.length?"관심 메모 "+selected.length+"개":"관심 메모 추가"}</button>
+    </div>`;
+}
+
+function toggleInspectorMemo(id){
+  const e=employees.find(x=>x.id===id);
+  if(!e) return;
+  state.selectedEmployee=e;
+  showView("actions");
+  renderActionWorkspace();
+}
+
 function renderEmployees() {
   const search = $("searchInput").value.trim().toLowerCase();
   const filter = $("signalFilter").value;
@@ -6265,119 +6668,110 @@ function renderEmployees() {
     return orgOk && searchOk && signalOk;
   });
 
-  $("employeeList").innerHTML = list.map(e => `
-    <div class="employee-row">
-      <div class="employee-identity"><div class="employee-avatar" style="${getEmployeeGender(e)==='female' ? 'background:linear-gradient(135deg,#694663,#2d314f);border-color:#855a7a;' : 'background:linear-gradient(135deg,#29436e,#1d2d4d);border-color:#3b5680;'}">${e.name.slice(-2)}</div><div><div class="employee-name">${e.name}</div><div class="muted">${e.type}</div></div></div>
+  $("employeeList").innerHTML = list.map(e => {
+    const s=getSignalState(e);
+    return `
+    <div class="employee-row employee-row-v30 ${inspectedEmployeeId===e.id?"selected":""}" onclick="inspectEmployee(${e.id})">
+      <div class="employee-identity"><div class="employee-avatar">${e.name.slice(-2)}</div><div><div class="employee-name">${e.name}</div><div class="muted">${e.type}</div></div></div>
       <div>${e.role}</div>
       <div>${e.tl === "-" ? e.pl : e.tl}</div>
-      <div>${e.signals.length ? `<span class="signal-text">${e.signals[0]}</span>` : `<span class="muted">큰 변화 없음</span>`}</div>
-      <button class="small primary" onclick="selectEmployee(${e.id})">분석하기</button>
-    </div>`).join("") || `<div class="empty">조건에 맞는 직원이 없습니다.</div>`;
+      <div><span class="signal-state-v30 ${s.cls}">${s.label}</span><small>${s.copy}</small></div>
+    </div>`;
+  }).join("") || `<div class="empty">조건에 맞는 직원이 없습니다.</div>`;
+
+  if(inspectedEmployeeId && !list.some(e=>e.id===inspectedEmployeeId)) inspectedEmployeeId=null;
+  renderSignalInspector();
 }
 
 function selectEmployee(id) {
   state.selectedEmployee = employees.find(e=>e.id===id);
+  inspectedEmployeeId=id;
+  renderStatus();
   showView("actions");
   renderActionWorkspace();
 }
 
 function renderActionWorkspace() {
   const e = state.selectedEmployee;
+  if($("decisionApHeader")) $("decisionApHeader").textContent=`${state.ap} / 8`;
   if (!e) {
-    $("actionWorkspace").innerHTML = `<div class="empty">조직 탐색에서 직원을 선택하세요.</div>`;
+    $("actionWorkspace").innerHTML = `<div class="empty decision-empty-v30"><b>NO ACTIVE CASE</b><span>People Explorer에서 구성원을 선택하세요.</span></div>`;
     return;
   }
   const selected = state.selectedHypotheses[e.id] || [];
+  const m=employeeMetrics(e);
+  const logs=state.logs.filter(l=>l.employeeId===e.id);
+  const checkedLeader=logs.some(l=>l.action.includes("TL")||l.action.includes("PL")||l.action.includes("리더"));
+  const checkedData=logs.some(l=>l.action==="추가 데이터 확인");
+  const confidence=Math.min(90,25 + selected.length*12 + (checkedLeader?18:0) + (checkedData?15:0) + Math.min(20,logs.length*4));
+  const s=getSignalState(e);
+  const evidence=[
+    ...(e.signals||[]).slice(0,2).map(x=>({label:x,done:true})),
+    {label:`최근 변화: ${e.recent}`,done:true},
+    {label:"리더 의견",done:checkedLeader},
+    {label:"추가 데이터 비교",done:checkedData}
+  ].slice(0,5);
+
   $("actionWorkspace").innerHTML = `
-    <div class="card">
-      <div class="detail-header">
-        <div style="display:flex; align-items:center; gap:14px;">
-          <div class="employee-avatar" style="width:54px;height:54px;border-radius:16px;font-size:16px;${getEmployeeGender(e)==='female' ? 'background:linear-gradient(135deg,#694663,#2d314f);border-color:#855a7a;' : 'background:linear-gradient(135deg,#29436e,#1d2d4d);border-color:#3b5680;'}">${e.name.slice(-2)}</div>
-          <div>
-            <div class="eyebrow">${e.role} · ${e.pl} ${e.tl !== "-" ? "· "+e.tl : ""}</div>
-            <h2 style="margin:6px 0 4px;">${e.name}</h2>
-            <div class="muted">${e.job} · ${e.type}</div>
-          </div>
+    <div class="decision-shell-v30">
+      <header class="decision-case-head-v30">
+        <div class="decision-person-v30">
+          <div class="employee-avatar">${e.name.slice(-2)}</div>
+          <div><small>${e.role} · ${e.tl==="-"?e.pl:e.tl}</small><h3>${e.name}</h3><p>${e.job} · ${e.type}</p></div>
         </div>
-        <div class="chip context">조직 신뢰 ${e.trust}</div>
-      </div>
-    </div>
+        <span class="signal-state-v30 ${s.cls}">${s.label}</span>
+        <div class="decision-ap-v30"><small>ACTION POINT</small><strong>${state.ap} / 8</strong></div>
+      </header>
 
-    ${(() => {
-      const m = employeeMetrics(e);
-      return `
-      <div class="card" style="margin-top:16px;">
-        <div class="eyebrow">Employee Analysis</div>
-        <h3 style="margin-top:6px;">직원 분석 대시보드</h3>
-        <div class="analysis-grid">
-          <div class="analysis-metric">
-            <span class="muted">출근시간</span>
-            <strong>${minsToTime(m.recentStart)}</strong>
-            <span class="metric-delta">평소 대비 ${formatDelta(m.recentStart - m.baseStart, "분")}</span>
-          </div>
-          <div class="analysis-metric">
-            <span class="muted">사내 체류</span>
-            <strong>${Math.floor(m.recentStay/60)}시간 ${m.recentStay%60}분</strong>
-            <span class="metric-delta">평소 대비 ${formatDelta(m.recentStay - m.baseStay, "분")}</span>
-          </div>
-          <div class="analysis-metric">
-            <span class="muted">회의 참여</span>
-            <strong>${m.meetingRecent}%</strong>
-            <span class="metric-delta">평소 ${m.meetingBase}%</span>
-          </div>
-          <div class="analysis-metric">
-            <span class="muted">주말 출입</span>
-            <strong>${m.weekendRecent}회</strong>
-            <span class="metric-delta">평소 ${m.weekendBase}회</span>
-          </div>
+      <section class="decision-strategy-v30">
+        <div class="hypothesis-focus-v30">
+          <small>CURRENT HYPOTHESIS</small>
+          <h3>${selected[0] || "아직 가설을 선택하지 않았습니다."}</h3>
+          <div class="confidence-v30"><span>CONFIDENCE</span><div><i style="width:${confidence}%"></i></div><b>${confidence}%</b></div>
+          <p>가설은 확정 판단이 아니며, 새로운 정보에 따라 언제든 수정할 수 있습니다.</p>
         </div>
-        <div class="mini-bars">${m.bars.map((v,i)=>`<span style="height:${v}%;" title="${i+1}주차 변화"></span>`).join("")}</div>
-        <div class="analysis-note">
-          이 분석은 진단이나 평가가 아니라, 최근 변화가 개인의 평소 패턴에서 얼마나 달라졌는지 보여주는 참고 정보입니다.
+
+        <div class="evidence-v30">
+          <small>EVIDENCE</small>
+          ${evidence.map(ev=>`<div class="${ev.done?"done":"open"}"><span>${ev.done?"✓":"?"}</span><b>${ev.label}</b></div>`).join("")}
         </div>
-      </div>`;
-    })()}
+      </section>
 
-    <div class="grid grid-2" style="margin-top:16px;">
-      <div class="card">
-        <h3>기준 패턴과 최근 변화</h3>
-        <div class="briefing-item"><strong>평소 근무 패턴</strong><div class="muted">${e.baseline}</div></div>
-        <div class="briefing-item"><strong>최근 관찰</strong><div class="muted">${e.recent}</div></div>
-        <div class="briefing-item"><strong>현재 확인된 맥락</strong><div class="muted">${e.context}</div></div>
-      </div>
-      <div class="card">
-        <h3>관찰 신호</h3>
-        ${e.signals.length ? e.signals.map(s=>`<div class="signal-card">${s}<div class="muted" style="margin-top:5px;">이 신호만으로 개인 상태를 단정할 수 없습니다.</div></div>`).join("") : `<div class="empty">현재 큰 패턴 변화가 관찰되지 않았습니다.</div>`}
-      </div>
-    </div>
+      <section class="decision-baseline-v30">
+        <div><small>BASELINE</small><b>${e.baseline}</b></div>
+        <div><small>RECENT</small><b>${e.recent}</b></div>
+        <div><small>CONTEXT</small><b>${e.context}</b></div>
+      </section>
 
-    <div class="card" style="margin-top:16px;">
-      <h3>관심 메모: 가능한 가설</h3>
-      <div class="hypothesis-grid">
-        ${hypotheses.map(h=>`
-          <button class="choice ${selected.includes(h)?"selected":""}" onclick="toggleHypothesis('${h.replaceAll("'","\\'")}')">
-            <strong>${h}</strong>
-            <span>가설은 확정 판단이 아니며 새로운 정보에 따라 수정할 수 있습니다.</span>
-          </button>`).join("")}
-      </div>
-    </div>
+      <section class="decision-hypotheses-v30">
+        <div class="section-line-v30"><div><small>01</small><strong>가설 설정</strong></div><span>복수 선택 가능</span></div>
+        <div class="hypothesis-grid">
+          ${hypotheses.map(h=>`
+            <button class="choice ${selected.includes(h)?"selected":""}" onclick="toggleHypothesis('${h.replaceAll("'","\\'")}')">
+              <strong>${h}</strong>
+              <span>${selected.includes(h)?"현재 관심 메모에 포함":"가능성으로 열어두기"}</span>
+            </button>`).join("")}
+        </div>
+      </section>
 
-    <div class="card" style="margin-top:16px;">
-      <h3>행동 선택</h3>
-      <div class="connection-hint">정식 면담을 선택하면 비주얼노벨 면담 장면으로 전환됩니다.</div>
-      <div class="action-grid" style="margin-top:10px;">
-        ${actions.map(a=>`
-          <button class="choice" ${state.ap < a.cost ? "disabled":""} onclick="performAction('${a.id}')">
-            <strong>${a.name} · ${a.cost}P</strong>
-            <span>${a.desc}</span>
-          </button>`).join("")}
-      </div>
-    </div>
+      <section class="decision-actions-v30">
+        <div class="section-line-v30"><div><small>02</small><strong>다음 행동 선택</strong></div><span>AP는 판단 자원입니다.</span></div>
+        <div class="action-grid action-grid-v30">
+          ${actions.map(a=>`
+            <button class="choice action-choice-v30" ${state.ap < a.cost ? "disabled":""} onclick="performAction('${a.id}')">
+              <span class="action-cost-v30">${a.cost===0?"0 AP":`-${a.cost} AP`}</span>
+              <strong>${a.name}</strong>
+              <span>${a.desc}</span>
+            </button>`).join("")}
+        </div>
+      </section>
 
-    <div class="card" style="margin-top:16px;">
-      <h3>이 대상의 타임라인</h3>
-      ${(state.logs.filter(l=>l.employeeId===e.id).map(l=>`
-        <div class="timeline-item"><strong>${l.week}주차 · ${l.action}</strong><div class="muted">${l.result}</div></div>`).join("")) || `<div class="muted">아직 기록된 행동이 없습니다.</div>`}
+      <details class="decision-history-v30" ${logs.length?"":"open"}>
+        <summary>DECISION HISTORY · ${logs.length} ACTIONS</summary>
+        <div>
+          ${logs.length ? logs.slice().reverse().map(l=>`<div class="timeline-item"><strong>${l.week}주차 · ${l.action}</strong><div class="muted">${l.result}</div></div>`).join("") : `<div class="muted">아직 기록된 행동이 없습니다.</div>`}
+        </div>
+      </details>
     </div>`;
 }
 
@@ -6486,9 +6880,11 @@ function nextWeek() {
     });
   } else {
     playWeekTransition("REVIEW", () => {
+      state.campaignComplete=true;
       renderReview(true);
       renderOutcome();
       renderEndgame();
+      renderStatus();
       showView("endgame");
       setTimeout(openEnding, 650);
       showToast("캠페인 완료", "CEO 리포트와 장기 에필로그가 생성되었습니다.");
@@ -6497,71 +6893,117 @@ function nextWeek() {
 }
 
 function renderReview(final=false) {
-  const logs = state.logs;
-  const positive = logs.filter(l=>l.trustDelta>0);
-  const negative = logs.filter(l=>l.trustDelta<0);
-  const orgActions = logs.filter(l=>l.action.includes("리더") || l.action.includes("PL"));
-  const observations = logs.filter(l=>l.action==="추가 관찰");
-  const touched = new Set(logs.map(l=>l.employeeId)).size;
-
-  $("reviewContent").innerHTML = `
-    <div class="grid grid-3">
-      <div class="card"><div class="eyebrow">Attention Coverage</div><div class="metric">${touched}</div><div class="muted">직접 살펴본 대상</div></div>
-      <div class="card"><div class="eyebrow">Trust Impact</div><div class="metric">${state.trust}</div><div class="muted">현재 조직 신뢰 지표</div></div>
-      <div class="card"><div class="eyebrow">Resource Use</div><div class="metric">${logs.length}</div><div class="muted">실행한 행동 수</div></div>
+  const logs = state.logs || [];
+  const dataCount=logs.filter(l=>l.action==="추가 데이터 확인").length;
+  const contextCount=logs.filter(l=>["TL에게 상황 문의","PL에게 조직 비교 문의","가벼운 체크인","정식 면담"].includes(l.action)).length;
+  const interventionCount=logs.filter(l=>["업무량·역할 조정 제안","리더 코칭·조직 개입"].includes(l.action)).length;
+  const patienceCount=logs.filter(l=>l.action==="추가 관찰").length;
+  const max=Math.max(1,dataCount,contextCount,interventionCount,patienceCount);
+  const pct=v=>Math.round((v/max)*100);
+  let styleText="아직 판단 기록이 충분하지 않습니다. 첫 맥락을 확인해보세요.";
+  if(logs.length){
+    if(contextCount>=interventionCount*1.5 && contextCount>=patienceCount) styleText="당신은 개입보다 맥락 확인을 우선하는 HRBP였습니다.";
+    else if(patienceCount>interventionCount) styleText="당신은 즉시 개입하기보다 변화가 지속되는지 지켜보는 HRBP였습니다.";
+    else if(interventionCount>contextCount) styleText="당신은 확인된 신호를 빠르게 지원 행동으로 연결하는 HRBP였습니다.";
+    else styleText="당신은 정보 확인과 개입의 균형을 맞추는 HRBP였습니다.";
+  }
+  const path=logs.length?logs.slice(-8):[];
+  $("reviewContent").innerHTML=`
+    <div class="reflection-layout-v30">
+      <section class="decision-path-v30">
+        <div class="panel-label-v30">YOUR DECISION PATH</div>
+        <div class="path-start-v30">SIGNAL 감지</div>
+        ${path.map((l,i)=>`<div class="path-step-v30"><span>${String(i+1).padStart(2,"0")}</span><div><small>${l.week}주차 · ${l.employee}</small><b>${l.action}</b></div></div>`).join("")}
+        <div class="path-end-v30">${final?"CAMPAIGN REVIEW":"CURRENT POSITION"}</div>
+      </section>
+      <aside class="play-style-v30">
+        <div class="panel-label-v30">PLAY STYLE</div>
+        ${[
+          ["DATA",dataCount,pct(dataCount)],
+          ["CONTEXT",contextCount,pct(contextCount)],
+          ["INTERVENTION",interventionCount,pct(interventionCount)],
+          ["PATIENCE",patienceCount,pct(patienceCount)]
+        ].map(([n,v,p])=>`<div class="style-meter-v30"><div><span>${n}</span><b>${v}</b></div><div><i style="width:${p}%"></i></div></div>`).join("")}
+        <blockquote>${styleText}</blockquote>
+      </aside>
     </div>
+    <details class="reflection-detail-v30">
+      <summary>판단 과정 상세 보기</summary>
+      <div class="reflection-insights-v30">
+        <div><small>POSITIVE TRUST</small><strong>${logs.filter(l=>l.trustDelta>0).length}</strong><p>관심과 지원이 긍정적으로 받아들여진 행동</p></div>
+        <div><small>PRESSURE RISK</small><strong>${logs.filter(l=>l.trustDelta<0).length}</strong><p>개입 강도가 부담으로 작용한 행동</p></div>
+        <div><small>PEOPLE CHECKED</small><strong>${new Set(logs.map(l=>l.employeeId)).size}</strong><p>직접 맥락을 확인한 대상</p></div>
+      </div>
+    </details>`;
+}
 
-    <div class="card" style="margin-top:16px;">
-      <div class="review-box">
-        <h3>관심을 적절하게 연결한 장면</h3>
-        <div class="muted">${positive.length ? `${positive.length}회의 행동에서 신뢰가 긍정적으로 변화했습니다. 가벼운 체크인이나 구조적 접근이 효과적이었습니다.` : "아직 뚜렷한 긍정적 신뢰 변화가 기록되지 않았습니다."}</div>
-      </div>
-      <div class="review-box">
-        <h3>과도했을 수 있는 개입</h3>
-        <div class="muted">${negative.length ? `${negative.length}회의 행동에서 부담감이 증가했습니다. 변화 신호와 개입 강도의 균형을 다시 살펴볼 수 있습니다.` : "현재까지 과도한 개입으로 기록된 행동은 없습니다."}</div>
-      </div>
-      <div class="review-box">
-        <h3>개인과 구조의 균형</h3>
-        <div class="muted">${orgActions.length ? `개인 확인뿐 아니라 ${orgActions.length}회의 조직·리더 맥락 확인을 수행했습니다.` : "개인 단위 행동에 집중했습니다. 같은 조직에서 여러 변화가 보인다면 구조적 원인도 검토할 수 있습니다."}</div>
-      </div>
-      <div class="review-box">
-        <h3>기다림의 사용</h3>
-        <div class="muted">${observations.length ? `${observations.length}회 추가 관찰을 선택했습니다. 개입하지 않음도 이유와 확인 시점이 있을 때 유효한 판단입니다.` : "추가 관찰을 사용하지 않았습니다. 모든 변화가 즉시 개입을 요구하는 것은 아닙니다."}</div>
-      </div>
-    </div>
 
-    <div class="card" style="margin-top:16px;">
-      <h3>${final ? "회차 학습 포인트" : "현재까지의 학습 포인트"}</h3>
-      <div class="briefing-item">1. 근태 변화가 없는 직원도 역할, 관계, 교육 참여 변화를 함께 확인하세요.</div>
-      <div class="briefing-item">2. 같은 TL에서 여러 변화가 보이면 개인보다 조직의 업무 배분을 먼저 확인할 수 있습니다.</div>
-      <div class="briefing-item">3. 관심의 강도는 현재 정보 수준과 직원의 반응 방식에 맞춰 조정하세요.</div>
-    </div>
+function getPlayFlowAccess(){
+  return {
+    briefing:true,
+    organization:true,
+    actions:!!state.selectedEmployee,
+    review:(state.logs||[]).length>0,
+    outcome:(state.logs||[]).length>0,
+    endgame:!!state.campaignComplete
+  };
+}
 
-    <div class="card" style="margin-top:16px;">
-      <h3>행동 기록</h3>
-      ${logs.length ? logs.slice().reverse().map(l=>`
-        <div class="timeline-item"><strong>${l.week}주차 · ${l.employee} · ${l.action}</strong><div class="muted">${l.result}</div></div>`).join("") : `<div class="muted">아직 실행한 행동이 없습니다.</div>`}
-    </div>`;
+function updatePlayFlowNav(){
+  const access=getPlayFlowAccess();
+  const current=document.querySelector(".view.active")?.id || "briefing";
+  const order=["briefing","organization","actions","review","outcome","endgame"];
+  const currentIndex=order.indexOf(current);
+  document.querySelectorAll('[data-flow]').forEach(btn=>{
+    const id=btn.dataset.flow;
+    const mark=btn.querySelector(".nav-flow-mark");
+    const enabled=!!access[id];
+    const idx=order.indexOf(id);
+    btn.classList.toggle("locked",!enabled);
+    btn.classList.toggle("flow-current",id===current);
+    btn.classList.toggle("flow-complete",enabled && idx>=0 && currentIndex>idx);
+    btn.setAttribute("aria-disabled", enabled ? "false" : "true");
+    if(mark){
+      if(!enabled) mark.textContent="🔒";
+      else if(id===current) mark.textContent="●";
+      else if(idx>=0 && currentIndex>idx) mark.textContent="✓";
+      else mark.textContent="○";
+    }
+  });
+}
+
+function canOpenView(id){
+  const access=getPlayFlowAccess();
+  return !(id in access) || access[id];
 }
 
 function showView(id) {
+  if(!canOpenView(id)){
+    const message=id==="actions" ? "조직 탐색에서 구성원을 먼저 선택하세요."
+      : id==="endgame" ? "4주차 회고를 마치면 최종 리포트가 열립니다."
+      : "먼저 앞 단계의 맥락을 확인하세요.";
+    showToast("아직 열리지 않은 단계",message);
+    return;
+  }
   document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
   document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
   $(id).classList.add("active");
-  document.querySelector(`nav button[data-view="${id}"]`).classList.add("active");
+  const navBtn=document.querySelector(`nav button[data-view="${id}"]`);
+  if(navBtn) navBtn.classList.add("active");
   if (id==="review") { renderReview(); audioSystem.setMood("review"); }
   else if (id==="outcome") { renderOutcome(); audioSystem.setMood("review"); }
   else if (id==="endgame") { renderEndgame(); audioSystem.setMood("ending"); }
   else if (id==="actions") audioSystem.setMood("investigation");
   else if (id==="clubhouse") { audioSystem.setMood("runner"); updateRunningClubUI(); }
   else audioSystem.setMood("dashboard");
+  updatePlayFlowNav();
   setTimeout(playDashboardEntrance,20);
 }
 
 function resetGame() {
   state.week=1; state.ap=8; state.trust=60; state.selectedEmployee=null;
   state.selectedHypotheses={}; state.logs=[]; state.usedActions={};
-  state.runningBest=0; state.runningMiles=0; state.runningRewardWeeks={}; state.runningIntroPlayed=false;
+  state.runningBest=0; state.runningMiles=0; state.runningRewardWeeks={}; state.runningIntroPlayed=false; state.campaignComplete=false;
   state.hrXp=0;
   state.scenarioSeed=Math.floor((Date.now()+Math.random()*1000000)%1000000000);
   state.mailReadIds=[];
@@ -6651,8 +7093,35 @@ function buildWeeklyMails(week){
       body:`<div style="font-size:11px;color:#77d9bd;font-weight:800;letter-spacing:.08em;margin-bottom:10px;">WEEK ${week} · NEW SIGNAL</div>` +
            t.body(e) +
            `<br><br><strong>${tone.hint}</strong>`,
-      employeeId:e.id
+      employeeId:e.id,
+      kind:"signal",
+      priority:i===0?"important":"normal"
     };
+  });
+}
+
+
+const ambientMailTemplates = [
+  {sender:"Learning Center",subject:"[교육 안내] 10월 리더십 클래스 신청",body:"리더십 클래스와 사내 학습 프로그램 신청 기간을 안내드립니다.<br><br>본 메일은 일반 안내 메일입니다.",category:"교육",priority:"normal"},
+  {sender:"총무팀",subject:"사내 행사 운영 안내",body:"이번 달 캠퍼스 행사와 시설 운영 일정을 안내드립니다.<br><br>참여를 희망하는 임직원은 포털에서 확인해주세요.",category:"일반",priority:"low"},
+  {sender:"정보보호센터",subject:"[보안 캠페인] 비밀번호 정기 변경 안내",body:"사내 계정 보안 강화를 위한 정기 캠페인 안내입니다. 업무용 계정의 보안 설정을 점검해주세요.",category:"보안",priority:"low"},
+  {sender:"HR Operations",subject:"RE: 인력 운영 관련 문의",body:"요청하신 일반 인력 운영 기준 자료를 전달드립니다. 이번 주 조직 변화 SIGNAL과 직접 연결된 메일은 아닐 수 있습니다.",category:"업무",priority:"normal"},
+  {sender:"Culture Office",subject:"FW: 사내 커뮤니티 프로그램 안내",body:"사내 커뮤니티와 네트워킹 프로그램 일정을 공유드립니다.",category:"일반",priority:"low"},
+  {sender:"Workplace",subject:"카페테리아 운영시간 변경",body:"이번 주 금요일 사내 카페테리아 운영시간이 일부 변경됩니다.",category:"일반",priority:"low"}
+];
+
+function buildAmbientMails(week){
+  const seed=(state.scenarioSeed||1)+week*17000;
+  const picks=[];
+  for(let i=0;i<2;i++){
+    const idx=Math.floor(seededUnit(seed+i*433)*ambientMailTemplates.length)%ambientMailTemplates.length;
+    let t=ambientMailTemplates[idx];
+    if(picks.includes(t)) t=ambientMailTemplates[(idx+i+1)%ambientMailTemplates.length];
+    picks.push(t);
+  }
+  return picks.map((t,i)=>{
+    const id=week*100+50+i;
+    return {id,week,unread:!state.mailReadIds.includes(id),sender:t.sender,subject:t.subject,body:t.body,kind:"ambient",category:t.category,priority:t.priority};
   });
 }
 
@@ -6662,6 +7131,7 @@ function generateInternalMails(){
   // Accumulate all mails from week 1 through the current week.
   for(let week=1;week<=state.week;week++){
     internalMails.push(...buildWeeklyMails(week));
+    internalMails.push(...buildAmbientMails(week));
   }
 
   // One system/tutorial mail only at the beginning of the campaign.
@@ -6671,7 +7141,8 @@ function generateInternalMails(){
     unread:!state.mailReadIds.includes(99),
     sender:"시스템",
     subject:"SIGNAL 시뮬레이션 운영 안내",
-    body:"본 회차의 구성원 변화 신호와 사내 메일은 합성 시나리오 풀에서 생성됩니다.<br><br>매주 새로운 SIGNAL 메일이 도착하며, 이전 주차 메일은 메일함에 누적됩니다. 새 게임을 시작하면 다른 조직 맥락과 신호가 생성됩니다."
+    body:"본 회차의 구성원 변화 신호와 사내 메일은 합성 시나리오 풀에서 생성됩니다.<br><br>매주 SIGNAL 메일과 일반 업무 메일이 함께 도착합니다. 모든 메일이 중요한 신호는 아닙니다.",
+    kind:"system",category:"SYSTEM",priority:"normal"
   });
 
   // Newest week first; system mail stays at the bottom.
@@ -6874,28 +7345,24 @@ function renderOutcome() {
   const m = calculateOutcomeMetrics();
   const metrics = [
     ["조직 신뢰", m.trust, "관심과 개입을 조직이 받아들이는 정도"],
-    ["회복 여력", m.recovery, "업무 이후 회복할 수 있는 여유"],
+    ["회복 여력", m.recovery, "업무 이후 다시 회복할 수 있는 여유"],
     ["업무 균형", m.workload, "업무 집중과 자원 배분의 균형"],
     ["리더 지원", m.leaderSupport, "TL·PL이 지원받고 있는 정도"],
     ["맥락 확인", m.contextQuality, "성급한 판단 없이 정보를 확인한 정도"]
   ];
-
   $("scoreDashboard").innerHTML = metrics.map(([name,value,desc]) => {
-    const level = getMetricLevel(value);
-    return `
-      <div class="score-card">
-        <span class="muted">${name}</span>
-        <div class="score-value ${level.cls}">${value}</div>
-        <div>${level.label}</div>
-        <div class="muted" style="font-size:11px;margin-top:5px;">${desc}</div>
-      </div>`;
+    const level=getMetricLevel(value);
+    return `<div class="metric-row-v30">
+      <div><small>${name}</small><b>${level.label}</b></div>
+      <div class="metric-line-v30"><i style="width:${value}%"></i></div>
+      <strong>${value}</strong>
+      <p>${desc}</p>
+    </div>`;
   }).join("");
 
   const overall = Math.round((m.trust + m.recovery + m.workload + m.leaderSupport + m.contextQuality)/5);
-  $("resultGrade").textContent =
-    overall >= 75 ? "조직 회복 기반 강화" :
-    overall >= 60 ? "균형 있는 운영" :
-    overall >= 45 ? "지속 관찰 필요" : "구조적 확인 필요";
+  const grade=overall >= 75 ? "조직 회복 기반 강화" : overall >= 60 ? "균형 있는 운영" : overall >= 45 ? "지속 관찰 필요" : "구조적 확인 필요";
+  $("resultGrade").textContent=grade;
 
   const weekly = buildWeeklyTrend(m);
   $("trendChart").innerHTML = `
@@ -6904,64 +7371,52 @@ function renderOutcome() {
     <span class="trend-axis-label" style="bottom:23px;">20</span>
     <div class="trend-lines">
       <svg class="trend-svg" viewBox="0 0 500 180" preserveAspectRatio="none">
-        ${trendPolyline(weekly,"trust","#7ce3c0")}
-        ${trendPolyline(weekly,"recovery","#73a7ff")}
-        ${trendPolyline(weekly,"workload","#efc77b")}
-        ${trendPolyline(weekly,"leaderSupport","#b795ff")}
+        ${trendPolyline(weekly,"trust","#42b89d")}
+        ${trendPolyline(weekly,"recovery","#397dc6")}
+        ${trendPolyline(weekly,"workload","#c99542")}
+        ${trendPolyline(weekly,"leaderSupport","#8f79c7")}
       </svg>
     </div>`;
 
   const orgScores = calculateOrgScores(m);
   $("orgHealthList").innerHTML = orgScores.map(o => {
     const level = getMetricLevel(o.score);
-    return `
-      <div class="org-health-row">
-        <div><strong>${o.name}</strong><div class="muted">${level.label}</div></div>
-        <div class="health-meter"><div style="width:${o.score}%"></div></div>
-        <div style="text-align:right;font-weight:800;">${o.score}</div>
-      </div>`;
+    return `<div class="org-health-row"><div><strong>${o.name}</strong><div class="muted">${level.label}</div></div><div class="health-meter"><div style="width:${o.score}%"></div></div><div>${o.score}</div></div>`;
   }).join("");
 
   const impacts = [
-    ["긍정적 신뢰 변화", `+${m.positive}회`, "가벼운 체크인, 경청, 구조적 접근이 조직 신뢰에 기여했습니다."],
-    ["부담을 높인 개입", `${m.negative}회`, "근거보다 강한 개입은 일부 직원에게 부담으로 작용했습니다."],
-    ["조직·리더 단위 접근", `${m.orgActions}회`, "개인 문제를 넘어 업무 배분과 리더 상태를 확인했습니다."],
-    ["추가 관찰 활용", `${m.observations}회`, "즉시 개입하지 않고 지속 여부를 확인하는 판단을 사용했습니다."],
-    ["직접 확인한 대상", `${m.checked}명`, "제한된 자원 안에서 우선순위를 두고 살펴본 인원입니다."]
+    ["긍정적 신뢰 변화", `+${m.positive}회`],
+    ["부담을 높인 개입", `${m.negative}회`],
+    ["조직·리더 단위 접근", `${m.orgActions}회`],
+    ["추가 관찰 활용", `${m.observations}회`],
+    ["직접 확인한 대상", `${m.checked}명`]
   ];
+  $("impactList").innerHTML = impacts.map(([title,value])=>`<div class="impact-item"><strong><span>${title}</span><span>${value}</span></strong></div>`).join("");
 
-  $("impactList").innerHTML = impacts.map(([title,value,desc])=>`
-    <div class="impact-item">
-      <strong><span>${title}</span><span>${value}</span></strong>
-      <div class="muted" style="margin-top:5px;">${desc}</div>
-    </div>`).join("");
-
-  let narrative = "";
-  if (overall >= 75) {
-    narrative = "플레이어는 개인 신호와 조직 구조를 함께 확인하며 지원을 연결했습니다. 조직 신뢰와 회복 여력이 함께 개선되었고, 리더 단위 접근이 여러 구성원에게 긍정적인 파급 효과를 만들었습니다.";
-  } else if (overall >= 60) {
-    narrative = "대부분의 판단은 균형 있게 이루어졌습니다. 다만 일부 조직에서는 업무 집중 또는 리더 지원 부족이 남아 있어 다음 회차에서도 후속 확인이 필요합니다.";
-  } else {
-    narrative = "개별 구성원 확인은 이루어졌지만 조직 구조와 리더 상태에 대한 접근이 충분하지 않았습니다. 다음 회차에서는 동일 조직에서 반복되는 신호를 묶어서 살펴보는 것이 좋습니다.";
-  }
-
-  const weakest = metrics.slice().sort((a,b)=>a[1]-b[1])[0];
-  $("outcomeNarrative").innerHTML = `
-    <strong>종합 결과: ${$("resultGrade").textContent}</strong><br><br>
-    ${narrative}<br><br>
-    가장 낮은 지표는 <strong>${weakest[0]} ${weakest[1]}점</strong>입니다. 이 수치는 사람을 평가하는 점수가 아니라, 다음 회차에서 어떤 조직 맥락을 더 살펴볼지 알려주는 게임 지표입니다.
-  `;
+  const strongest=metrics.slice().sort((a,b)=>b[1]-a[1])[0];
+  const weakest=metrics.slice().sort((a,b)=>a[1]-b[1])[0];
+  let meaning=overall>=75
+    ? "빠른 결론보다 충분한 맥락 확인과 구조적 접근이 함께 이루어지며 조직의 회복 기반이 강화되었습니다."
+    : overall>=60
+      ? "개인 지원과 조직 관점이 비교적 균형 있게 연결되었습니다. 일부 영역은 다음 회차에서 후속 확인이 필요합니다."
+      : "개별 신호는 확인되었지만 조직 구조와 리더 맥락을 연결하는 과정이 더 필요합니다.";
+  $("outcomeNarrative").innerHTML=`<div class="outcome-meaning-score-v30">${overall}</div><h3>${grade}</h3><p>${meaning}</p><div class="meaning-pair-v30"><span>강점 <b>${strongest[0]} ${strongest[1]}</b></span><span>다음 확인 <b>${weakest[0]} ${weakest[1]}</b></span></div>`;
 }
 
 function renderMail() {
-  $("mailList").innerHTML = internalMails.map(m => `
-    <div class="mail-item ${m.unread ? "unread" : ""}" onclick="openMail(${m.id})">
-      <div class="mail-meta"><span>${m.sender}</span><span>${m.unread ? "미확인" : "확인"}</span></div>
+  $("mailList").innerHTML = internalMails.map(m => {
+    const kind=m.kind||"signal";
+    const tag=kind==="signal" ? (m.priority==="important"?"중요 SIGNAL":"SIGNAL") : (kind==="system"?"SYSTEM":(m.category||"일반"));
+    return `<div class="mail-item mail-${kind} ${m.unread ? "unread" : ""}" onclick="openMail(${m.id})">
+      <div class="mail-meta"><span class="mail-kind-v30">${tag}</span><span>${m.unread ? "미확인" : "확인"}</span></div>
       <strong>${m.subject}</strong>
-    </div>`).join("");
+      <small>${m.sender}</small>
+    </div>`;
+  }).join("");
   const count = internalMails.filter(m=>m.unread).length;
   $("mailBadge").textContent = count;
   $("mailBadge").style.display = count ? "inline-grid" : "none";
+  if($("briefingMailBadgeV23")) $("briefingMailBadgeV23").textContent=count?`NEW ${count}`:"CHECK";
 }
 
 function openMail(id) {
@@ -6970,7 +7425,7 @@ function openMail(id) {
   mail.unread = false;
   if(!state.mailReadIds.includes(mail.id)) state.mailReadIds.push(mail.id);
   $("mailSubject").textContent = mail.subject;
-  $("mailBody").innerHTML = `<div class="muted" style="margin-bottom:12px;">보낸 사람: ${mail.sender}</div>${mail.body}`;
+  $("mailBody").innerHTML = `<div class="mail-message-meta-v30"><span>FROM</span><b>${mail.sender}</b><span>WEEK</span><b>${mail.week||"-"}</b></div><div class="mail-message-content-v30">${mail.body}</div>`;
   renderMail();
   showToast("메일 확인", mail.subject);
 }
@@ -7237,6 +7692,7 @@ function setPortraitExpression(emotion) {
 }
 
 function openVisualNovelInterview(employee) {
+  document.body.classList.add("human-moment-active");
   document.body.classList.add("vn-entering"); setTimeout(()=>document.body.classList.remove("vn-entering"),600);
   audioSystem.setMood("interview");
   vnState = {
@@ -7268,6 +7724,7 @@ function closeVisualNovelInterview(force=false) {
   }
   clearInterval(vnState.typingTimer);
   $("vnOverlay").classList.remove("open");
+  document.body.classList.remove("human-moment-active");
   audioSystem.setMood("dashboard");
 }
 
@@ -8161,7 +8618,9 @@ function finishRunningGame(){
   $("runningResultHongeo").textContent=`× ${runningGame.hongeo}`;
   $("runningResultCoffee").textContent=`× ${runningGame.coffee}`;
   $("runningResultAvoided").textContent=runningGame.avoided;
-  $("runningResultTitle").textContent=d>=1500?"PERFECT RUN":d>=1000?"GREAT RUN":d>=500?"GOOD RUN":"RECOVERY RUN";
+  $("runningResultTitle").textContent="TODAY\'S SHIFT COMPLETE";
+  const officeLines=["메일은 피했지만 회의는 피하지 못했습니다.","커피는 복지가 아니라 생존 장비였습니다.","오늘도 달렸고, 메일은 내일도 옵니다.","홍어의 힘으로 오늘의 업무를 버텼습니다.","AP보다 먼저 체력이 회복되었습니다."];
+  if($("runningResultFlavor")) $("runningResultFlavor").textContent=officeLines[Math.floor(Math.random()*officeLines.length)];
 
   let rewardText="";
   if(granted>0) rewardText=`DECISION ENERGY RESTORED · AP +${granted}`;
@@ -8212,6 +8671,7 @@ function renderAll() {
   renderEmployees();
   renderActionWorkspace();
   renderReview();
+  updatePlayFlowNav();
 }
 
 document.querySelectorAll("nav button").forEach(btn=>{
