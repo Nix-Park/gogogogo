@@ -4,7 +4,7 @@
 <!-- GitHub Pages lightweight asset-split build v2.2.1 -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SIGNAL v3.0 · ENTERPRISE HR DECISION OS</title>
+  <title>SIGNAL v3.2 · LIVE ORGANIZATION SCAN</title>
   <style>
     :root {
       --bg: #0b1020;
@@ -5061,6 +5061,698 @@ body.human-moment-active .fma-hud-ring,body.human-moment-active .fma-scan-line,b
   .case-core-v30{width:260px}
 }
 
+
+/* ==========================================================================
+   SIGNAL v3.1 · FROSTED NAVY OS
+   Finish/polish pass: contrast, page endings, sidebar/footer, case-board lines.
+   ========================================================================== */
+
+:root{
+  --v31-bg:#d9e5ee;
+  --v31-bg-deep:#cbdbe7;
+  --v31-surface:rgba(245,249,252,.92);
+  --v31-surface-strong:rgba(250,252,254,.96);
+  --v31-surface-muted:rgba(232,240,246,.88);
+  --v31-navy:#173750;
+  --v31-navy-2:#2e5069;
+  --v31-muted:#657e91;
+  --v31-line:#b8cad7;
+  --v31-line-soft:#d5e0e8;
+  --v31-blue:#397db1;
+  --v31-mint:#48a890;
+}
+
+/* ---------- Global background / page endings ---------- */
+html,body{
+  min-height:100%;
+  background:#cbd9e4!important;
+}
+body{
+  background:
+    linear-gradient(180deg,rgba(22,43,61,.22),rgba(31,54,72,.34)),
+    var(--app-bg-image,none),
+    #cbd9e4!important;
+  background-attachment:fixed!important;
+  background-size:cover!important;
+  background-position:center!important;
+}
+.app{
+  min-height:100vh!important;
+  background:
+    linear-gradient(90deg,rgba(17,37,53,.14),transparent 18%,transparent 83%,rgba(17,37,53,.08))!important;
+}
+.app > main{
+  min-height:100vh!important;
+  padding-bottom:72px!important;
+  background:
+    linear-gradient(180deg,rgba(226,237,245,.82),rgba(213,227,237,.86))!important;
+}
+.app > main::after{
+  content:"";
+  display:block;
+  height:34px;
+  margin-top:28px;
+  border-top:1px solid rgba(132,158,178,.36);
+}
+
+/* Ensure every page fills the visible workspace instead of stopping abruptly */
+.view{
+  min-height:calc(100vh - 42px)!important;
+}
+.view.active{
+  display:block;
+}
+
+/* ---------- Sidebar: stronger contrast + clean ending ---------- */
+.app > aside{
+  min-height:100vh!important;
+  height:100vh!important;
+  position:sticky!important;
+  top:0;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:auto!important;
+  background:
+    linear-gradient(180deg,rgba(239,246,251,.97),rgba(224,235,243,.97))!important;
+  border-right:1px solid #abc0d0!important;
+  color:var(--v31-navy)!important;
+}
+.app > aside .brand h1{color:#173e5c!important}
+.app > aside .brand p{color:#5c768b!important}
+.signal-nav{flex:0 0 auto}
+.signal-nav button{
+  color:#536f84!important;
+}
+.signal-nav button.active,
+.signal-nav button.flow-current{
+  background:linear-gradient(90deg,#dcebf6,#eaf3f8)!important;
+  color:#174f78!important;
+  box-shadow:inset 3px 0 0 #397db1!important;
+}
+.signal-nav button.locked{
+  opacity:.60!important;
+}
+.nav-flow-mark{
+  background:transparent!important;
+  color:#7c97aa!important;
+}
+.signal-nav button.flow-current .nav-flow-mark{
+  color:#2d78aa!important;
+}
+.signal-nav button.flow-complete .nav-flow-mark{
+  color:#33866f!important;
+}
+.nav-copy b{color:inherit!important}
+.nav-copy small{color:#7890a3!important}
+.signal-nav button.flow-current .nav-copy small{color:#436c89!important}
+
+.signal-rail-status{
+  flex:0 0 auto;
+  margin-top:18px!important;
+  background:rgba(250,252,254,.88)!important;
+  border-color:#b7cad8!important;
+  box-shadow:none!important;
+}
+.rail-status-head{color:#6f879a!important}
+.rail-status-head b{color:#315c7b!important}
+.rail-status-grid span{color:#748b9c!important}
+.rail-status-grid strong{color:#25465f!important}
+.rail-save-panel{
+  margin-top:10px;
+  border-top:1px solid #d7e2e9!important;
+  padding-top:9px;
+}
+.rail-save-panel summary{
+  color:#667f92!important;
+  background:transparent!important;
+}
+
+/* Move low-priority sidebar utilities into a stable footer area */
+.app > aside .footer-note{
+  margin-top:auto!important;
+  position:relative!important;
+  left:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  width:auto!important;
+  padding:16px 6px 12px!important;
+  border-top:1px solid #bfced9!important;
+  color:#60798d!important;
+  background:transparent!important;
+  line-height:1.55!important;
+}
+.app > aside .footer-note br{display:none}
+.app > aside .footer-note::before{
+  content:"DEMO ENVIRONMENT";
+  display:block;
+  margin-bottom:6px;
+  color:#7891a4;
+  font-size:7px;
+  letter-spacing:.14em;
+  font-weight:900;
+}
+
+/* Old sound tag / dev-looking labels: make them quiet and aligned */
+.sound-indicator,
+.sound-label,
+[class*="sound-status"]{
+  opacity:.68!important;
+  font-size:8px!important;
+}
+.app > aside [class*="sound"]{
+  color:#5f7b8f!important;
+}
+
+/* Presentation FX: keep functionality, make it look like a subtle utility */
+.presentation-fx-btn{
+  right:18px!important;
+  bottom:18px!important;
+  padding:7px 10px!important;
+  font-size:8px!important;
+  letter-spacing:.11em!important;
+  color:#d7f1e9!important;
+  background:rgba(20,48,63,.82)!important;
+  border-color:rgba(90,156,157,.34)!important;
+  box-shadow:0 6px 18px rgba(24,53,70,.18)!important;
+  opacity:.72;
+}
+.presentation-fx-btn:hover{opacity:1}
+
+/* ---------- Typography contrast ---------- */
+.os-page-head h2,
+.briefing-head-v30 h2,
+.briefing-hero-statement-v30 strong,
+.case-board-v30 strong,
+.case-board-v30 b,
+.bottom-status-v30 strong,
+.people-explorer-v30 h2,
+.decision-studio-v30 h2,
+.reflection-v30 h2,
+.outcome-v30 h2,
+.ending-view-v30 h2,
+.mail-v30 h2,
+.settings-v30 h2{
+  color:#163a55!important;
+}
+.os-page-head p,
+.briefing-head-v30 p,
+.briefing-hero-statement-v30 p,
+.case-board-v30 span,
+.bottom-status-v30 span,
+.signal-inspector-v30 p,
+.decision-studio-v30 p,
+.mail-v30 p,
+.settings-v30 p{
+  color:#60788b!important;
+}
+.os-kicker,.panel-label-v30,
+.case-board-v30 small,
+.bottom-status-v30 small{
+  color:#5b7d96!important;
+}
+
+/* ---------- Frosted surfaces: no pure-white washout ---------- */
+.briefing-hero-statement-v30,
+.case-board-v30,
+.bottom-status-v30,
+.briefing-disclosure-v30,
+.org-tree-v30,
+.people-list-v30,
+.signal-inspector-v30,
+.decision-shell-v30,
+.decision-path-v30,
+.play-style-v30,
+.outcome-primary-v30,
+.outcome-trend-v30,
+.mail-shell-v30,
+.settings-surface-v30{
+  background:
+    linear-gradient(180deg,rgba(247,250,252,.94),rgba(232,240,246,.92))!important;
+  border-color:#b9ccd9!important;
+  box-shadow:0 8px 28px rgba(46,78,100,.06)!important;
+}
+.briefing-hero-statement-v30,
+.case-board-v30{
+  backdrop-filter:blur(12px) saturate(.96);
+}
+
+/* ---------- Briefing: calmer hierarchy ---------- */
+.briefing-head-v30{
+  border-bottom-color:#b7c9d7!important;
+}
+.briefing-compact-stats{
+  background:rgba(238,245,250,.90)!important;
+  border-color:#b8cbd9!important;
+}
+.briefing-compact-stats span{
+  border-color:#cddae3!important;
+}
+.briefing-compact-stats small{color:#658095!important}
+.briefing-compact-stats strong{color:#244a66!important}
+.signal-cta-v30{
+  background:#e9f2f8!important;
+  border-color:#97bad1!important;
+  color:#285f86!important;
+}
+.case-board-v30{
+  border-left:3px solid #58a795!important;
+}
+.case-map-v30{
+  min-height:220px!important;
+  background:
+    linear-gradient(180deg,rgba(235,242,247,.75),rgba(226,236,243,.72))!important;
+  border-color:#c3d3df!important;
+}
+.case-point-v30,.case-core-v30{
+  background:rgba(248,251,253,.94)!important;
+  border-color:#afc5d5!important;
+  box-shadow:none!important;
+}
+.case-core-v30{
+  background:#eaf3f8!important;
+  border-color:#8fb2c9!important;
+}
+/* Remove long crossing diagonals; use short structural connectors */
+.case-wire-v30{
+  display:none!important;
+}
+.case-map-v30::before,
+.case-map-v30::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  width:1px;
+  background:#aec4d3;
+}
+.case-map-v30::before{top:70px;height:42px}
+.case-map-v30::after{bottom:70px;height:42px}
+.case-core-v30::before,
+.case-core-v30::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  height:1px;
+  background:#aec4d3;
+  width:82px;
+}
+.case-core-v30::before{right:100%}
+.case-core-v30::after{left:100%}
+.case-board-foot-v30{
+  border-top:1px solid #cbd8e1;
+  padding-top:12px;
+}
+.briefing-shortcuts-v30 button{
+  background:#eaf2f7!important;
+  border-color:#bdd0dc!important;
+  color:#315d7b!important;
+}
+.bottom-status-v30{
+  overflow:hidden;
+}
+.bottom-status-v30>div{
+  background:rgba(242,247,250,.55)!important;
+  border-color:#cad7e1!important;
+}
+.bottom-status-progress{
+  background:rgba(228,238,244,.65)!important;
+}
+.mission-progress-v23{
+  background:#d6e2e9!important;
+  border-color:#bdcdd9!important;
+}
+.mission-progress-v23 i{
+  background:linear-gradient(90deg,#4da88f,#4f9bc5)!important;
+}
+.briefing-disclosure-v30{
+  margin-bottom:6px!important;
+}
+.briefing-disclosure-v30 summary{
+  color:#476b84!important;
+}
+
+/* ---------- People explorer ---------- */
+.people-layout-v30{
+  padding-bottom:18px;
+}
+.org-tree-v30 #orgTree button{
+  color:#3e6078!important;
+  border-color:#d0dde6!important;
+}
+.org-tree-v30 #orgTree button:hover{
+  background:#e8f1f6!important;
+  color:#24577a!important;
+}
+.people-toolbar-v30{
+  border-color:#c9d8e2!important;
+}
+.people-toolbar-v30 input,
+.people-toolbar-v30 select{
+  background:#eef4f8!important;
+  border-color:#bfcfdb!important;
+  color:#294b63!important;
+}
+.people-list-head-v30{color:#6b8498!important}
+.employee-row-v30{
+  border-color:#d7e1e8!important;
+}
+.employee-row-v30:hover,.employee-row-v30.selected{
+  background:#e8f1f6!important;
+}
+.signal-inspector-v30{
+  color:#284b63!important;
+}
+.inspector-state-list-v30 span{color:#6a8396!important}
+.inspector-state-list-v30 b{color:#315a74!important}
+
+/* ---------- Decision Studio ---------- */
+.decision-shell-v30{
+  background:rgba(241,247,250,.94)!important;
+}
+.decision-case-head-v30,
+.decision-strategy-v30,
+.decision-baseline-v30,
+.decision-hypotheses-v30,
+.decision-actions-v30{
+  border-color:#c9d7e1!important;
+}
+.decision-case-head-v30{
+  background:#eaf2f7!important;
+}
+.hypothesis-focus-v30,.evidence-v30{
+  background:rgba(246,250,252,.72)!important;
+}
+.choice{
+  background:#edf4f8!important;
+  border-color:#c1d0db!important;
+  color:#2f536b!important;
+}
+.choice:hover{
+  background:#e4eef4!important;
+  border-color:#8faec3!important;
+}
+.choice.selected{
+  background:#dfeef5!important;
+  border-color:#7ba7c1!important;
+}
+.action-cost-v30{
+  background:#dbeaf3!important;
+  color:#286389!important;
+}
+
+/* ---------- Reflection / Outcome ---------- */
+.decision-path-v30,.play-style-v30,
+.outcome-primary-v30,.outcome-trend-v30{
+  color:#2d5067!important;
+}
+.play-style-v30 blockquote{
+  background:#e8f0f5!important;
+  color:#3c5c70!important;
+}
+.outcome-meaning-v30 p,
+.metric-row-v30 p{
+  color:#60798c!important;
+}
+.trend-chart{
+  background:#e9f1f6!important;
+  border-color:#c1d1dc!important;
+}
+
+/* ---------- Ending ---------- */
+.ending-cover-v30{
+  background:linear-gradient(120deg,#eaf2f7,#ddeaf2)!important;
+  border-color:#aec5d5!important;
+}
+.ending-view-v30 .executive-report,
+.ending-view-v30 .news-paper,
+.ending-view-v30 .career-card,
+.ending-view-v30 .epilogue-card{
+  background:linear-gradient(180deg,#f4f8fa,#e8f0f5)!important;
+  color:#2d4f65!important;
+}
+
+/* ---------- Enterprise mail ---------- */
+.mail-list-pane-v30{
+  background:#e7eff4!important;
+}
+.mail-v30 .mail-item{
+  color:#39596f!important;
+  border-color:#cbd8e1!important;
+}
+.mail-v30 .mail-item:hover{
+  background:#dfeaf1!important;
+}
+.mail-v30 .mail-item.unread{
+  background:#dbeaf3!important;
+}
+.mail-reader-v30{
+  background:#f0f5f8!important;
+}
+.mail-reader-body-v30{
+  color:#435f72!important;
+}
+
+/* ---------- Settings ---------- */
+.settings-surface-v30{
+  background:#edf4f8!important;
+}
+.settings-v30 .settings-row{
+  border-color:#cddae3!important;
+}
+
+/* ---------- Running-GU / mini game lobby finish ---------- */
+#clubhouse{
+  min-height:calc(100vh - 40px)!important;
+}
+#clubhouse .running-hero{
+  margin-bottom:18px!important;
+}
+.running-game-shell{
+  margin-bottom:32px!important;
+}
+
+/* ---------- Prevent unfinished empty floor on short pages ---------- */
+#briefing,#organization,#actions,#review,#outcome,#endgame,#mail,#settings,#clubhouse{
+  padding-bottom:36px!important;
+}
+#briefing::after,#organization::after,#actions::after,#review::after,#outcome::after,#endgame::after,#mail::after,#settings::after{
+  content:"";
+  display:block;
+  height:1px;
+  margin-top:24px;
+  background:linear-gradient(90deg,transparent,#aabfcc,transparent);
+  opacity:.55;
+}
+
+/* ---------- 1366x768 ---------- */
+@media(max-height:820px){
+  .app > aside{
+    font-size:94%;
+  }
+  .signal-rail-status{
+    margin-top:12px!important;
+  }
+  .rail-status-grid{
+    gap:6px;
+    padding:7px 0;
+  }
+  .rail-primary{
+    margin-top:8px;
+  }
+  .app > aside .footer-note{
+    padding-top:10px!important;
+    font-size:8px!important;
+  }
+  .view{
+    min-height:calc(100vh - 28px)!important;
+  }
+}
+
+/* ---------- Mobile fallback ---------- */
+@media(max-width:900px){
+  .app > aside{
+    position:relative!important;
+    height:auto!important;
+    min-height:0!important;
+  }
+  .app > aside .footer-note{
+    margin-top:12px!important;
+  }
+  .app > main{
+    padding-bottom:28px!important;
+  }
+  .case-map-v30{
+    min-height:365px!important;
+  }
+  .case-core-v30::before,.case-core-v30::after,
+  .case-map-v30::before,.case-map-v30::after{
+    display:none!important;
+  }
+}
+
+
+/* ==========================================================================
+   SIGNAL v3.2 · LIVE ORGANIZATION SCAN
+   Briefing only: radar = discovery / case board = interpretation.
+   ========================================================================== */
+.briefing-v32{color:#173750}
+.briefing-head-v32{align-items:flex-start}
+.briefing-main-grid-v32{
+  display:grid;
+  grid-template-columns:minmax(0,1.45fr) minmax(285px,.55fr);
+  gap:14px;
+  margin-bottom:14px;
+}
+
+/* LIVE SCAN */
+.live-scan-v32{
+  background:
+    radial-gradient(circle at 50% 48%,rgba(68,135,173,.10),transparent 36%),
+    linear-gradient(180deg,rgba(232,241,247,.95),rgba(214,228,237,.94));
+  border:1px solid #aebfcb;
+  border-left:3px solid #4fa58f;
+  border-radius:18px;
+  overflow:hidden;
+  cursor:pointer;
+  box-shadow:0 8px 28px rgba(40,71,94,.07);
+}
+.live-scan-v32:focus-visible{outline:2px solid #4385b2;outline-offset:2px}
+.live-scan-head-v32{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:15px 18px;border-bottom:1px solid #bcccd7
+}
+.live-scan-head-v32 small{display:block;color:#5c7e96;font-size:8px;letter-spacing:.15em;font-weight:900}
+.live-scan-head-v32 strong{display:block;color:#23475f;margin-top:4px;font-size:13px}
+.scan-live-v32{display:flex;align-items:center;gap:6px;color:#337c69;font-size:8px;font-weight:900;letter-spacing:.12em}
+.scan-live-v32 i{width:7px;height:7px;border-radius:50%;background:#4fb59a;box-shadow:0 0 0 5px rgba(79,181,154,.08)}
+.radar-shell-v32{display:grid;grid-template-columns:minmax(0,1fr) 190px;min-height:365px}
+.radar-grid-v32{
+  position:relative;min-height:365px;
+  background:
+    radial-gradient(circle at center,rgba(255,255,255,.30),transparent 52%),
+    linear-gradient(rgba(123,158,181,.075) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(123,158,181,.075) 1px,transparent 1px);
+  background-size:auto,30px 30px,30px 30px;
+  overflow:hidden
+}
+.radar-ring-v32{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  border:1px solid rgba(74,124,154,.20);border-radius:50%
+}
+.radar-ring-v32.r1{width:150px;height:150px}
+.radar-ring-v32.r2{width:250px;height:250px}
+.radar-ring-v32.r3{width:350px;height:350px}
+.radar-axis-v32{position:absolute;background:rgba(77,126,155,.14)}
+.radar-axis-v32.h{left:10%;right:10%;height:1px;top:50%}
+.radar-axis-v32.v{top:8%;bottom:8%;width:1px;left:50%}
+.radar-sweep-v32{
+  position:absolute;left:50%;top:50%;width:175px;height:175px;
+  transform-origin:0 0;
+  background:conic-gradient(from -24deg,rgba(76,165,143,.18),rgba(76,165,143,0) 24deg);
+  border-radius:0 100% 0 0;
+  animation:radarSweepV32 6.6s linear infinite;
+  opacity:.7;
+}
+@keyframes radarSweepV32{to{transform:rotate(360deg)}}
+.radar-center-v32{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:126px;height:126px;border-radius:50%;
+  display:grid;place-items:center;align-content:center;text-align:center;
+  background:rgba(236,245,250,.95);
+  border:1px solid #93b5c9;
+  box-shadow:0 0 0 9px rgba(107,160,191,.06);
+  z-index:3
+}
+.radar-center-v32 small{color:#6c8a9e;font-size:7px;letter-spacing:.13em}
+.radar-center-v32 strong{color:#244e69;font-size:14px;margin:3px 0}
+.radar-center-v32 span{color:#70899b;font-size:8px}
+.radar-node-v32{
+  position:absolute!important;display:flex!important;align-items:center!important;gap:6px!important;
+  border:0!important;background:transparent!important;padding:4px 6px!important;
+  color:#3e637b!important;font-size:8px!important;z-index:4!important
+}
+.radar-node-v32:hover{background:rgba(255,255,255,.45)!important}
+.radar-node-v32>span{
+  width:10px;height:10px;border-radius:50%;
+  display:block;box-shadow:0 0 0 5px rgba(70,131,164,.07)
+}
+.radar-node-v32 b{font-size:8px;font-weight:800}
+.radar-node-v32.person>span{background:#4a8fbe}
+.radar-node-v32.team>span{background:#4faa93}
+.radar-node-v32.leader>span{background:#b68a47}
+.radar-node-v32.watch>span{background:#8093a2}
+.radar-node-v32.n1{left:16%;top:23%}.radar-node-v32.n2{left:19%;bottom:20%}.radar-node-v32.n3{right:18%;top:25%}.radar-node-v32.n4{right:15%;bottom:23%}.radar-node-v32.n5{left:52%;top:12%}.radar-node-v32.n6{left:54%;bottom:11%}
+.radar-node-v32.n1>span,.radar-node-v32.n3>span{animation:signalNodePulseV32 2.8s ease-in-out infinite}
+@keyframes signalNodePulseV32{50%{box-shadow:0 0 0 9px rgba(70,143,186,.10)}}
+.radar-side-v32{padding:16px;border-left:1px solid #bccdd8;background:rgba(229,239,245,.70)}
+.radar-metric-v32{padding:10px 0;border-bottom:1px solid #cbd8e1}.radar-metric-v32 small{display:block;color:#758da0;font-size:7px;letter-spacing:.12em}.radar-metric-v32 strong{display:block;color:#244b65;font-size:19px;margin-top:3px}.radar-metric-v32 span{color:#72899a;font-size:8px}
+.radar-legend-v32{display:grid;gap:6px;padding:12px 0}.radar-legend-v32 span{display:flex;align-items:center;gap:6px;color:#647e91;font-size:7px;letter-spacing:.1em}.radar-legend-v32 i{width:7px;height:7px;border-radius:50%}.radar-legend-v32 i.person{background:#4a8fbe}.radar-legend-v32 i.team{background:#4faa93}.radar-legend-v32 i.leader{background:#b68a47}
+.scan-cta-v32{margin-top:4px;padding-top:10px;border-top:1px solid #c6d4de;color:#40677e;font-size:9px}.scan-cta-v32 b{float:right}
+
+/* Mission rail */
+.mission-rail-v32{
+  display:flex;flex-direction:column;
+  background:linear-gradient(180deg,rgba(239,246,250,.95),rgba(224,235,242,.94));
+  border:1px solid #b4c5d1;border-radius:18px;overflow:hidden
+}
+.mission-rail-block-v32{padding:18px;border-bottom:1px solid #c4d2db}.mission-rail-block-v32:last-child{border:0}
+.mission-rail-block-v32 small{color:#66859b;font-size:8px;font-weight:900;letter-spacing:.13em}
+.mission-rail-block-v32 strong{display:block;color:#1f4560;font-size:19px;line-height:1.35;margin:6px 0}
+.mission-rail-block-v32 p{color:#627b8e;font-size:10px;line-height:1.65;margin:0}
+.mission-rail-block-v32.context-block{background:rgba(229,239,245,.72)}
+.context-status-v32{display:flex;align-items:center;justify-content:space-between;margin:9px 0 12px}.context-status-v32 b{margin:0;font-size:10px}
+.mission-rail-block-v32.next{margin-top:auto}.mission-rail-block-v32.next strong{font-size:12px}
+
+/* Case board = interpretation, richer but quieter than radar */
+.case-board-v32{
+  background:linear-gradient(180deg,rgba(244,248,251,.95),rgba(229,238,244,.94));
+  border:1px solid #b5c6d2;border-radius:18px;padding:18px;margin-bottom:13px;
+  box-shadow:0 8px 26px rgba(44,72,92,.055)
+}
+.case-board-head-v32{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:13px;border-bottom:1px solid #c7d4dd}
+.case-board-head-v32 small{display:block;color:#5d7f96;font-size:8px;letter-spacing:.14em;font-weight:900}.case-board-head-v32 strong{display:block;color:#25485f;font-size:14px;margin-top:3px}.case-board-head-v32>span{color:#7b91a1;font-size:7px;letter-spacing:.12em}
+.case-board-layout-v32{
+  display:grid;
+  grid-template-columns:1fr minmax(350px,1.35fr) 1fr;
+  grid-template-rows:auto auto;
+  gap:12px;
+  padding:15px 0
+}
+.case-source-v32,.case-hypothesis-v32{background:rgba(249,251,253,.86);border:1px solid #c1d0da;border-radius:12px;padding:12px 14px}
+.case-source-v32 small,.case-hypothesis-v32 small{color:#6c879a;font-size:7px;font-weight:900;letter-spacing:.13em}
+.case-source-v32 b{display:block;color:#274c64;margin:5px 0 3px;font-size:12px}.case-source-v32 span{color:#7b8f9e;font-size:8px}
+.case-source-v32.observation{grid-column:1;grid-row:1}.case-source-v32.organization{grid-column:3;grid-row:1}.case-source-v32.leader{grid-column:1;grid-row:2}.case-source-v32.context{grid-column:3;grid-row:2}
+.case-hypothesis-v32{grid-column:2;grid-row:1/3;display:flex;flex-direction:column;justify-content:center;text-align:center;background:#e8f2f7;border-color:#91b3c8}
+.case-hypothesis-v32 strong{color:#1e4965;font-size:17px;margin:7px 0}.case-hypothesis-v32 p{margin:0;color:#6d8495;font-size:9px}
+.evidence-chips-v32{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin-top:12px}.evidence-chips-v32 span{padding:5px 7px;border-radius:999px;background:#f7fafc;border:1px solid #bfd0db;color:#516f82;font-size:7px}
+.case-actions-v32{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding-top:13px;border-top:1px solid #c7d4dd}
+.case-actions-v32 button{display:grid!important;grid-template-columns:28px 1fr!important;grid-template-rows:auto auto!important;text-align:left!important;column-gap:8px!important;padding:9px 10px!important;background:#eaf2f7!important;border:1px solid #b9cbd8!important;color:#315c78!important;border-radius:10px!important}
+.case-actions-v32 button>span{grid-row:1/3;font-size:18px;align-self:center}.case-actions-v32 button>b{font-size:10px}.case-actions-v32 button>small{font-size:8px;color:#7a8f9e}
+
+.briefing-disclosure-v32{background:rgba(231,240,246,.88);border:1px solid #bacbd6;border-radius:13px}.briefing-disclosure-v32 summary{cursor:pointer;padding:11px 14px;color:#4a6c82;font-size:10px}.briefing-disclosure-v32 summary span{font-size:7px;letter-spacing:.12em;color:#718b9d;margin-right:10px}
+
+/* Avoid duplicate legacy v3.1 briefing blocks from showing unexpectedly */
+.briefing-v32 .bottom-status-v30,
+.briefing-v32 .briefing-hero-statement-v30,
+.briefing-v32 .case-board-v30,
+.briefing-v32 .briefing-disclosure-v30{display:none!important}
+
+@media(max-width:1450px){
+  .radar-shell-v32{grid-template-columns:minmax(0,1fr) 170px}
+  .briefing-main-grid-v32{grid-template-columns:minmax(0,1.35fr) 300px}
+  .case-board-layout-v32{grid-template-columns:1fr minmax(300px,1.2fr) 1fr}
+}
+@media(max-width:1100px){
+  .briefing-main-grid-v32{grid-template-columns:1fr}
+  .mission-rail-v32{display:grid;grid-template-columns:1fr 1fr 1fr}
+  .mission-rail-block-v32{border-bottom:0;border-right:1px solid #c4d2db}.mission-rail-block-v32:last-child{border-right:0}
+}
+@media(max-width:900px){
+  .radar-shell-v32{grid-template-columns:1fr}.radar-side-v32{border-left:0;border-top:1px solid #bccdd8;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.radar-legend-v32,.scan-cta-v32{display:none}
+  .mission-rail-v32{grid-template-columns:1fr}.mission-rail-block-v32{border-right:0;border-bottom:1px solid #c4d2db}
+  .case-board-layout-v32{grid-template-columns:1fr}.case-source-v32,.case-hypothesis-v32{grid-column:auto!important;grid-row:auto!important}.case-hypothesis-v32{order:-1}
+}
+
 </style>
 </head>
 <body class="signal-login-hero">
@@ -5263,8 +5955,8 @@ body.human-moment-active .fma-hud-ring,body.human-moment-active .fma-scan-line,b
   </aside>
 
   <main>
-    <section id="briefing" class="view active briefing-v30">
-      <div class="os-page-head briefing-head-v30">
+    <section id="briefing" class="view active briefing-v32">
+      <div class="os-page-head briefing-head-v32">
         <div>
           <div class="os-kicker">WEEKLY DECISION BRIEF</div>
           <div class="week-signal-line"><span id="briefingWeekChip">WEEK 1</span><i></i><b>SIGNAL DETECTED</b></div>
@@ -5273,7 +5965,7 @@ body.human-moment-active .fma-hud-ring,body.human-moment-active .fma-scan-line,b
         </div>
         <div class="briefing-head-actions">
           <div class="briefing-compact-stats">
-            <span><small>PATTERN</small><strong id="hudSignalCount">0</strong></span>
+            <span><small>SIGNALS</small><strong id="hudSignalCount">0</strong></span>
             <span><small>CONTEXT</small><strong id="metricOrg">2</strong></span>
             <span><small>AP</small><strong id="hudActionPoint">8</strong></span>
             <span><small>TRUST</small><strong id="hudTrust">60</strong></span>
@@ -5282,76 +5974,129 @@ body.human-moment-active .fma-hud-ring,body.human-moment-active .fma-scan-line,b
         </div>
       </div>
 
-      <div class="briefing-hero-statement-v30">
-        <div>
-          <small>THIS WEEK'S MISSION</small>
-          <strong id="missionHeadlineV23">변화의 맥락을 확인하세요.</strong>
-          <p id="missionCopyV23">변화가 감지된 구성원의 맥락을 확인하고 개인의 문제와 구조적 문제를 구분하세요.</p>
-        </div>
-        <button class="signal-cta-v30" onclick="showView('organization')">SIGNAL 확인하기 <span>→</span></button>
-      </div>
+      <div class="briefing-main-grid-v32">
+        <section class="live-scan-v32" onclick="showView('organization')" role="button" tabindex="0" aria-label="People Explorer 열기">
+          <div class="live-scan-head-v32">
+            <div>
+              <small>LIVE ORGANIZATION SCAN</small>
+              <strong>조직 안에서 평소와 다른 변화가 감지되고 있습니다.</strong>
+            </div>
+            <div class="scan-live-v32"><i></i><span>LIVE</span></div>
+          </div>
 
-      <div class="case-board-v30">
-        <div class="case-board-head-v30">
-          <div>
-            <small>CASE BOARD</small>
-            <strong>흩어진 단서를 연결해 현재 가설을 만듭니다.</strong>
-          </div>
-          <div class="context-status-v30" id="contextStatusV23">
-            <span>CONTEXT</span>
-            <div class="context-dots-v23"><i class="on"></i><i></i><i></i></div>
-            <b id="contextLabelV23">정보 부족</b>
-          </div>
-        </div>
+          <div class="radar-shell-v32">
+            <div class="radar-grid-v32">
+              <div class="radar-ring r1"></div>
+              <div class="radar-ring r2"></div>
+              <div class="radar-ring r3"></div>
+              <div class="radar-axis-v32 h"></div>
+              <div class="radar-axis-v32 v"></div>
+              <div class="radar-sweep-v32"></div>
 
-        <div class="case-map-v30">
-          <div class="case-point-v30 point-observation">
-            <small>OBSERVATION</small><b>최근 근무 패턴 변화</b><span>개인 기준 변화</span>
-          </div>
-          <div class="case-wire-v30 wire-a"></div>
-          <div class="case-point-v30 point-organization">
-            <small>ORGANIZATION</small><b>프로젝트 역할 재편</b><span>조직 구조 변화</span>
-          </div>
-          <div class="case-wire-v30 wire-b"></div>
-          <div class="case-core-v30">
-            <small>CURRENT HYPOTHESIS</small>
-            <b>업무 부담 · 역할 변화 · 관계 맥락</b>
-            <span>하나의 신호만으로 판단하지 않습니다.</span>
-          </div>
-          <div class="case-wire-v30 wire-c"></div>
-          <div class="case-point-v30 point-leader">
-            <small>LEADER NOTE</small><b>회의 참여 변화 관찰</b><span>리더 관찰</span>
-          </div>
-          <div class="case-wire-v30 wire-d"></div>
-          <div class="case-point-v30 point-context">
-            <small>CONTEXT</small><b id="informationStateV23">불완전</b><span>추가 확인 필요</span>
-          </div>
-        </div>
+              <button class="radar-node-v32 person n1" type="button" data-radar-label="PERSON"><span></span><b>개인 변화</b></button>
+              <button class="radar-node-v32 person n2" type="button" data-radar-label="PERSON"><span></span><b>근무 패턴</b></button>
+              <button class="radar-node-v32 leader n3" type="button" data-radar-label="LEADER"><span></span><b>리더 관찰</b></button>
+              <button class="radar-node-v32 team n4" type="button" data-radar-label="TEAM"><span></span><b>역할 재편</b></button>
+              <button class="radar-node-v32 team n5" type="button" data-radar-label="TEAM"><span></span><b>프로젝트 변화</b></button>
+              <button class="radar-node-v32 watch n6" type="button" data-radar-label="WATCH"><span></span><b>추가 맥락</b></button>
 
-        <div class="case-board-foot-v30">
-          <div class="next-move-v30">
+              <div class="radar-center-v32">
+                <small>ORGANIZATION</small>
+                <strong id="radarSignalCountV32">0 SIGNALS</strong>
+                <span>평소 기준과 비교 중</span>
+              </div>
+            </div>
+
+            <aside class="radar-side-v32">
+              <div class="radar-metric-v32"><small>PATTERN</small><strong id="metricChanges">6</strong><span>개인 기준 변화</span></div>
+              <div class="radar-metric-v32"><small>CONTEXT</small><strong id="metricOrgBottom">2</strong><span>조직 확인 필요</span></div>
+              <div class="radar-metric-v32"><small>INFORMATION</small><strong id="informationStateBottom">INCOMPLETE</strong><span>현재 정보 수준</span></div>
+              <div class="radar-legend-v32">
+                <span><i class="person"></i>PERSON</span>
+                <span><i class="team"></i>TEAM</span>
+                <span><i class="leader"></i>LEADER</span>
+              </div>
+              <div class="scan-cta-v32">People Explorer에서 확인 <b>→</b></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="mission-rail-v32">
+          <div class="mission-rail-block-v32">
+            <small>THIS WEEK'S MISSION</small>
+            <strong id="missionHeadlineV23">변화의 맥락을 확인하세요.</strong>
+            <p id="missionCopyV23">개인의 변화와 조직 맥락을 함께 비교하고, 성급한 결론보다 필요한 확인을 먼저 선택하세요.</p>
+          </div>
+          <div class="mission-rail-block-v32 context-block">
+            <small>CONTEXT STATUS</small>
+            <div id="contextStatusV23" class="context-status-v32">
+              <div class="context-dots-v23"><i class="on"></i><i></i><i></i></div>
+              <b id="contextLabelV23">정보 부족</b>
+            </div>
+            <div class="mission-progress-v23"><span id="missionProgressTextV23">CONTEXT BUILDING</span><i></i></div>
+          </div>
+          <div class="mission-rail-block-v32 next">
             <small>NEXT MOVE</small>
             <strong id="nextMoveV23">새 메일 또는 조직 탐색에서 첫 맥락을 확인하세요.</strong>
           </div>
-          <div class="briefing-shortcuts-v30">
-            <button onclick="showView('organization')"><span>⌕</span>People Explorer</button>
-            <button onclick="showView('mail')"><span>✉</span>Mail <em id="briefingMailBadgeV23">NEW</em></button>
-            <button onclick="showView('clubhouse')"><span>⚡</span>Running-gu</button>
+        </section>
+      </div>
+
+      <section class="case-board-v32">
+        <div class="case-board-head-v32">
+          <div>
+            <small>CASE BOARD</small>
+            <strong>발견된 신호를 연결해 현재 가설을 구성합니다.</strong>
+          </div>
+          <span>DISCOVERY → INTERPRETATION</span>
+        </div>
+
+        <div class="case-board-layout-v32">
+          <div class="case-source-v32 observation">
+            <small>OBSERVATION</small>
+            <b>최근 근무 패턴 변화</b>
+            <span>개인 기준 변화</span>
+          </div>
+
+          <div class="case-source-v32 organization">
+            <small>ORGANIZATION</small>
+            <b>프로젝트 역할 재편</b>
+            <span>조직 구조 변화</span>
+          </div>
+
+          <div class="case-hypothesis-v32">
+            <small>CURRENT HYPOTHESIS</small>
+            <strong>업무 부담 · 역할 변화 · 관계 맥락</strong>
+            <p>하나의 신호만으로 판단하지 않습니다.</p>
+            <div class="evidence-chips-v32">
+              <span>근무 패턴 +18%</span>
+              <span>회의 참여 -22%</span>
+              <span>프로젝트 변경</span>
+              <span>리더 메모</span>
+            </div>
+          </div>
+
+          <div class="case-source-v32 leader">
+            <small>LEADER NOTE</small>
+            <b>회의 참여 변화 관찰</b>
+            <span>리더 관찰</span>
+          </div>
+
+          <div class="case-source-v32 context">
+            <small>CONTEXT</small>
+            <b id="informationStateV23">불완전</b>
+            <span>추가 확인 필요</span>
           </div>
         </div>
-      </div>
 
-      <div class="bottom-status-v30">
-        <div><small>PATTERN</small><strong id="metricChanges">6</strong><span>개인 기준 변화</span></div>
-        <div><small>CONTEXT</small><strong id="metricOrgBottom">2</strong><span>조직 확인 필요</span></div>
-        <div><small>INFORMATION</small><strong id="informationStateBottom">INCOMPLETE</strong><span>현재 정보 수준</span></div>
-        <div class="bottom-status-progress">
-          <small>CONTEXT BUILDING</small>
-          <div class="mission-progress-v23"><span id="missionProgressTextV23">CONTEXT BUILDING</span><i></i></div>
+        <div class="case-actions-v32">
+          <button onclick="showView('organization')"><span>⌕</span><b>People Explorer</b><small>구성원·조직 확인</small></button>
+          <button onclick="showView('mail')"><span>✉</span><b>Mail</b><small id="briefingMailBadgeV23">NEW</small></button>
+          <button onclick="showView('clubhouse')"><span>⚡</span><b>Running-gu</b><small>에너지 충전</small></button>
         </div>
-      </div>
+      </section>
 
-      <details class="briefing-disclosure-v30">
+      <details class="briefing-disclosure-v32">
         <summary><span>MORE CONTEXT</span><b>이번 주 주요 상황과 판단 원칙 보기</b></summary>
         <div class="briefing-disclosure-grid-v30">
           <div>
@@ -8674,6 +9419,9 @@ function renderAll() {
   updatePlayFlowNav();
 }
 
+document.querySelectorAll(".radar-node-v32").forEach(btn=>{
+  btn.addEventListener("click",(e)=>{e.stopPropagation();showView("organization");});
+});
 document.querySelectorAll("nav button").forEach(btn=>{
   btn.addEventListener("click",()=>showView(btn.dataset.view));
 });
