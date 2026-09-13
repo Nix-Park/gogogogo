@@ -4,7 +4,7 @@
 <!-- GitHub Pages lightweight asset-split build v2.2.1 -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SIGNAL v3.2 · LIVE ORGANIZATION SCAN</title>
+  <title>SIGNAL v3.7 · RADAR SIGNATURE FX</title>
   <style>
     :root {
       --bg: #0b1020;
@@ -3527,7 +3527,7 @@ body.signal-login-hero #loginOverlay.hide{
 }
 .running-gameover.open{display:flex}
 .running-gameover h2{font-size:40px;margin:8px 0 18px}
-.running-result-grid{display:grid;grid-template-columns:repeat(4,minmax(100px,1fr));gap:8px;width:min(680px,100%)}
+.running-result-grid{display:grid;grid-template-columns:repeat(5,minmax(100px,1fr));gap:8px;width:min(760px,100%)}
 .running-result-grid>div{padding:12px;border:1px solid rgba(152,201,255,.12);border-radius:11px;background:rgba(255,255,255,.03)}
 .running-result-grid small{display:block;color:var(--muted);font-size:9px;letter-spacing:.1em}
 .running-result-grid strong{display:block;margin-top:5px;font-size:21px}
@@ -3999,6 +3999,61 @@ body.running-gu-active .running-achievements{
   letter-spacing:.08em;
   box-shadow:0 12px 34px rgba(0,0,0,.22),0 0 20px rgba(84,177,255,.12);
 }
+.running-timer-wrap{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02))!important;
+}
+.running-timer-wrap::before{
+  content:"";
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(122,233,196,.10),rgba(115,167,255,.06));
+  pointer-events:none;
+}
+.running-timer-wrap small,.running-timer-wrap strong{position:relative;z-index:1}
+.running-timer-wrap strong{font-size:20px!important;letter-spacing:.07em}
+.running-timer-wrap.timer-warning{
+  border-color:rgba(255,196,122,.34)!important;
+  background:rgba(255,196,122,.06)!important;
+}
+.running-timer-wrap.timer-danger{
+  border-color:rgba(255,113,130,.48)!important;
+  background:rgba(255,102,125,.10)!important;
+  animation:runningTimerDangerPulse 1s ease-in-out infinite;
+}
+.running-timer-chip.warning{
+  border-color:rgba(255,196,122,.40)!important;
+  box-shadow:0 12px 34px rgba(0,0,0,.22),0 0 22px rgba(255,189,118,.18)!important;
+}
+.running-timer-chip.danger{
+  border-color:rgba(255,113,130,.58)!important;
+  color:#fff6f7!important;
+  background:rgba(49,14,25,.86)!important;
+  box-shadow:0 12px 34px rgba(0,0,0,.26),0 0 24px rgba(255,111,131,.28)!important;
+  animation:runningTimerDangerPulse 1s ease-in-out infinite;
+}
+@keyframes runningTimerDangerPulse{
+  0%,100%{transform:translateZ(0);box-shadow:0 12px 34px rgba(0,0,0,.22),0 0 16px rgba(255,111,131,.14)}
+  50%{transform:translateY(-1px);box-shadow:0 12px 34px rgba(0,0,0,.22),0 0 28px rgba(255,111,131,.30)}
+}
+.running-countdown.final-tick{
+  font-size:96px!important;
+  text-shadow:0 0 18px rgba(104,214,255,.30),0 0 34px rgba(104,214,255,.18)!important;
+}
+.running-stage.timer-warning::after,
+.running-stage.timer-danger::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 50% 12%,rgba(255,200,126,.11),transparent 36%);
+  opacity:.7;z-index:1;
+}
+.running-stage.timer-danger::after{
+  background:radial-gradient(circle at 50% 12%,rgba(255,98,126,.18),transparent 40%);
+}
+@media(max-width:900px){
+  .running-hud-v30{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .running-timer-wrap strong{font-size:18px!important}
+}
+
 @keyframes runningScenePan{
   from{transform:scale(1.025) translateX(0)}
   to{transform:scale(1.06) translateX(-2.2%)}
@@ -5017,7 +5072,7 @@ body.human-moment-active .fma-hud-ring,body.human-moment-active .fma-scan-line,b
 #clubhouse .running-hero-copy h2{font-family:monospace;letter-spacing:.06em}
 .running-subtitle-v30{color:#62d7e7;font-family:monospace;font-size:12px;letter-spacing:.12em}
 .running-deadpan-v30{color:#d9f7e9!important;font-size:18px!important;font-weight:800}
-.running-hud-v30{grid-template-columns:1fr 1fr 1.4fr!important}
+.running-hud-v30{grid-template-columns:1fr 1fr 1fr 1.45fr!important}
 .running-result-flavor-v30{margin:8px 0 14px;color:#9fb9ca;font-family:monospace;font-size:11px}
 
 /* Minimal animation policy */
@@ -5753,6 +5808,1129 @@ body{
   .case-board-layout-v32{grid-template-columns:1fr}.case-source-v32,.case-hypothesis-v32{grid-column:auto!important;grid-row:auto!important}.case-hypothesis-v32{order:-1}
 }
 
+
+/* ==========================================================================
+   SIGNAL v3.2.1 · DESKTOP SCALE FIX
+   Desktop-only readability tuning. Mobile rules remain unchanged.
+   ========================================================================== */
+
+@media(min-width:1101px){
+
+  /* Main briefing should feel denser and easier to read on 1920/1366 desktop */
+  .briefing-main-grid-v32{
+    grid-template-columns:minmax(0,1.55fr) 330px!important;
+    gap:16px!important;
+    align-items:start!important;
+  }
+
+  /* Radar panel height slightly reduced so content does not feel distant */
+  .radar-shell-v32{
+    grid-template-columns:minmax(0,1fr) 220px!important;
+    min-height:330px!important;
+  }
+  .radar-grid-v32{
+    min-height:330px!important;
+  }
+
+  /* Scale radar geometry down a touch while making information larger */
+  .radar-ring-v32.r1{width:135px!important;height:135px!important}
+  .radar-ring-v32.r2{width:220px!important;height:220px!important}
+  .radar-ring-v32.r3{width:305px!important;height:305px!important}
+
+  .radar-sweep-v32{
+    width:153px!important;
+    height:153px!important;
+  }
+
+  .radar-center-v32{
+    width:142px!important;
+    height:142px!important;
+    box-shadow:0 0 0 10px rgba(107,160,191,.07)!important;
+  }
+  .radar-center-v32 small{
+    font-size:9px!important;
+    letter-spacing:.12em!important;
+  }
+  .radar-center-v32 strong{
+    font-size:18px!important;
+    margin:5px 0!important;
+  }
+  .radar-center-v32 span{
+    font-size:10px!important;
+  }
+
+  /* Radar node labels were too small on PC */
+  .radar-node-v32{
+    gap:8px!important;
+    padding:6px 8px!important;
+  }
+  .radar-node-v32>span{
+    width:12px!important;
+    height:12px!important;
+  }
+  .radar-node-v32 b{
+    font-size:10px!important;
+    letter-spacing:-.01em!important;
+  }
+
+  /* Bring nodes slightly closer to center */
+  .radar-node-v32.n1{left:18%!important;top:25%!important}
+  .radar-node-v32.n2{left:20%!important;bottom:22%!important}
+  .radar-node-v32.n3{right:18%!important;top:26%!important}
+  .radar-node-v32.n4{right:17%!important;bottom:23%!important}
+  .radar-node-v32.n5{left:53%!important;top:12%!important}
+  .radar-node-v32.n6{left:54%!important;bottom:12%!important}
+
+  /* Radar header readability */
+  .live-scan-head-v32{
+    padding:17px 20px!important;
+  }
+  .live-scan-head-v32 small{
+    font-size:9px!important;
+  }
+  .live-scan-head-v32 strong{
+    font-size:15px!important;
+    margin-top:5px!important;
+  }
+  .scan-live-v32{
+    font-size:9px!important;
+  }
+
+  /* Right-side scan metrics: larger text, no giant stretched empty panel */
+  .radar-side-v32{
+    padding:17px 18px!important;
+    align-self:stretch!important;
+  }
+  .radar-metric-v32{
+    padding:12px 0!important;
+  }
+  .radar-metric-v32 small{
+    font-size:8px!important;
+  }
+  .radar-metric-v32 strong{
+    font-size:23px!important;
+    margin-top:4px!important;
+  }
+  .radar-metric-v32 span{
+    font-size:9px!important;
+  }
+  .radar-legend-v32{
+    gap:8px!important;
+    padding:14px 0!important;
+  }
+  .radar-legend-v32 span{
+    font-size:8px!important;
+  }
+  .scan-cta-v32{
+    font-size:10px!important;
+    padding-top:12px!important;
+  }
+
+  /* Mission rail should size to its contents instead of stretching to radar height */
+  .mission-rail-v32{
+    align-self:start!important;
+  }
+  .mission-rail-block-v32{
+    padding:20px!important;
+  }
+  .mission-rail-block-v32 small{
+    font-size:9px!important;
+  }
+  .mission-rail-block-v32 strong{
+    font-size:21px!important;
+    margin:7px 0!important;
+  }
+  .mission-rail-block-v32 p{
+    font-size:11px!important;
+    line-height:1.7!important;
+  }
+  .mission-rail-block-v32.next{
+    margin-top:0!important;
+  }
+  .mission-rail-block-v32.next strong{
+    font-size:13px!important;
+    line-height:1.55!important;
+  }
+  .context-status-v32 b{
+    font-size:11px!important;
+  }
+
+  /* Case board was also slightly underscaled */
+  .case-board-head-v32 small{
+    font-size:9px!important;
+  }
+  .case-board-head-v32 strong{
+    font-size:16px!important;
+  }
+  .case-board-head-v32>span{
+    font-size:8px!important;
+  }
+  .case-source-v32 small,
+  .case-hypothesis-v32 small{
+    font-size:8px!important;
+  }
+  .case-source-v32 b{
+    font-size:14px!important;
+  }
+  .case-source-v32 span{
+    font-size:9px!important;
+  }
+  .case-hypothesis-v32 strong{
+    font-size:19px!important;
+  }
+  .case-hypothesis-v32 p{
+    font-size:10px!important;
+  }
+  .evidence-chips-v32 span{
+    font-size:9px!important;
+    padding:6px 9px!important;
+  }
+
+  .case-actions-v32 button>b{
+    font-size:11px!important;
+  }
+  .case-actions-v32 button>small{
+    font-size:9px!important;
+  }
+
+  /* Overall briefing title: desktop should feel presentation-ready */
+  .briefing-head-v32 h2{
+    font-size:38px!important;
+    line-height:1.16!important;
+  }
+  .briefing-head-v32 p{
+    font-size:12px!important;
+  }
+
+  /* Main content usable width */
+  #briefing{
+    max-width:1560px;
+    margin:0 auto;
+  }
+}
+
+/* 1366 desktop tuning: still readable without crowding */
+@media(min-width:1101px) and (max-width:1450px){
+  .briefing-main-grid-v32{
+    grid-template-columns:minmax(0,1fr) 300px!important;
+  }
+  .radar-shell-v32{
+    grid-template-columns:minmax(0,1fr) 200px!important;
+  }
+  .radar-grid-v32,
+  .radar-shell-v32{
+    min-height:310px!important;
+  }
+  .radar-ring-v32.r3{width:280px!important;height:280px!important}
+  .radar-ring-v32.r2{width:205px!important;height:205px!important}
+  .radar-ring-v32.r1{width:128px!important;height:128px!important}
+  .radar-center-v32{width:132px!important;height:132px!important}
+  .radar-center-v32 strong{font-size:17px!important}
+  .radar-node-v32 b{font-size:9px!important}
+  .mission-rail-block-v32{padding:17px!important}
+  .mission-rail-block-v32 strong{font-size:18px!important}
+}
+
+
+/* ==========================================================================
+   SIGNAL v3.3 · MISSION CONTROL LAYOUT
+   A-plan: summary → compact radar + mission → case board → status strip.
+   ========================================================================== */
+
+.briefing-v33{
+  max-width:1540px;
+  margin:0 auto;
+  color:#173750;
+}
+
+/* 01 HERO */
+.mission-hero-v33{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:28px;
+  align-items:center;
+  padding:20px 24px;
+  margin-bottom:14px;
+  border:1px solid #b3c7d5;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at 85% 0%,rgba(80,146,183,.12),transparent 30%),
+    linear-gradient(110deg,rgba(242,248,252,.96),rgba(225,237,245,.95));
+  box-shadow:0 8px 26px rgba(40,72,94,.06)
+}
+.mission-hero-copy-v33 h2{
+  margin:8px 0 4px;
+  color:#173b57;
+  font-size:34px;
+  line-height:1.18;
+  letter-spacing:-.035em
+}
+.mission-hero-copy-v33 p{margin:0;color:#607a8d;font-size:11px}
+.hero-summary-v33{display:flex;gap:16px;margin-top:13px}
+.hero-summary-v33 span{
+  padding-right:16px;
+  border-right:1px solid #c7d6df;
+  color:#657f92;
+  font-size:10px
+}
+.hero-summary-v33 span:last-child{border:0}
+.hero-summary-v33 b{color:#245c7e;font-size:16px;margin-right:4px}
+.hero-control-v33{display:grid;gap:10px;justify-items:end}
+.hero-stats-v33{
+  display:flex;
+  overflow:hidden;
+  border:1px solid #b8cad7;
+  border-radius:12px;
+  background:rgba(244,249,252,.92)
+}
+.hero-stats-v33>div{min-width:76px;padding:9px 12px;border-right:1px solid #d0dce4}
+.hero-stats-v33>div:last-child{border:0}
+.hero-stats-v33 small{display:block;color:#738b9e;font-size:7px;letter-spacing:.1em}
+.hero-stats-v33 strong{display:block;color:#244c67;font-size:18px;margin-top:2px}
+.hero-actions-v33{display:flex;gap:7px}
+.hero-actions-v33 button{border-radius:999px!important;padding:9px 13px!important}
+
+/* 02 GRID */
+.mission-control-grid-v33{
+  display:grid;
+  grid-template-columns:minmax(0,1.12fr) minmax(390px,.88fr);
+  gap:14px;
+  align-items:stretch;
+  margin-bottom:14px
+}
+
+/* RADAR */
+.scan-panel-v33{
+  min-height:365px;
+  overflow:hidden;
+  border:1px solid #aebfcb;
+  border-left:3px solid #4fa58f;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at 50% 55%,rgba(67,134,169,.10),transparent 35%),
+    linear-gradient(180deg,rgba(228,239,246,.97),rgba(207,224,234,.96));
+  cursor:pointer;
+  box-shadow:0 8px 25px rgba(42,73,94,.06)
+}
+.panel-title-v33{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 17px;
+  border-bottom:1px solid #b9cad5
+}
+.panel-title-v33 small{display:block;color:#5f8096;font-size:8px;letter-spacing:.14em;font-weight:900}
+.panel-title-v33 strong{display:block;color:#234860;font-size:14px;margin-top:3px}
+.compact-radar-v33{
+  position:relative;
+  height:285px;
+  overflow:hidden;
+  background:
+    linear-gradient(rgba(115,151,175,.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(115,151,175,.07) 1px,transparent 1px);
+  background-size:28px 28px
+}
+.radar-ring-v33{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  border:1px solid rgba(69,119,148,.20);border-radius:50%
+}
+.radar-ring-v33.r1{width:105px;height:105px}
+.radar-ring-v33.r2{width:180px;height:180px}
+.radar-ring-v33.r3{width:255px;height:255px}
+.radar-axis-v33{position:absolute;background:rgba(74,122,150,.12)}
+.radar-axis-v33.h{left:18%;right:18%;top:50%;height:1px}
+.radar-axis-v33.v{top:12%;bottom:12%;left:50%;width:1px}
+.radar-sweep-v33{
+  position:absolute;left:50%;top:50%;
+  width:128px;height:128px;
+  transform-origin:0 0;
+  border-radius:0 100% 0 0;
+  background:conic-gradient(from -24deg,rgba(71,163,141,.18),rgba(71,163,141,0) 25deg);
+  animation:radarSweepV33 7s linear infinite
+}
+@keyframes radarSweepV33{to{transform:rotate(360deg)}}
+.radar-center-v33{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:112px;height:112px;border-radius:50%;
+  display:grid;place-items:center;align-content:center;text-align:center;
+  background:rgba(238,246,250,.96);
+  border:1px solid #8eafc3;
+  box-shadow:0 0 0 8px rgba(93,151,184,.055);
+  z-index:3
+}
+.radar-center-v33 small{color:#6e899b;font-size:7px;letter-spacing:.12em}
+.radar-center-v33 strong{color:#234e69;font-size:15px;margin:3px 0}
+.radar-center-v33 span{color:#71899b;font-size:8px}
+.radar-node-v33{
+  position:absolute!important;
+  display:flex!important;align-items:center!important;gap:6px!important;
+  padding:4px 6px!important;
+  border:0!important;background:transparent!important;
+  color:#3f6177!important;z-index:4!important
+}
+.radar-node-v33>span{width:9px;height:9px;border-radius:50%;box-shadow:0 0 0 5px rgba(69,126,157,.07)}
+.radar-node-v33 b{font-size:9px}
+.radar-node-v33.person>span{background:#4b90bf}
+.radar-node-v33.team>span{background:#4eaa92}
+.radar-node-v33.leader>span{background:#b68948}
+.radar-node-v33.n1{left:19%;top:23%}.radar-node-v33.n2{left:21%;bottom:20%}.radar-node-v33.n3{right:18%;top:26%}.radar-node-v33.n4{right:17%;bottom:20%}.radar-node-v33.n5{left:52%;top:11%}
+.radar-node-v33.n1>span,.radar-node-v33.n3>span{animation:radarPulseV33 2.8s ease-in-out infinite}
+@keyframes radarPulseV33{50%{box-shadow:0 0 0 9px rgba(69,142,184,.10)}}
+.radar-footer-v33{
+  display:flex;gap:15px;align-items:center;
+  min-height:48px;
+  padding:0 16px;
+  border-top:1px solid #bdccd6;
+  background:rgba(224,235,242,.77)
+}
+.radar-footer-v33 span{display:flex;align-items:center;gap:5px;color:#6a8294;font-size:7px;letter-spacing:.08em}
+.radar-footer-v33 i{width:7px;height:7px;border-radius:50%}.radar-footer-v33 i.person{background:#4b90bf}.radar-footer-v33 i.team{background:#4eaa92}.radar-footer-v33 i.leader{background:#b68948}
+.radar-footer-v33 b{margin-left:auto;color:#3f6880;font-size:9px}
+
+/* MISSION */
+.mission-panel-v33{
+  display:flex;
+  flex-direction:column;
+  padding:18px 20px;
+  border:1px solid #b6c8d4;
+  border-radius:18px;
+  background:linear-gradient(180deg,rgba(241,247,250,.97),rgba(226,236,242,.95));
+  box-shadow:0 8px 25px rgba(42,73,94,.055)
+}
+.mission-panel-head-v33{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}
+.mission-panel-head-v33 small,.mission-focus-v33 small,.mission-next-v33 small{
+  color:#617f95;font-size:8px;font-weight:900;letter-spacing:.13em
+}
+.mission-panel-head-v33 strong{display:block;color:#1f4560;font-size:20px;margin-top:5px}
+.mission-panel-v33>p{color:#60798b;font-size:10px;line-height:1.7;margin:7px 0 14px}
+.context-status-v33{min-width:96px;text-align:right}.context-status-v33 b{display:block;color:#365f78;font-size:10px;margin-top:5px}
+.mission-focus-v33{padding:13px 14px;border:1px solid #b8cbd7;border-radius:12px;background:#e9f2f7}
+.mission-focus-v33 strong{display:block;color:#224b67;font-size:16px;margin:5px 0}.mission-focus-v33 span{color:#71889a;font-size:8px}
+.mission-evidence-v33{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.mission-evidence-v33 span{padding:5px 7px;border-radius:999px;border:1px solid #bdced9;background:#f4f8fb;color:#547185;font-size:8px}
+.mission-next-v33{padding:10px 0 13px;border-top:1px solid #c9d6de;margin-top:auto}.mission-next-v33 strong{display:block;color:#355c75;font-size:11px;margin-top:4px}
+.mission-quick-v33{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+.mission-quick-v33 button{position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;padding:8px!important;border-radius:10px!important;background:#e8f1f6!important;border:1px solid #bacdd9!important;color:#315d79!important}
+.mission-quick-v33 button span{font-size:14px}.mission-quick-v33 button b{font-size:9px}.mission-quick-v33 em{position:absolute;right:4px;top:3px;font-size:6px;font-style:normal;color:#9a6c2b}
+
+/* 03 CASE BOARD */
+.case-board-v33{
+  padding:16px 18px;
+  margin-bottom:12px;
+  border:1px solid #b5c7d3;
+  border-radius:17px;
+  background:linear-gradient(180deg,rgba(240,246,249,.96),rgba(225,235,241,.94))
+}
+.case-board-head-v33{display:flex;justify-content:space-between;align-items:end;padding-bottom:11px;border-bottom:1px solid #c5d3dc}
+.case-board-head-v33 small{display:block;color:#608096;font-size:8px;letter-spacing:.14em;font-weight:900}.case-board-head-v33 strong{display:block;color:#284b62;font-size:13px;margin-top:3px}.case-board-head-v33>span{font-size:7px;color:#7890a1;letter-spacing:.1em}
+.case-flow-v33{
+  display:grid;
+  grid-template-columns:1fr 24px 1fr 24px minmax(270px,1.25fr) 24px 1fr 24px 1fr;
+  align-items:center;
+  gap:5px;
+  padding-top:13px
+}
+.case-source-v33,.case-hypothesis-v33{min-height:82px;display:flex;flex-direction:column;justify-content:center;padding:10px 12px;border:1px solid #becfd9;border-radius:10px;background:rgba(247,250,252,.88)}
+.case-source-v33 small,.case-hypothesis-v33 small{color:#6d8799;font-size:7px;font-weight:900;letter-spacing:.1em}.case-source-v33 b{color:#2b5067;font-size:11px;margin:4px 0}.case-source-v33 span{color:#8193a1;font-size:7px}
+.case-hypothesis-v33{text-align:center;background:#e6f0f6;border-color:#91b3c8}.case-hypothesis-v33 b{color:#1f4b67;font-size:14px;margin-top:4px}
+.case-arrow-v33{text-align:center;color:#8da8b9;font-size:15px}
+
+/* 04 STATUS */
+.status-strip-v33{
+  display:grid;
+  grid-template-columns:145px 145px 190px 1fr;
+  margin-bottom:12px;
+  overflow:hidden;
+  border:1px solid #bacbd6;
+  border-radius:13px;
+  background:rgba(232,241,246,.92)
+}
+.status-strip-v33>div{padding:10px 14px;border-right:1px solid #cbd8e1}.status-strip-v33>div:last-child{border:0}
+.status-strip-v33 small{display:block;color:#70899b;font-size:7px;letter-spacing:.1em}.status-strip-v33 strong{display:block;color:#254c67;font-size:16px;margin:2px 0}.status-strip-v33 span{color:#7b8f9f;font-size:7px}
+.status-progress-v33{display:flex;flex-direction:column;justify-content:center}
+.briefing-disclosure-v33{background:rgba(227,237,243,.90);border:1px solid #b9cbd7;border-radius:12px}.briefing-disclosure-v33 summary{cursor:pointer;padding:10px 13px;color:#4e6d82;font-size:9px}.briefing-disclosure-v33 summary span{font-size:7px;letter-spacing:.1em;margin-right:8px;color:#718a9c}
+
+/* Hide prior briefing structures if legacy CSS survived. */
+.briefing-v33 .briefing-main-grid-v32,
+.briefing-v33 .case-board-v32,
+.briefing-v33 .briefing-disclosure-v32,
+.briefing-v33 .bottom-status-v30,
+.briefing-v33 .briefing-hero-statement-v30,
+.briefing-v33 .case-board-v30{display:none!important}
+
+@media(max-width:1450px){
+  .briefing-v33{max-width:none}
+  .mission-control-grid-v33{grid-template-columns:minmax(0,1.05fr) 370px}
+  .case-flow-v33{grid-template-columns:1fr 18px 1fr 18px minmax(240px,1.15fr) 18px 1fr 18px 1fr}
+  .mission-hero-copy-v33 h2{font-size:30px}
+}
+@media(max-width:1150px){
+  .mission-control-grid-v33{grid-template-columns:1fr}
+  .mission-panel-v33{min-height:auto}
+  .case-flow-v33{grid-template-columns:1fr 1fr}
+  .case-arrow-v33{display:none}
+  .case-hypothesis-v33{grid-column:1/-1;order:-1}
+  .status-strip-v33{grid-template-columns:1fr 1fr}
+  .status-strip-v33>div:nth-child(2){border-right:0}
+}
+@media(max-width:900px){
+  .mission-hero-v33{grid-template-columns:1fr}
+  .hero-control-v33{justify-items:start}
+  .mission-control-grid-v33{grid-template-columns:1fr}
+  .compact-radar-v33{height:320px}
+  .mission-quick-v33{grid-template-columns:1fr}
+  .case-flow-v33{grid-template-columns:1fr}
+  .case-source-v33,.case-hypothesis-v33{min-height:auto}
+  .status-strip-v33{grid-template-columns:1fr 1fr}
+}
+
+
+/* ==========================================================================
+   SIGNAL v3.4 · PREMIUM RADAR UI
+   Enterprise radar: richer scan, stronger nodes, focused right status panel.
+   ========================================================================== */
+.premium-scan-v34{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 330px;
+  min-height:500px;
+  margin-bottom:14px;
+  border:1px solid #b2c6d4;
+  border-radius:20px;
+  overflow:hidden;
+  background:linear-gradient(180deg,#eaf3f8,#dae8f1);
+  box-shadow:0 12px 34px rgba(40,71,94,.08)
+}
+.premium-scan-main-v34{
+  position:relative;
+  min-width:0;
+  overflow:hidden;
+  cursor:pointer;
+  background:
+    radial-gradient(circle at 50% 48%,rgba(75,145,184,.11),transparent 33%),
+    linear-gradient(180deg,rgba(238,247,251,.96),rgba(221,235,243,.94))
+}
+.premium-scan-copy-v34{
+  position:absolute;
+  left:28px;top:25px;
+  z-index:7;
+  max-width:340px
+}
+.premium-scan-copy-v34>small{
+  color:#367aaa;font-size:9px;font-weight:950;letter-spacing:.18em
+}
+.premium-scan-copy-v34 h3{
+  margin:8px 0 6px;
+  color:#153f5f;
+  font-size:28px;
+  letter-spacing:-.035em
+}
+.premium-scan-copy-v34 p{
+  color:#678094;
+  font-size:11px;
+  line-height:1.7
+}
+.premium-live-v34{
+  position:absolute;right:26px;top:24px;z-index:8;
+  display:grid;
+  grid-template-columns:10px auto;
+  gap:1px 7px;
+  align-items:center
+}
+.premium-live-v34 i{
+  width:9px;height:9px;border-radius:50%;
+  background:#46b397;
+  box-shadow:0 0 0 7px rgba(70,179,151,.10)
+}
+.premium-live-v34 b{
+  color:#2d836d;font-size:11px;letter-spacing:.11em
+}
+.premium-live-v34 span{
+  grid-column:2;color:#7890a2;font-size:8px
+}
+.premium-radar-v34{
+  position:absolute;
+  left:0;right:0;top:0;bottom:52px;
+  overflow:hidden
+}
+.premium-grid-v34{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(rgba(86,133,164,.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(86,133,164,.07) 1px,transparent 1px);
+  background-size:34px 34px
+}
+.premium-axis-v34{position:absolute;background:rgba(66,121,158,.22);z-index:1}
+.premium-axis-v34.h{left:22%;right:20%;height:1px;top:54%}
+.premium-axis-v34.v{top:13%;bottom:12%;width:1px;left:57%}
+.premium-ring-v34{
+  position:absolute;left:57%;top:54%;transform:translate(-50%,-50%);
+  border:1px solid rgba(60,125,166,.21);border-radius:50%;
+  z-index:2
+}
+.premium-ring-v34.r1{width:160px;height:160px}
+.premium-ring-v34.r2{width:245px;height:245px}
+.premium-ring-v34.r3{width:330px;height:330px}
+.premium-ring-v34.r4{width:415px;height:415px;border-style:dashed;opacity:.55}
+.premium-sweep-v34{
+  position:absolute;left:57%;top:54%;
+  width:208px;height:208px;
+  transform-origin:0 0;
+  border-radius:0 100% 0 0;
+  background:conic-gradient(from -30deg,rgba(50,138,201,.30),rgba(50,138,201,.07) 16deg,rgba(50,138,201,0) 38deg);
+  animation:premiumRadarSweep 7.5s linear infinite;
+  z-index:1
+}
+@keyframes premiumRadarSweep{to{transform:rotate(360deg)}}
+.premium-center-v34{
+  position:absolute;left:57%;top:54%;transform:translate(-50%,-50%);
+  width:174px;height:174px;border-radius:50%;
+  display:grid;place-items:center;align-content:center;text-align:center;
+  background:linear-gradient(180deg,#f7fbfe,#e9f3f9);
+  border:1px solid #82aec8;
+  box-shadow:
+    0 0 0 10px rgba(103,166,203,.08),
+    0 10px 30px rgba(37,82,113,.10);
+  z-index:5
+}
+.premium-center-v34 small{color:#67889f;font-size:8px;letter-spacing:.15em}
+.premium-center-v34 strong{color:#123e5e;font-size:23px;margin:5px 0}
+.premium-center-v34 span{color:#698398;font-size:9px}
+.premium-node-v34{
+  position:absolute!important;z-index:6!important;
+  display:flex!important;gap:10px!important;align-items:center!important;
+  padding:4px 6px!important;
+  background:transparent!important;border:0!important;
+  text-align:left!important;color:#33576f!important
+}
+.premium-node-v34:hover{background:rgba(255,255,255,.58)!important}
+.premium-node-v34 .node-icon-v34{
+  width:42px;height:42px;border-radius:50%;
+  display:grid;place-items:center;
+  color:white;font-size:14px;font-weight:900;
+  border:2px solid rgba(255,255,255,.85);
+  box-shadow:0 0 0 5px rgba(69,139,187,.08),0 7px 18px rgba(45,92,125,.13)
+}
+.premium-node-v34 div{display:grid;gap:2px}
+.premium-node-v34 b{font-size:11px;color:#244b65}
+.premium-node-v34 small{font-size:8px;color:#6e8799}
+.premium-node-v34.person .node-icon-v34{background:linear-gradient(145deg,#66aee0,#3d85bf)}
+.premium-node-v34.team .node-icon-v34{background:linear-gradient(145deg,#62cdb1,#3aa98d)}
+.premium-node-v34.leader .node-icon-v34{background:linear-gradient(145deg,#e0b261,#c58b32)}
+.premium-node-v34.context .node-icon-v34{background:linear-gradient(145deg,#9aabba,#72889b)}
+.premium-node-v34.p1{left:28%;top:36%}
+.premium-node-v34.p2{left:25%;bottom:20%}
+.premium-node-v34.p3{right:13%;top:43%}
+.premium-node-v34.p4{right:14%;bottom:19%}
+.premium-node-v34.p5{left:62%;top:21%}
+.premium-node-v34.p6{left:55%;bottom:6%}
+.premium-node-v34.p1 .node-icon-v34,
+.premium-node-v34.p3 .node-icon-v34,
+.premium-node-v34.p5 .node-icon-v34{
+  animation:premiumNodePulse 2.7s ease-in-out infinite
+}
+@keyframes premiumNodePulse{
+  50%{box-shadow:0 0 0 10px rgba(68,144,189,.10),0 7px 18px rgba(45,92,125,.13)}
+}
+.premium-node-v34::after{
+  content:attr(data-tip);
+  position:absolute;left:52px;top:calc(100% + 5px);
+  min-width:190px;
+  padding:7px 9px;
+  border-radius:8px;
+  background:rgba(28,55,74,.92);
+  color:#eef8fd;font-size:8px;line-height:1.45;
+  opacity:0;transform:translateY(-3px);
+  pointer-events:none;transition:.15s ease
+}
+.premium-node-v34:hover::after{opacity:1;transform:none}
+.premium-legend-v34{
+  position:absolute;left:0;right:0;bottom:0;height:52px;
+  display:flex;align-items:center;gap:22px;
+  padding:0 24px;
+  border-top:1px solid #bed0dc;
+  background:rgba(225,237,244,.88);
+  z-index:7
+}
+.premium-legend-v34>span{display:grid;grid-template-columns:8px auto;gap:2px 7px;align-items:center;color:#577388;font-size:8px;letter-spacing:.07em}
+.premium-legend-v34>span small{grid-column:2;color:#8497a5;font-size:7px}
+.premium-legend-v34 i{width:8px;height:8px;border-radius:50%}
+.premium-legend-v34 i.person{background:#4d92c3}.premium-legend-v34 i.team{background:#48ad91}.premium-legend-v34 i.leader{background:#c9943c}.premium-legend-v34 i.context{background:#7f92a2}
+.premium-legend-v34>b{margin-left:auto;color:#376983;font-size:9px}
+
+/* Right status */
+.premium-scan-side-v34{
+  padding:20px;
+  background:linear-gradient(180deg,#f1f7fa,#e3edf3);
+  border-left:1px solid #bdcfda
+}
+.side-title-v34{color:#214a64;font-size:12px;font-weight:850;margin-bottom:14px}
+.side-grid-v34{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.side-stat-v34,.side-info-v34,.side-context-v34,.side-next-v34{
+  border:1px solid #c5d5df;
+  border-radius:12px;
+  background:rgba(249,252,254,.72)
+}
+.side-stat-v34{padding:14px}.side-stat-v34 small,.side-info-v34 small,.side-context-v34 small,.side-next-v34 small{color:#66859a;font-size:8px;font-weight:900;letter-spacing:.11em}
+.side-stat-v34 strong{display:block;color:#173f5c;font-size:27px;margin:5px 0 3px}.side-stat-v34 span,.side-info-v34 span{color:#718a9c;font-size:8px}
+.side-info-v34{display:flex;justify-content:space-between;align-items:center;margin-top:9px;padding:14px}.side-info-v34 strong{display:block;color:#153f5c;font-size:19px;margin:5px 0}.info-icon-v34{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;background:#e5f0f6;color:#5b87a2;font-size:19px}
+.side-context-v34{margin-top:9px;padding:14px}.side-context-head-v34{display:flex;justify-content:space-between;align-items:center}.side-context-head-v34 strong{color:#315a73;font-size:10px}.context-status-v34{margin:8px 0}
+.side-next-v34{display:grid;grid-template-columns:26px 1fr 32px;gap:8px;align-items:center;margin-top:9px;padding:13px}.next-icon-v34{color:#3a6f91;font-size:18px}.side-next-v34 strong{display:block;color:#2b5169;font-size:11px;line-height:1.5;margin-top:3px}.side-next-v34 button{width:30px;height:30px;border-radius:50%!important;padding:0!important;background:#eaf3f8!important;border-color:#a9c4d5!important;color:#34678b!important}
+.side-philosophy-v34{margin-top:19px;text-align:center;color:#6f8798;font-size:8px;line-height:1.6}.side-philosophy-v34 b{display:block;color:#6d8ca1;letter-spacing:.28em;margin-top:8px}
+
+/* recent row */
+.recent-row-v34{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.recent-signals-v34,.insight-v34{padding:16px 18px;border:1px solid #b8cbd7;border-radius:15px;background:linear-gradient(180deg,rgba(243,248,251,.94),rgba(229,238,244,.92))}
+.recent-head-v34{display:flex;justify-content:space-between;align-items:end}.recent-head-v34 small{display:block;color:#5e7e95;font-size:8px;font-weight:900;letter-spacing:.12em}.recent-head-v34 strong{display:block;color:#244a63;font-size:14px;margin-top:3px}.recent-head-v34 button{background:transparent!important;border:0!important;color:#4e7a97!important;font-size:8px!important;padding:0!important}
+.recent-signal-list-v34{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.recent-signal-list-v34 span{display:grid;grid-template-columns:8px 1fr;gap:2px 6px;padding:10px;border:1px solid #c7d6df;border-radius:9px;background:rgba(249,252,253,.70)}.recent-signal-list-v34 i{width:8px;height:8px;border-radius:50%;margin-top:3px}.recent-signal-list-v34 i.person{background:#4d92c3}.recent-signal-list-v34 i.team{background:#48ad91}.recent-signal-list-v34 i.leader{background:#c9943c}.recent-signal-list-v34 b{font-size:9px;color:#34586f}.recent-signal-list-v34 small{grid-column:2;color:#8194a1;font-size:7px}
+.insight-v34>p{color:#587388;font-size:10px;line-height:1.65;margin:12px 0}.insight-hypothesis-v34{padding:9px 11px;border-left:3px solid #4f9a87;background:#eaf3f7}.insight-hypothesis-v34 small{display:block;color:#6a8497;font-size:7px;letter-spacing:.1em}.insight-hypothesis-v34 b{color:#2b5069;font-size:11px}
+
+/* hide v33 mission-control region if legacy selectors somehow remain */
+.briefing-v33 .mission-control-grid-v33{display:none!important}
+
+/* desktop tuning */
+@media(max-width:1450px){
+  .premium-scan-v34{grid-template-columns:minmax(0,1fr) 300px}
+  .premium-scan-copy-v34{left:22px;top:21px}
+  .premium-scan-copy-v34 h3{font-size:25px}
+  .premium-ring-v34.r4{width:380px;height:380px}
+  .premium-ring-v34.r3{width:305px;height:305px}
+  .premium-ring-v34.r2{width:225px;height:225px}
+  .premium-center-v34{width:160px;height:160px}
+  .premium-node-v34 small{display:none}
+}
+@media(max-width:1100px){
+  .premium-scan-v34{grid-template-columns:1fr}
+  .premium-scan-main-v34{min-height:500px}
+  .premium-scan-side-v34{border-left:0;border-top:1px solid #bdcfda}
+  .recent-row-v34{grid-template-columns:1fr}
+}
+@media(max-width:900px){
+  .premium-scan-main-v34{min-height:530px}
+  .premium-radar-v34{bottom:48px}
+  .premium-scan-copy-v34{position:relative;left:auto;top:auto;padding:18px 18px 0}
+  .premium-live-v34{top:18px;right:18px}
+  .premium-ring-v34.r4{width:330px;height:330px}
+  .premium-ring-v34.r3{width:270px;height:270px}
+  .premium-ring-v34.r2{width:205px;height:205px}
+  .premium-center-v34{width:145px;height:145px}
+  .premium-node-v34 div small{display:none}
+  .premium-node-v34 b{font-size:9px}
+  .recent-signal-list-v34{grid-template-columns:1fr}
+}
+
+
+/* ==========================================================================
+   SIGNAL v3.5 · DYNAMIC INTELLIGENCE RADAR
+   ========================================================================== */
+
+.premium-center-v35{
+  transition:box-shadow .18s ease,border-color .18s ease,background .18s ease;
+}
+.premium-center-v35::after{
+  content:"";
+  position:absolute;
+  inset:-15px;
+  border-radius:50%;
+  border:1px solid rgba(64,137,179,.11);
+  pointer-events:none;
+}
+.premium-center-v35 #radarCenterStateV35{
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  margin-top:2px;
+  padding:3px 7px;
+  border:1px solid #bfd2de;
+  border-radius:999px;
+  background:#e7f1f6;
+  color:#3d718f;
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.08em
+}
+.radar-center-breakdown-v35{
+  margin-top:5px;
+  color:#6d879a;
+  font-size:7px;
+  letter-spacing:.05em;
+  white-space:nowrap
+}
+
+.premium-node-v34{
+  transform:translate(var(--node-x,0),var(--node-y,0));
+  transition:opacity .20s ease,filter .20s ease,transform .20s ease!important;
+}
+.premium-node-v34.node-hidden-v35{
+  opacity:.11!important;
+  filter:grayscale(.7);
+  pointer-events:none
+}
+.premium-node-v34:not(.node-hidden-v35):hover{
+  transform:translate(var(--node-x,0),var(--node-y,0)) scale(1.03)!important
+}
+
+/* extra low-intensity scan echoes */
+.premium-radar-v34::before{
+  content:"";
+  position:absolute;
+  left:57%;top:54%;
+  width:5px;height:5px;border-radius:50%;
+  z-index:3;
+  background:#4c91c0;
+  box-shadow:
+    92px 42px 0 #4baa90,
+    176px -18px 0 #4c91c0,
+    -82px 116px 0 #8295a5,
+    147px 122px 0 #4baa90,
+    -116px -72px 0 #c4923c,
+    34px -143px 0 #4c91c0;
+  opacity:.72
+}
+.premium-radar-v34::after{
+  content:"";
+  position:absolute;
+  left:57%;top:54%;
+  width:4px;height:4px;border-radius:50%;
+  z-index:3;
+  background:#4c91c0;
+  box-shadow:
+    134px 15px 0 #4baa90,
+    -53px -121px 0 #8295a5,
+    -144px 42px 0 #4c91c0,
+    75px 148px 0 #4baa90;
+  opacity:.28;
+  transform:rotate(31deg)
+}
+
+.signal-identified-v35{
+  position:absolute;
+  left:57%;top:54%;
+  transform:translate(-50%,-50%) scale(.95);
+  z-index:30;
+  min-width:220px;
+  max-width:280px;
+  padding:12px 15px;
+  border-radius:12px;
+  border:1px solid rgba(130,194,220,.42);
+  background:rgba(24,53,72,.94);
+  box-shadow:0 18px 48px rgba(21,48,65,.24);
+  color:white;
+  text-align:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .16s ease,transform .16s ease
+}
+.signal-identified-v35.show{
+  opacity:1;
+  transform:translate(-50%,-50%) scale(1)
+}
+.signal-identified-v35 small{
+  display:block;color:#86dbc3;
+  font-size:7px;font-weight:950;letter-spacing:.16em
+}
+.signal-identified-v35 strong{
+  display:block;color:#fff;
+  font-size:13px;margin-top:4px
+}
+.signal-identified-v35 span{
+  display:block;color:#c7dbe6;
+  font-size:8px;line-height:1.45;margin-top:4px
+}
+
+.premium-legend-v34 small b{
+  margin-left:4px;
+  color:#355f78;
+  font-size:8px
+}
+
+/* rings and sweep: richer, still restrained */
+.premium-ring-v34.r1{border-color:rgba(57,127,168,.30)!important}
+.premium-ring-v34.r2{border-color:rgba(57,127,168,.24)!important}
+.premium-ring-v34.r3{border-color:rgba(57,127,168,.20)!important}
+.premium-sweep-v34{
+  filter:drop-shadow(5px 5px 9px rgba(46,137,188,.09))
+}
+.premium-axis-v34.h{
+  background:linear-gradient(90deg,transparent,rgba(54,118,158,.34),transparent)!important
+}
+.premium-axis-v34.v{
+  background:linear-gradient(180deg,transparent,rgba(54,118,158,.34),transparent)!important
+}
+
+.premium-node-v34 .node-icon-v34{
+  position:relative
+}
+.premium-node-v34 .node-icon-v34::after{
+  content:"";
+  position:absolute;
+  inset:-6px;
+  border-radius:50%;
+  border:1px solid rgba(60,128,170,.17);
+}
+
+@media(max-width:900px){
+  .signal-identified-v35{left:50%;min-width:180px}
+  .radar-center-breakdown-v35{font-size:6px}
+}
+
+
+/* ==========================================================================
+   SIGNAL v3.6 · RADAR FX + SHIFT TIMER
+   Fix invisible / low-contrast controls introduced by global light-theme rules.
+   ========================================================================== */
+
+/* Settings page: all interactive text must be readable */
+#settings{
+  color:#173750!important;
+}
+#settings .settings-surface-v30{
+  background:linear-gradient(180deg,#eef5f9,#e2edf3)!important;
+  border-color:#b7cad7!important;
+}
+#settings .settings-row{
+  background:transparent!important;
+  border-color:#c6d5df!important;
+}
+#settings .settings-row strong{
+  color:#244a64!important;
+}
+#settings .settings-row .muted{
+  color:#70879a!important;
+}
+
+/* Native select: force readable foreground/background in all browsers */
+#settings select,
+#settings #motionSetting{
+  color:#eaf4fb!important;
+  background:#102238!important;
+  border:1px solid #29445d!important;
+  box-shadow:none!important;
+  -webkit-text-fill-color:#eaf4fb!important;
+}
+#settings select option,
+#settings #motionSetting option{
+  color:#102238!important;
+  background:#f5f9fc!important;
+}
+
+/* Settings buttons */
+#settings button,
+#settings .small,
+#settings #restartTutorialBtn,
+#settings #fullscreenBtn{
+  color:#24506e!important;
+  background:#eaf2f7!important;
+  border:1px solid #a9bfd0!important;
+  box-shadow:none!important;
+  opacity:1!important;
+  -webkit-text-fill-color:#24506e!important;
+}
+#settings button:hover,
+#settings .small:hover{
+  color:#173f5d!important;
+  background:#dfeaf1!important;
+  border-color:#88a9bf!important;
+}
+
+/* Disabled-like washed controls should still be legible */
+#settings button:disabled,
+#settings select:disabled{
+  opacity:.55!important;
+}
+
+/* Range control */
+#settings input[type="range"]{
+  accent-color:#2d83c5!important;
+  opacity:1!important;
+}
+#settings input[type="range"]::-webkit-slider-runnable-track{
+  background:#cbd8e0!important;
+  height:5px!important;
+  border-radius:999px!important;
+}
+#settings input[type="range"]::-webkit-slider-thumb{
+  margin-top:-5px;
+}
+
+/* Generic utility controls that became too faint under bright surfaces */
+.bright-os-view button,
+.signal-os-view button,
+.human-moment-view button{
+  text-shadow:none!important;
+}
+.bright-os-view button:not(.primary):not(:disabled),
+.signal-os-view button:not(.primary):not(:disabled),
+.human-moment-view button:not(.primary):not(:disabled){
+  color:#31566f!important;
+  -webkit-text-fill-color:#31566f!important;
+}
+
+/* Explicitly protect labels inside controls */
+button span, button b, button small{
+  opacity:1;
+}
+
+/* Presentation / sound utilities: readable but still visually quiet */
+.presentation-fx-btn{
+  color:#dff7ef!important;
+  -webkit-text-fill-color:#dff7ef!important;
+  opacity:.92!important;
+}
+.sound-indicator,
+.sound-label,
+[class*="sound-status"],
+.app > aside [class*="sound"]{
+  color:#d9edf4!important;
+  -webkit-text-fill-color:#d9edf4!important;
+  opacity:.88!important;
+  background:rgba(36,67,83,.55)!important;
+}
+
+/* Ensure form controls don't inherit transparent text from browser/theme */
+input, select, textarea, button{
+  caret-color:auto;
+}
+
+/* Extra contrast on 1366/desktop */
+@media(min-width:901px){
+  #settings .settings-row{
+    min-height:84px;
+  }
+  #settings select,
+  #settings button{
+    min-width:92px;
+    min-height:42px;
+    font-weight:750!important;
+  }
+}
+
+
+/* ==========================================================================
+   SIGNAL v3.7 · RADAR SIGNATURE FX
+   Final presentation polish: brighter sweep, core bloom, ring echoes, scan flash.
+   ========================================================================== */
+.premium-radar-v34{
+  --radar-cx:57%;
+  --radar-cy:54%;
+}
+.premium-radar-v34::before{
+  box-shadow:
+    92px 42px 0 #56b6e6,
+    176px -18px 0 #54c6a7,
+    -82px 116px 0 #8ba0af,
+    147px 122px 0 #4fc5a2,
+    -116px -72px 0 #d0a04d,
+    34px -143px 0 #55b2e3,
+    218px 72px 0 #7ad8f6,
+    -170px 18px 0 #6ecfb2!important;
+  filter:drop-shadow(0 0 8px rgba(73,185,229,.25));
+}
+.premium-radar-v34::after{
+  box-shadow:
+    134px 15px 0 #4baa90,
+    -53px -121px 0 #8295a5,
+    -144px 42px 0 #4c91c0,
+    75px 148px 0 #4baa90,
+    196px -68px 0 #6ccbef,
+    -188px 96px 0 #d0a04d!important;
+  opacity:.42!important;
+  filter:drop-shadow(0 0 7px rgba(85,186,225,.20));
+}
+.premium-scan-main-v34::after{
+  content:"";
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(circle at 57% 54%,rgba(169,244,255,.14),transparent 17%),
+    radial-gradient(circle at 57% 54%,rgba(91,207,255,.08),transparent 42%);
+  mix-blend-mode:screen;
+  animation:radarAmbientBloomV37 4.2s ease-in-out infinite;
+}
+@keyframes radarAmbientBloomV37{
+  0%,100%{opacity:.45}
+  50%{opacity:1}
+}
+.premium-sweep-v34{
+  width:390px!important;height:390px!important;
+  background:conic-gradient(from -54deg,
+    rgba(86,228,255,0) 0deg,
+    rgba(86,228,255,.03) 8deg,
+    rgba(95,245,218,.10) 16deg,
+    rgba(76,211,255,.22) 31deg,
+    rgba(174,255,239,.50) 46deg,
+    rgba(87,219,255,.26) 64deg,
+    rgba(87,219,255,.08) 82deg,
+    rgba(87,219,255,0) 104deg)!important;
+  filter:drop-shadow(0 0 18px rgba(88,203,246,.22)) drop-shadow(0 0 36px rgba(92,231,206,.12))!important;
+}
+.premium-sweep-v34::before{
+  background:
+    radial-gradient(circle at 0 0,rgba(213,255,248,.74),rgba(129,238,255,.24) 30%,rgba(86,202,255,.06) 54%,rgba(86,202,255,0) 78%)!important;
+}
+.premium-sweep-v34::after{
+  width:3px!important;
+  background:linear-gradient(180deg,rgba(237,255,251,1),rgba(139,243,255,.62),rgba(96,217,255,.20),rgba(96,217,255,0) 86%)!important;
+  box-shadow:0 0 10px rgba(182,255,244,.62),0 0 24px rgba(92,217,255,.34)!important;
+}
+.premium-ring-v34{
+  background:radial-gradient(circle at center,transparent 67%,rgba(96,202,238,.025) 68%,transparent 70%);
+}
+.premium-ring-v34.r1{box-shadow:0 0 14px rgba(75,180,220,.10) inset}
+.premium-ring-v34.r2{box-shadow:0 0 18px rgba(75,180,220,.08) inset}
+.premium-ring-v34.r3{box-shadow:0 0 22px rgba(75,180,220,.07) inset}
+.premium-ring-v34.r4{box-shadow:0 0 26px rgba(75,180,220,.05) inset}
+.premium-center-v34{
+  border-color:#75b7d1!important;
+  background:linear-gradient(180deg,rgba(251,254,255,.98),rgba(229,244,249,.96))!important;
+}
+.premium-center-v34::after{
+  border-color:rgba(77,173,214,.20)!important;
+  box-shadow:0 0 18px rgba(86,191,230,.12);
+}
+.premium-center-v35[data-signal-state="watch"]{
+  animation:premiumCorePulseWatchV37 2.8s ease-in-out infinite!important;
+}
+.premium-center-v35[data-signal-state="alert"]{
+  animation:premiumCorePulseAlertV37 2.1s ease-in-out infinite!important;
+}
+@keyframes premiumCorePulseWatchV37{
+  0%,100%{box-shadow:0 0 0 12px rgba(103,166,203,.09),0 0 28px rgba(79,191,226,.16),0 10px 30px rgba(37,82,113,.12)}
+  50%{box-shadow:0 0 0 18px rgba(103,166,203,.13),0 0 52px rgba(79,211,198,.22),0 10px 30px rgba(37,82,113,.14)}
+}
+@keyframes premiumCorePulseAlertV37{
+  0%,100%{box-shadow:0 0 0 15px rgba(90,181,220,.13),0 0 34px rgba(74,191,231,.20),0 10px 30px rgba(37,82,113,.15)}
+  50%{box-shadow:0 0 0 23px rgba(91,203,235,.17),0 0 64px rgba(87,225,205,.28),0 12px 34px rgba(37,82,113,.18)}
+}
+.premium-node-v34:not(.node-hidden-v35) .node-icon-v34{
+  box-shadow:0 0 0 5px rgba(69,139,187,.09),0 7px 18px rgba(45,92,125,.13),0 0 20px rgba(88,194,228,.08)!important;
+}
+.premium-node-v34.sweep-hit-v36 .node-icon-v34{
+  box-shadow:0 0 0 10px rgba(84,212,255,.18),0 0 36px rgba(117,238,214,.38),0 7px 18px rgba(45,92,125,.13)!important;
+}
+.premium-node-v34.sweep-hit-v36::before{
+  content:"";
+  position:absolute;
+  width:2px;height:2px;border-radius:50%;
+  left:22px;top:22px;
+  background:#dffff6;
+  box-shadow:0 0 18px 6px rgba(114,237,255,.28);
+  animation:scanSparkV37 .55s ease-out forwards;
+}
+@keyframes scanSparkV37{
+  from{opacity:1;transform:scale(.7)}
+  to{opacity:0;transform:scale(2.2)}
+}
+.premium-live-v34 i{
+  animation:liveDotPulseV37 1.8s ease-in-out infinite;
+}
+@keyframes liveDotPulseV37{
+  0%,100%{box-shadow:0 0 0 7px rgba(70,179,151,.10),0 0 0 rgba(70,179,151,0)}
+  50%{box-shadow:0 0 0 10px rgba(70,179,151,.08),0 0 18px rgba(70,179,151,.24)}
+}
+/* Presentation FX remains optional; radar itself now carries the visual signature. */
+@media(max-width:1450px){.premium-sweep-v34{width:350px!important;height:350px!important}}
+@media(max-width:900px){.premium-sweep-v34{width:300px!important;height:300px!important}}
+
+
+.premium-radar-v34.scan-flash-v37{filter:brightness(1.035) saturate(1.04)}
+.premium-radar-v34.scan-flash-v37 .premium-center-v34{filter:brightness(1.035)}
 </style>
 </head>
 <body class="signal-login-hero">
@@ -5955,148 +7133,243 @@ body{
   </aside>
 
   <main>
-    <section id="briefing" class="view active briefing-v32">
-      <div class="os-page-head briefing-head-v32">
-        <div>
+    <section id="briefing" class="view active briefing-v33">
+      <!-- 01. HERO / SITUATION SUMMARY -->
+      <div class="mission-hero-v33">
+        <div class="mission-hero-copy-v33">
           <div class="os-kicker">WEEKLY DECISION BRIEF</div>
-          <div class="week-signal-line"><span id="briefingWeekChip">WEEK 1</span><i></i><b>SIGNAL DETECTED</b></div>
+          <div class="week-signal-line">
+            <span id="briefingWeekChip">WEEK 1</span><i></i><b>SIGNAL DETECTED</b>
+          </div>
           <h2>이번 주, 평소와 다른 변화가 감지되었습니다.</h2>
           <p id="briefingSubtitle">1주차 · 조직 변화 스캔</p>
-        </div>
-        <div class="briefing-head-actions">
-          <div class="briefing-compact-stats">
-            <span><small>SIGNALS</small><strong id="hudSignalCount">0</strong></span>
-            <span><small>CONTEXT</small><strong id="metricOrg">2</strong></span>
-            <span><small>AP</small><strong id="hudActionPoint">8</strong></span>
-            <span><small>TRUST</small><strong id="hudTrust">60</strong></span>
+          <div class="hero-summary-v33">
+            <span><b id="heroPatternCountV33">0</b>명의 개인 패턴 변화</span>
+            <span><b id="heroContextCountV33">2</b>개의 조직 맥락 확인 필요</span>
           </div>
-          <button class="briefing-reset-btn" id="resetBtn">새 회차 시작</button>
+        </div>
+
+        <div class="hero-control-v33">
+          <div class="hero-stats-v33">
+            <div><small>SIGNALS</small><strong id="hudSignalCount">0</strong></div>
+            <div><small>AP</small><strong id="hudActionPoint">8</strong></div>
+            <div><small>TRUST</small><strong id="hudTrust">60</strong></div>
+          </div>
+          <div class="hero-actions-v33">
+            <button class="primary" onclick="showView('organization')">SIGNAL 확인하기 <span>→</span></button>
+            <button id="resetBtn" class="briefing-reset-btn">새 회차 시작</button>
+          </div>
         </div>
       </div>
 
-      <div class="briefing-main-grid-v32">
-        <section class="live-scan-v32" onclick="showView('organization')" role="button" tabindex="0" aria-label="People Explorer 열기">
-          <div class="live-scan-head-v32">
+      <!-- 02. PREMIUM LIVE RADAR / INTERPRETATION -->
+      <section class="premium-scan-v34">
+        <div class="premium-scan-main-v34" onclick="showView('organization')" role="button" tabindex="0" aria-label="People Explorer 열기">
+          <div class="premium-scan-copy-v34">
+            <small>LIVE ORGANIZATION SCAN</small>
+            <h3>조직 변화 감지</h3>
+            <p>조직 곳곳의 신호를 실시간으로 스캔하고,<br>평소와 다른 변화를 감지합니다.</p>
+          </div>
+
+          <div class="premium-live-v34"><i></i><b>LIVE</b><span>실시간 스캔 중</span></div>
+
+          <div class="premium-radar-v34">
+            <div class="premium-grid-v34"></div>
+            <div class="premium-axis-v34 h"></div>
+            <div class="premium-axis-v34 v"></div>
+            <div class="premium-ring-v34 r1"></div>
+            <div class="premium-ring-v34 r2"></div>
+            <div class="premium-ring-v34 r3"></div>
+            <div class="premium-ring-v34 r4"></div>
+            <div class="premium-sweep-v34"></div>
+
+            <button class="premium-node-v34 person p1" type="button" data-kind="person" data-title="개인 변화" data-tip="구성원의 최근 행동·업무 패턴 변화">
+              <span class="node-icon-v34">●</span>
+              <div><b>개인 변화</b><small>구성원의 상태·행동 변화</small></div>
+            </button>
+            <button class="premium-node-v34 person p2" type="button" data-kind="person" data-title="근무 패턴" data-tip="업무 방식과 협업 패턴의 변화">
+              <span class="node-icon-v34">▥</span>
+              <div><b>근무 패턴</b><small>업무 방식·협업 패턴 변화</small></div>
+            </button>
+            <button class="premium-node-v34 leader p3" type="button" data-kind="leader" data-title="리더 관찰" data-tip="리더 메모와 관찰 정보">
+              <span class="node-icon-v34">◆</span>
+              <div><b>리더 관찰</b><small>리더의 메시지·의사결정</small></div>
+            </button>
+            <button class="premium-node-v34 team p4" type="button" data-kind="team" data-title="역할 재편" data-tip="조직 구조와 역할 변화">
+              <span class="node-icon-v34">⌘</span>
+              <div><b>역할 재편</b><small>조직 구조·역할 변화</small></div>
+            </button>
+            <button class="premium-node-v34 team p5" type="button" data-kind="team" data-title="프로젝트 변화" data-tip="프로젝트 우선순위와 일정 변화">
+              <span class="node-icon-v34">●</span>
+              <div><b>프로젝트 변화</b><small>프로젝트·우선순위·일정 변화</small></div>
+            </button>
+            <button class="premium-node-v34 context p6" type="button" data-kind="context" data-title="추가 맥락" data-tip="외부 요인과 조직 내 추가 맥락">
+              <span class="node-icon-v34">▤</span>
+              <div><b>추가 맥락</b><small>외부 요인·조직 내 이슈</small></div>
+            </button>
+
+            <div class="premium-center-v34 premium-center-v35">
+              <small>ORGANIZATION</small>
+              <strong id="radarSignalCountV32">0 SIGNALS</strong>
+              <span id="radarCenterStateV35">INITIAL SCAN</span>
+              <div id="radarBreakdownV35" class="radar-center-breakdown-v35">0 PERSON · 0 TEAM · 0 LEADER</div>
+            </div>
+
+            <div id="signalIdentifiedV35" class="signal-identified-v35" aria-live="polite">
+              <small>SIGNAL IDENTIFIED</small>
+              <strong>신호 확인</strong>
+              <span>추가 맥락을 확인합니다.</span>
+            </div>
+          </div>
+
+          <div class="premium-legend-v34">
+            <span><i class="person"></i>PERSON<small>개인 <b id="radarPersonCountV35">0</b></small></span>
+            <span><i class="team"></i>TEAM<small>팀/조직 <b id="radarTeamCountV35">0</b></small></span>
+            <span><i class="leader"></i>LEADER<small>리더 <b id="radarLeaderCountV35">0</b></small></span>
+            <span><i class="context"></i>CONTEXT<small>맥락 <b id="radarContextCountV35">0</b></small></span>
+            <b>People Explorer →</b>
+          </div>
+        </div>
+
+        <aside class="premium-scan-side-v34">
+          <div class="side-title-v34">현재 스캔 상태</div>
+
+          <div class="side-grid-v34">
+            <div class="side-stat-v34">
+              <small>PATTERN</small>
+              <strong id="metricChanges">6</strong>
+              <span>패턴 기반 변화</span>
+            </div>
+            <div class="side-stat-v34">
+              <small>CONTEXT</small>
+              <strong id="metricOrgBottom">2</strong>
+              <span>조직 맥락 확인 필요</span>
+            </div>
+          </div>
+
+          <div class="side-info-v34">
             <div>
-              <small>LIVE ORGANIZATION SCAN</small>
-              <strong>조직 안에서 평소와 다른 변화가 감지되고 있습니다.</strong>
+              <small>INFORMATION</small>
+              <strong id="informationStateBottom">INCOMPLETE</strong>
+              <span>현재 정보 수준</span>
             </div>
-            <div class="scan-live-v32"><i></i><span>LIVE</span></div>
+            <div class="info-icon-v34">◫</div>
           </div>
 
-          <div class="radar-shell-v32">
-            <div class="radar-grid-v32">
-              <div class="radar-ring r1"></div>
-              <div class="radar-ring r2"></div>
-              <div class="radar-ring r3"></div>
-              <div class="radar-axis-v32 h"></div>
-              <div class="radar-axis-v32 v"></div>
-              <div class="radar-sweep-v32"></div>
-
-              <button class="radar-node-v32 person n1" type="button" data-radar-label="PERSON"><span></span><b>개인 변화</b></button>
-              <button class="radar-node-v32 person n2" type="button" data-radar-label="PERSON"><span></span><b>근무 패턴</b></button>
-              <button class="radar-node-v32 leader n3" type="button" data-radar-label="LEADER"><span></span><b>리더 관찰</b></button>
-              <button class="radar-node-v32 team n4" type="button" data-radar-label="TEAM"><span></span><b>역할 재편</b></button>
-              <button class="radar-node-v32 team n5" type="button" data-radar-label="TEAM"><span></span><b>프로젝트 변화</b></button>
-              <button class="radar-node-v32 watch n6" type="button" data-radar-label="WATCH"><span></span><b>추가 맥락</b></button>
-
-              <div class="radar-center-v32">
-                <small>ORGANIZATION</small>
-                <strong id="radarSignalCountV32">0 SIGNALS</strong>
-                <span>평소 기준과 비교 중</span>
-              </div>
+          <div class="side-context-v34">
+            <div class="side-context-head-v34">
+              <small>CONTEXT BUILDING</small>
+              <strong id="contextLabelV23">정보 부족</strong>
             </div>
-
-            <aside class="radar-side-v32">
-              <div class="radar-metric-v32"><small>PATTERN</small><strong id="metricChanges">6</strong><span>개인 기준 변화</span></div>
-              <div class="radar-metric-v32"><small>CONTEXT</small><strong id="metricOrgBottom">2</strong><span>조직 확인 필요</span></div>
-              <div class="radar-metric-v32"><small>INFORMATION</small><strong id="informationStateBottom">INCOMPLETE</strong><span>현재 정보 수준</span></div>
-              <div class="radar-legend-v32">
-                <span><i class="person"></i>PERSON</span>
-                <span><i class="team"></i>TEAM</span>
-                <span><i class="leader"></i>LEADER</span>
-              </div>
-              <div class="scan-cta-v32">People Explorer에서 확인 <b>→</b></div>
-            </aside>
-          </div>
-        </section>
-
-        <section class="mission-rail-v32">
-          <div class="mission-rail-block-v32">
-            <small>THIS WEEK'S MISSION</small>
-            <strong id="missionHeadlineV23">변화의 맥락을 확인하세요.</strong>
-            <p id="missionCopyV23">개인의 변화와 조직 맥락을 함께 비교하고, 성급한 결론보다 필요한 확인을 먼저 선택하세요.</p>
-          </div>
-          <div class="mission-rail-block-v32 context-block">
-            <small>CONTEXT STATUS</small>
-            <div id="contextStatusV23" class="context-status-v32">
+            <div id="contextStatusV23" class="context-status-v34">
               <div class="context-dots-v23"><i class="on"></i><i></i><i></i></div>
-              <b id="contextLabelV23">정보 부족</b>
             </div>
-            <div class="mission-progress-v23"><span id="missionProgressTextV23">CONTEXT BUILDING</span><i></i></div>
+            <div class="mission-progress-v23">
+              <span id="missionProgressTextV23">CONTEXT BUILDING</span><i></i>
+            </div>
           </div>
-          <div class="mission-rail-block-v32 next">
-            <small>NEXT MOVE</small>
-            <strong id="nextMoveV23">새 메일 또는 조직 탐색에서 첫 맥락을 확인하세요.</strong>
-          </div>
-        </section>
-      </div>
 
-      <section class="case-board-v32">
-        <div class="case-board-head-v32">
+          <div class="side-next-v34">
+            <div class="next-icon-v34">➤</div>
+            <div>
+              <small>NEXT MOVE</small>
+              <strong id="nextMoveV23">새 메일 또는 조직 탐색에서 첫 맥락을 확인하세요.</strong>
+            </div>
+            <button onclick="showView('organization')">›</button>
+          </div>
+
+          <div class="side-philosophy-v34">
+            “작은 신호가, 더 나은 결정을 만듭니다.”
+            <b>SIGNAL</b>
+          </div>
+        </aside>
+      </section>
+
+      <section class="recent-row-v34">
+        <div class="recent-signals-v34">
+          <div class="recent-head-v34">
+            <div><small>RECENT SIGNALS</small><strong>최근 감지된 신호</strong></div>
+            <button onclick="showView('organization')">전체 보기 →</button>
+          </div>
+          <div class="recent-signal-list-v34">
+            <span><i class="person"></i><b>개인 패턴 변화</b><small>최근 기준 대비 변동 감지</small></span>
+            <span><i class="team"></i><b>프로젝트 역할 재편</b><small>조직 맥락 확인 필요</small></span>
+            <span><i class="leader"></i><b>리더 관찰 메모</b><small>회의 참여 변화 관찰</small></span>
+          </div>
+        </div>
+        <div class="insight-v34">
+          <div class="recent-head-v34">
+            <div><small>DECISION HINT</small><strong>이번 주 판단 포인트</strong></div>
+            <button onclick="showView('mail')">메일 보기 →</button>
+          </div>
+          <p id="missionCopyV23">개인의 변화와 조직 맥락을 함께 비교하고, 성급한 결론보다 필요한 확인을 먼저 선택하세요.</p>
+          <div class="insight-hypothesis-v34">
+            <small>CURRENT HYPOTHESIS</small>
+            <b id="missionHeadlineV23">변화의 맥락을 확인하세요.</b>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03. CASE BOARD -->
+      <section class="case-board-v33">
+        <div class="case-board-head-v33">
           <div>
             <small>CASE BOARD</small>
-            <strong>발견된 신호를 연결해 현재 가설을 구성합니다.</strong>
+            <strong>발견된 신호를 연결해 현재 가설을 구체화합니다.</strong>
           </div>
           <span>DISCOVERY → INTERPRETATION</span>
         </div>
 
-        <div class="case-board-layout-v32">
-          <div class="case-source-v32 observation">
+        <div class="case-flow-v33">
+          <div class="case-source-v33">
             <small>OBSERVATION</small>
             <b>최근 근무 패턴 변화</b>
             <span>개인 기준 변화</span>
           </div>
-
-          <div class="case-source-v32 organization">
+          <div class="case-arrow-v33">→</div>
+          <div class="case-source-v33">
             <small>ORGANIZATION</small>
             <b>프로젝트 역할 재편</b>
             <span>조직 구조 변화</span>
           </div>
-
-          <div class="case-hypothesis-v32">
+          <div class="case-arrow-v33">→</div>
+          <div class="case-hypothesis-v33">
             <small>CURRENT HYPOTHESIS</small>
-            <strong>업무 부담 · 역할 변화 · 관계 맥락</strong>
-            <p>하나의 신호만으로 판단하지 않습니다.</p>
-            <div class="evidence-chips-v32">
-              <span>근무 패턴 +18%</span>
-              <span>회의 참여 -22%</span>
-              <span>프로젝트 변경</span>
-              <span>리더 메모</span>
-            </div>
+            <b>업무 부담 · 역할 변화 · 관계 맥락</b>
           </div>
-
-          <div class="case-source-v32 leader">
+          <div class="case-arrow-v33">←</div>
+          <div class="case-source-v33">
             <small>LEADER NOTE</small>
             <b>회의 참여 변화 관찰</b>
             <span>리더 관찰</span>
           </div>
-
-          <div class="case-source-v32 context">
+          <div class="case-arrow-v33">←</div>
+          <div class="case-source-v33">
             <small>CONTEXT</small>
             <b id="informationStateV23">불완전</b>
             <span>추가 확인 필요</span>
           </div>
         </div>
-
-        <div class="case-actions-v32">
-          <button onclick="showView('organization')"><span>⌕</span><b>People Explorer</b><small>구성원·조직 확인</small></button>
-          <button onclick="showView('mail')"><span>✉</span><b>Mail</b><small id="briefingMailBadgeV23">NEW</small></button>
-          <button onclick="showView('clubhouse')"><span>⚡</span><b>Running-gu</b><small>에너지 충전</small></button>
-        </div>
       </section>
 
-      <details class="briefing-disclosure-v32">
+      <!-- 04. COMPACT STATUS STRIP -->
+      <div class="status-strip-v33">
+        <div>
+          <small>PATTERN</small><strong id="metricChangesStripV34">6</strong><span>개인 기준 변화</span>
+        </div>
+        <div>
+          <small>CONTEXT</small><strong id="metricOrgStripV34">2</strong><span>조직 확인 필요</span>
+        </div>
+        <div>
+          <small>INFORMATION</small><strong id="informationStateStripV34">INCOMPLETE</strong><span>현재 정보 수준</span>
+        </div>
+        <div class="status-progress-v33">
+          <small>CONTEXT BUILDING</small>
+          <div class="mission-progress-v23"><span id="missionProgressStripV34">CONTEXT BUILDING</span><i></i></div>
+        </div>
+      </div>
+
+      <details class="briefing-disclosure-v33">
         <summary><span>MORE CONTEXT</span><b>이번 주 주요 상황과 판단 원칙 보기</b></summary>
         <div class="briefing-disclosure-grid-v30">
           <div>
@@ -6206,12 +7479,13 @@ body{
       <div id="runningGameShell" class="running-game-shell card">
         <div class="running-game-toolbar">
           <button id="runningExitBtn" class="running-exit-btn">← 에너지 충전 로비</button>
-          <div><strong>RUNNING-GU</strong><small>CAMPUS RUN · 60 SEC DEMO</small></div>
+          <div><strong>RUNNING-GU</strong><small>60 SECOND SHIFT MODE</small></div>
           <span class="running-live-indicator"><i></i> LIVE</span>
         </div>
         <div class="running-hud running-hud-v30">
           <div><small>DISTANCE</small><strong id="runningDistance">0m</strong></div>
           <div><small>SCORE</small><strong id="runningScore">0</strong></div>
+          <div id="runningHudTimerWrap" class="running-timer-wrap"><small>SHIFT TIMER</small><strong id="runningHudTimer">01:00</strong></div>
           <div class="running-energy-wrap"><small>ENERGY</small><div class="running-energy-bar"><i id="runningEnergyBar"></i></div><strong id="runningEnergyText">100</strong></div>
         </div>
         <div id="runningBoost" hidden>READY</div>
@@ -6222,7 +7496,7 @@ body{
             <div class="running-bg-scene scene-2"></div>
             <div class="running-bg-scene scene-3"></div>
           </div>
-          <div id="runningTimerChip" class="running-timer-chip">60s</div>
+          <div id="runningTimerChip" class="running-timer-chip">SHIFT 60s</div>
           <canvas id="runningCanvas" width="1100" height="500"></canvas>
           <div id="runningCountdown" class="running-countdown"></div>
           <div id="runningCallout" class="running-callout"></div>
@@ -6236,9 +7510,10 @@ body{
             <h2 id="runningResultTitle">TODAY'S SHIFT COMPLETE</h2>
             <div class="running-result-grid">
               <div><small>DISTANCE</small><strong id="runningResultDistance">0m</strong></div>
-              <div><small>HONGEO</small><strong id="runningResultHongeo">0</strong></div>
-              <div><small>COFFEE</small><strong id="runningResultCoffee">0</strong></div>
-              <div><small>AVOIDED</small><strong id="runningResultAvoided">0</strong></div>
+              <div><small>SCORE</small><strong id="runningResultScore">0</strong></div>
+              <div><small>COFFEE COLLECTED</small><strong id="runningResultCoffee">0</strong></div>
+              <div><small>MAIL DODGED</small><strong id="runningResultMailDodged">0</strong></div>
+              <div><small>EMERGENCY MEETINGS HIT</small><strong id="runningResultMeetingHit">0</strong></div>
             </div>
             <div id="runningReward" class="running-reward"></div><div id="runningResultFlavor" class="running-result-flavor-v30">메일은 피했지만 회의는 피하지 못했습니다.</div>
             <div class="running-result-actions">
@@ -7258,6 +8533,171 @@ function renderStatus() {
 }
 
 
+
+function getRadarSignalProfileV35(){
+  const changedEmployees = employees.filter(e => e.signals && e.signals.length);
+  const allSignals = changedEmployees.flatMap(e => e.signals || []).map(String);
+
+  const hitCount = (keywords) => allSignals.filter(s => keywords.some(k => s.includes(k))).length;
+
+  const teamKeywords = ["프로젝트","역할","조직","협업","이동","배치","업무량"];
+  const leaderKeywords = ["리더","회의","면담","피드백","보직","TL","PL"];
+  const contextKeywords = ["교육","개인","가정","휴가","외부","일정","적응","관계"];
+
+  const personCount = changedEmployees.length;
+  const teamCount = Math.min(6, Math.max(state.week >= 2 ? 1 : 0, hitCount(teamKeywords)));
+  const leaderCount = Math.min(5, Math.max(state.week >= 1 ? 1 : 0, hitCount(leaderKeywords)));
+  const contextCount = Math.min(5, Math.max(1, hitCount(contextKeywords) || (state.week >= 3 ? 2 : 1)));
+
+  return {personCount, teamCount, leaderCount, contextCount};
+}
+
+function getRadarContextLevelV35(){
+  const weekLogs=(state.logs||[]).filter(l=>l.week===state.week);
+  const distinct=new Set(weekLogs.map(l=>l.employeeId)).size;
+  const interviews=weekLogs.filter(l=>l.action==="정식 면담").length;
+  const checks=weekLogs.filter(l=>["추가 데이터 확인","TL에게 상황 문의","PL에게 조직 비교 문의","가벼운 체크인","추가 관찰"].includes(l.action)).length;
+  let level=1;
+  if(checks>=1 || distinct>=1) level=2;
+  if(interviews>=1 || checks>=3 || distinct>=3) level=3;
+  return level;
+}
+
+function animateCountTextV36(el,target,formatter=(v)=>String(v),duration=420){
+  if(!el) return;
+  const end=Number(target)||0;
+  const start=Number(el.dataset.displayValue ?? String(el.textContent).replace(/[^\d-]/g,"")) || 0;
+  if(start===end){
+    el.textContent=formatter(end);
+    el.dataset.displayValue=String(end);
+    return;
+  }
+  cancelAnimationFrame(el._countRaf);
+  const started=performance.now();
+  const tick=(now)=>{
+    const p=Math.min(1,(now-started)/duration);
+    const eased=1-Math.pow(1-p,3);
+    const value=Math.round(start + (end-start)*eased);
+    el.textContent=formatter(value);
+    if(p<1) el._countRaf=requestAnimationFrame(tick);
+    else el.dataset.displayValue=String(end);
+  };
+  el.dataset.displayValue=String(start);
+  el._countRaf=requestAnimationFrame(tick);
+}
+
+const radarFxStateV36={raf:0,cacheStamp:0,cached:false};
+function cacheRadarNodeAnglesV36(){
+  const center=document.querySelector('.premium-center-v34');
+  if(!center) return;
+  const c=center.getBoundingClientRect();
+  const cx=c.left+c.width/2, cy=c.top+c.height/2;
+  document.querySelectorAll('.premium-node-v34').forEach(node=>{
+    const anchor=node.querySelector('.node-icon-v34') || node;
+    const r=anchor.getBoundingClientRect();
+    const nx=r.left+r.width/2, ny=r.top+r.height/2;
+    const deg=(Math.atan2(ny-cy, nx-cx)*180/Math.PI + 360) % 360;
+    node.dataset.radarAngle=deg.toFixed(2);
+  });
+  radarFxStateV36.cached=true;
+  radarFxStateV36.cacheStamp=performance.now();
+}
+
+function runRadarFxLoopV36(now){
+  const radar=document.querySelector('.premium-radar-v34');
+  if(!radar){
+    radarFxStateV36.raf=requestAnimationFrame(runRadarFxLoopV36);
+    return;
+  }
+  if(!radarFxStateV36.cached || now-radarFxStateV36.cacheStamp>1200) cacheRadarNodeAnglesV36();
+  const mood=radar.dataset.radarMood || 'calm';
+  const cycle=mood==='alert' ? 5900 : mood==='watch' ? 6700 : 7500;
+  const angle=((now % cycle) / cycle) * 360;
+  radar.style.setProperty('--radar-angle',`${angle}deg`);
+  document.querySelectorAll('.premium-node-v34').forEach(node=>{
+    if(node.classList.contains('node-hidden-v35')){
+      node.classList.remove('sweep-hit-v36');
+      return;
+    }
+    const nodeAngle=Number(node.dataset.radarAngle || 0);
+    const diff=Math.abs((((angle - nodeAngle) + 540) % 360) - 180);
+    if(diff<10){
+      const beat=Math.floor(now/140);
+      if(node.dataset.sweepBeat!==String(beat)){
+        node.dataset.sweepBeat=String(beat);
+        node.classList.add('sweep-hit-v36');
+        const radar=document.querySelector('.premium-radar-v34');
+        if(radar){
+          radar.classList.add('scan-flash-v37');
+          clearTimeout(radar._scanFlashTimer);
+          radar._scanFlashTimer=setTimeout(()=>radar.classList.remove('scan-flash-v37'),220);
+        }
+        clearTimeout(node._sweepTimer);
+        node._sweepTimer=setTimeout(()=>node.classList.remove('sweep-hit-v36'),430);
+      }
+    }
+  });
+  radarFxStateV36.raf=requestAnimationFrame(runRadarFxLoopV36);
+}
+
+function updateDynamicRadarV35(){
+  const p=getRadarSignalProfileV35();
+  const total=p.personCount;
+
+  animateCountTextV36($("radarPersonCountV35"),p.personCount);
+  animateCountTextV36($("radarTeamCountV35"),p.teamCount);
+  animateCountTextV36($("radarLeaderCountV35"),p.leaderCount);
+  animateCountTextV36($("radarContextCountV35"),p.contextCount);
+  animateCountTextV36($("radarSignalCountV32"),total,(v)=>`${v} SIGNAL${v===1?"":"S"}`);
+  if($("radarBreakdownV35")) $("radarBreakdownV35").textContent=
+    `${p.personCount} PERSON · ${p.teamCount} TEAM · ${p.leaderCount} LEADER`;
+
+  const level=getRadarContextLevelV35();
+  let centerState="INITIAL SCAN";
+  if(total>=8 && level===1) centerState="MULTIPLE SIGNALS";
+  if(level===2) centerState="CONTEXT BUILDING";
+  if(level===3) centerState="READY TO DECIDE";
+  if($("radarCenterStateV35")) $("radarCenterStateV35").textContent=centerState;
+
+  const mood = level===3 || total>=8 ? "alert" : total>=3 || level===2 ? "watch" : "calm";
+  document.querySelector('.premium-center-v35')?.setAttribute('data-signal-state', mood);
+  document.querySelector('.premium-radar-v34')?.setAttribute('data-radar-mood', mood);
+
+  const capacity={
+    person:Math.max(1,Math.min(2,Math.ceil(p.personCount/4))),
+    team:Math.max(1,Math.min(2,p.teamCount)),
+    leader:Math.max(1,Math.min(1,p.leaderCount)),
+    context:Math.max(1,Math.min(1,p.contextCount))
+  };
+  const seen={person:0,team:0,leader:0,context:0};
+  const weekShift=(state.week-1)*2;
+
+  document.querySelectorAll(".premium-node-v34").forEach((node,idx)=>{
+    const kind=node.dataset.kind||"context";
+    seen[kind]=(seen[kind]||0)+1;
+    const visible=seen[kind] <= (capacity[kind]||1);
+    node.classList.toggle("node-hidden-v35",!visible);
+
+    const offsets=[[-5,0],[4,-4],[-3,4],[5,3],[1,-5],[-2,4]][idx] || [0,0];
+    node.style.setProperty("--node-x",`${offsets[0]+weekShift}px`);
+    node.style.setProperty("--node-y",`${offsets[1]-weekShift/2}px`);
+  });
+}
+
+function showSignalIdentifiedV35(node){
+  const toast=$("signalIdentifiedV35");
+  if(!toast) return;
+  const title=node?.dataset?.title || "SIGNAL";
+  const tip=node?.dataset?.tip || "추가 맥락 확인이 필요합니다.";
+  const strong=toast.querySelector("strong");
+  const span=toast.querySelector("span");
+  if(strong) strong.textContent=title;
+  if(span) span.textContent=tip;
+  toast.classList.add("show");
+  clearTimeout(showSignalIdentifiedV35._timer);
+  showSignalIdentifiedV35._timer=setTimeout(()=>toast.classList.remove("show"),720);
+}
+
 function updateBriefingV23(){
   if(!$("briefingWeekChip")) return;
   const week=state.week;
@@ -7284,7 +8724,9 @@ function updateBriefingV23(){
   $("contextLabelV23").textContent=labels[level];
   $("informationStateV23").textContent=level===3?"충분":"불완전";
   if($("informationStateBottom")) $("informationStateBottom").textContent=level===3?"SUFFICIENT":"INCOMPLETE";
+  if($("informationStateStripV34")) $("informationStateStripV34").textContent=level===3?"SUFFICIENT":"INCOMPLETE";
   $("missionProgressTextV23").textContent=level===1?"CONTEXT BUILDING":level===2?"CONTEXT CONNECTING":"READY TO DECIDE";
+  if($("missionProgressStripV34")) $("missionProgressStripV34").textContent=level===1?"CONTEXT BUILDING":level===2?"CONTEXT CONNECTING":"READY TO DECIDE";
   const bar=document.querySelector('.mission-progress-v23 i');
   if(bar) bar.style.background=`linear-gradient(90deg,#45c7a5 ${level*33}%,rgba(79,152,190,.15) ${level*33}%)`;
   $("nextMoveV23").textContent = level===1
@@ -7294,6 +8736,7 @@ function updateBriefingV23(){
       : "맥락이 충분히 쌓였습니다. 판단과 행동에서 개입 수준을 선택하세요.";
   const unread=internalMails.filter(m=>m.unread).length;
   if($("briefingMailBadgeV23")) $("briefingMailBadgeV23").textContent=unread?`NEW ${unread}`:"CHECK";
+  updateDynamicRadarV35();
 }
 
 function renderBriefing() {
@@ -7321,7 +8764,10 @@ function renderBriefing() {
   animateNumber("metricChanges", employees.filter(e=>e.signals.length).length);
   animateNumber("metricOrg", state.week < 3 ? 2 : 3);
   animateNumber("metricOrgBottom", state.week < 3 ? 2 : 3);
+  if($("metricOrgStripV34")) animateNumber("metricOrgStripV34", state.week < 3 ? 2 : 3);
+  if($("heroContextCountV33")) animateNumber("heroContextCountV33", state.week < 3 ? 2 : 3);
   updateBriefingV23();
+  updateDynamicRadarV35();
 }
 
 function renderOrgTree() {
@@ -8669,11 +10115,49 @@ function setRunningScene(index){
   runningGame.sceneIndex = next;
 }
 
+function formatRunningHudTime(remain){
+  const safe=Math.max(0,remain);
+  const mm=String(Math.floor(safe/60)).padStart(2,"0");
+  const ss=String(safe%60).padStart(2,"0");
+  return `${mm}:${ss}`;
+}
+
+function pulseRunningFinalCountdown(sec){
+  const el=$("runningCountdown");
+  if(!el) return;
+  el.textContent=sec;
+  el.classList.add("final-tick");
+  clearTimeout(pulseRunningFinalCountdown.t);
+  pulseRunningFinalCountdown.t=setTimeout(()=>{
+    el.textContent="";
+    el.classList.remove("final-tick");
+  },380);
+}
+
 function updateRunningTimer(now){
   const chip=$("runningTimerChip");
-  if(!chip) return;
+  const hud=$("runningHudTimer");
+  const wrap=$("runningHudTimerWrap");
+  const stage=$("runningStage");
+  if(!chip || !hud) return;
   const remain=Math.max(0, Math.ceil((runningGame.endTime - now) / 1000));
-  chip.textContent=`${remain}s`;
+  chip.textContent=`SHIFT ${remain}s`;
+  hud.textContent=formatRunningHudTime(remain);
+  [chip,wrap,stage].forEach(el=>{ if(!el) return; el.classList.remove("warning","danger","timer-warning","timer-danger"); });
+  if(remain<=10 && remain>3){
+    chip.classList.add("warning");
+    wrap?.classList.add("timer-warning");
+    stage?.classList.add("timer-warning");
+  }
+  if(remain<=3 && remain>0){
+    chip.classList.add("danger");
+    wrap?.classList.add("timer-danger");
+    stage?.classList.add("timer-danger");
+    if(runningGame.lastFinalCue!==remain){
+      runningGame.lastFinalCue=remain;
+      pulseRunningFinalCountdown(remain);
+    }
+  }
 }
 
 function syncRunningPresentation(now){
@@ -8779,8 +10263,8 @@ const runningGame = {
   active:false, raf:null, last:0, spawnTimer:0, sceneryOffset:0,
   distance:0, score:0, energy:100, speed:360,
   player:{x:105,y:0,w:92,h:118,vy:0,jumping:false,sliding:false,slideUntil:0},
-  entities:[], coffee:0, hongeo:0, water:0, avoided:0,
-  boostUntil:0, hongeoComboUntil:0, invincibleUntil:0, collisions:0, lastMilestone:0,
+  entities:[], coffee:0, hongeo:0, water:0, avoided:0, mailDodged:0, meetingHits:0,
+  boostUntil:0, hongeoComboUntil:0, invincibleUntil:0, collisions:0, lastMilestone:0, lastFinalCue:-1,
   startTime:0, endTime:0, sceneIndex:0, introMode:false, randomSpawnUnlockAt:0, scriptQueue:[]
 };
 const RUNNING_ENTITY_META = {
@@ -8805,9 +10289,9 @@ function updateRunningClubUI(){
   $("achRunning")?.classList.toggle("unlocked",(state.runningMiles||0)>=5000);
   if(note){
     const claimed=!!state.runningRewardWeeks?.[state.week];
-    if(state.ap>=RUNNING_MAX_AP) note.textContent=`60초 체험 모드 · AP ${state.ap}/${RUNNING_MAX_AP} · 기록과 Running Mile이 누적됩니다.`;
-    else if(claimed) note.textContent=`60초 체험 모드 · ${state.week}주차 AP 회복은 이미 사용했습니다. 기록 플레이는 계속 가능합니다.`;
-    else note.textContent=`60초 체험 모드 · ${state.week}주차 첫 보상 가능 · 500m +1 AP / 1,000m +2 AP`;
+    if(state.ap>=RUNNING_MAX_AP) note.textContent=`60초 SHIFT MODE · AP ${state.ap}/${RUNNING_MAX_AP} · Running Mile 누적`;
+    else if(claimed) note.textContent=`60초 SHIFT MODE · ${state.week}주차 AP 회복 사용 완료 · 기록 플레이 계속 가능`;
+    else note.textContent=`60초 SHIFT MODE · ${state.week}주차 첫 보상 가능 · 500m +1 AP / 1,000m +2 AP`;
   }
 }
 
@@ -8861,7 +10345,7 @@ function startRunningGame(){
   state.runningIntroPlayed = true;
   Object.assign(runningGame,{
     active:false,last:0,spawnTimer:0,sceneryOffset:0,distance:0,score:0,energy:100,speed:360,
-    entities:[],coffee:0,hongeo:0,water:0,avoided:0,boostUntil:0,hongeoComboUntil:0,invincibleUntil:0,collisions:0,lastMilestone:0,
+    entities:[],coffee:0,hongeo:0,water:0,avoided:0,mailDodged:0,meetingHits:0,boostUntil:0,hongeoComboUntil:0,invincibleUntil:0,collisions:0,lastMilestone:0,lastFinalCue:-1,
     startTime:0,endTime:0,sceneIndex:0,introMode,randomSpawnUnlockAt:0,scriptQueue:introMode ? buildRunningIntroQueue() : []
   });
   Object.assign(runningGame.player,{x:105,y:h-78-118,w:92,h:118,vy:0,jumping:false,sliding:false,slideUntil:0});
@@ -8870,7 +10354,10 @@ function startRunningGame(){
   $("runningDistance").textContent="0m"; $("runningScore").textContent="0";
   $("runningEnergyText").textContent="100"; $("runningEnergyBar").style.width="100%";
   $("runningBoost").textContent="READY";
-  $("runningTimerChip").textContent="60s";
+  $("runningTimerChip").textContent="SHIFT 60s";
+  if($("runningHudTimer")) $("runningHudTimer").textContent="01:00";
+  $("runningHudTimerWrap")?.classList.remove("timer-warning","timer-danger");
+  $("runningStage")?.classList.remove("timer-warning","timer-danger");
   setRunningScene(0);
   audioSystem.setMood("runner");
   runCountdown(3);
@@ -9049,18 +10536,24 @@ function runningLoop(now){
         const damage=e.kind==="laptop"?22:e.kind==="meeting"?18:15;
         runningGame.energy-=damage;
         runningGame.collisions++;
+        if(e.kind==="meeting") runningGame.meetingHits++;
         runningSfx("hit");
         showRunningCallout(e.kind==="meeting"?"긴급 회의! -18":`${e.emoji} -${damage}`);
         audioSystem.deny?.();
       }else{
         runningGame.avoided++;
+        if(e.kind==="mail") runningGame.mailDodged++;
         runningGame.score+=150;
         showRunningCallout("BOOST BLOCK!");
       }
     }
   }
   for(const e of runningGame.entities){
-    if(!e.hit && e.type==="obstacle" && e.x+e.w<0){runningGame.avoided++;e.hit=true;}
+    if(!e.hit && e.type==="obstacle" && e.x+e.w<0){
+      runningGame.avoided++;
+      if(e.kind==="mail") runningGame.mailDodged++;
+      e.hit=true;
+    }
   }
   runningGame.entities=runningGame.entities.filter(e=>e.x>-110 && !e.remove);
 
@@ -9358,13 +10851,15 @@ function finishRunningGame(){
     }
   }
 
-  $("runningTimerChip").textContent="0s";
+  $("runningTimerChip").textContent="SHIFT 0s";
+  if($("runningHudTimer")) $("runningHudTimer").textContent="00:00";
   $("runningResultDistance").textContent=`${d}m`;
-  $("runningResultHongeo").textContent=`× ${runningGame.hongeo}`;
+  $("runningResultScore").textContent=Math.floor(runningGame.score).toLocaleString();
   $("runningResultCoffee").textContent=`× ${runningGame.coffee}`;
-  $("runningResultAvoided").textContent=runningGame.avoided;
+  $("runningResultMailDodged").textContent=runningGame.mailDodged;
+  $("runningResultMeetingHit").textContent=runningGame.meetingHits;
   $("runningResultTitle").textContent="TODAY\'S SHIFT COMPLETE";
-  const officeLines=["메일은 피했지만 회의는 피하지 못했습니다.","커피는 복지가 아니라 생존 장비였습니다.","오늘도 달렸고, 메일은 내일도 옵니다.","홍어의 힘으로 오늘의 업무를 버텼습니다.","AP보다 먼저 체력이 회복되었습니다."];
+  const officeLines=["메일은 피했지만 회의는 피하지 못했습니다.","커피는 충분했지만 집중력은 부족했습니다.","오늘도 무사히 한 주를 버텼습니다.","오늘도 달렸고, 메일은 내일도 옵니다.","AP보다 먼저 체력이 회복되었습니다."];
   if($("runningResultFlavor")) $("runningResultFlavor").textContent=officeLines[Math.floor(Math.random()*officeLines.length)];
 
   let rewardText="";
@@ -9406,7 +10901,9 @@ window.addEventListener("keydown",e=>{
   if(e.code==="ArrowDown"){e.preventDefault();runningSlide();}
 });
 
-window.addEventListener("resize",()=>{ if(!runningGame.active) runningResize(); });
+window.addEventListener("resize",()=>{ if(!runningGame.active) runningResize(); radarFxStateV36.cached=false; });
+requestAnimationFrame(runRadarFxLoopV36);
+setTimeout(cacheRadarNodeAnglesV36,260);
 
 
 function renderAll() {
@@ -9419,8 +10916,12 @@ function renderAll() {
   updatePlayFlowNav();
 }
 
-document.querySelectorAll(".radar-node-v32").forEach(btn=>{
-  btn.addEventListener("click",(e)=>{e.stopPropagation();showView("organization");});
+document.querySelectorAll(".premium-node-v34").forEach(btn=>{
+  btn.addEventListener("click",(e)=>{
+    e.stopPropagation();
+    showSignalIdentifiedV35(btn);
+    setTimeout(()=>showView("organization"),280);
+  });
 });
 document.querySelectorAll("nav button").forEach(btn=>{
   btn.addEventListener("click",()=>showView(btn.dataset.view));
