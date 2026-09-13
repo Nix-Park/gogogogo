@@ -4,7 +4,7 @@
 <!-- GitHub Pages lightweight asset-split build v2.2.1 -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SIGNAL v3.7 · RADAR SIGNATURE FX</title>
+  <title>SIGNAL v3.8 · COMPACT RADAR + PEOPLE CONTEXT</title>
   <style>
     :root {
       --bg: #0b1020;
@@ -6931,6 +6931,139 @@ input, select, textarea, button{
 
 .premium-radar-v34.scan-flash-v37{filter:brightness(1.035) saturate(1.04)}
 .premium-radar-v34.scan-flash-v37 .premium-center-v34{filter:brightness(1.035)}
+
+/* ==========================================================================
+   SIGNAL v3.8 · COMPACT RADAR + PEOPLE CONTEXT
+   Radar is a discovery instrument, not the whole screen. People/context regain focus.
+   ========================================================================== */
+.premium-scan-v34{min-height:455px!important}
+.premium-scan-main-v34{min-height:455px!important}
+.premium-scan-copy-v34{max-width:300px!important;left:22px!important;top:20px!important}
+.premium-scan-copy-v34 h3{font-size:24px!important;margin-top:6px!important}
+.premium-scan-copy-v34 p{font-size:10px!important;line-height:1.55!important}
+
+/* Compact radar occupies roughly half of the old visual footprint. */
+.premium-radar-v34{
+  left:0!important;right:auto!important;top:88px!important;bottom:52px!important;
+  width:52%!important;
+  --radar-cx:48%;--radar-cy:54%;
+}
+.premium-axis-v34.h{left:9%!important;right:7%!important;top:54%!important}
+.premium-axis-v34.v{left:48%!important;top:7%!important;bottom:8%!important}
+.premium-ring-v34{left:48%!important;top:54%!important}
+.premium-ring-v34.r1{width:94px!important;height:94px!important}
+.premium-ring-v34.r2{width:148px!important;height:148px!important}
+.premium-ring-v34.r3{width:204px!important;height:204px!important}
+.premium-ring-v34.r4{width:260px!important;height:260px!important}
+.premium-sweep-v34{
+  left:48%!important;top:54%!important;
+  width:215px!important;height:215px!important;
+}
+.premium-center-v34{
+  left:48%!important;top:54%!important;
+  width:118px!important;height:118px!important;
+}
+.premium-center-v34 small{font-size:6px!important}
+.premium-center-v34 strong{font-size:17px!important;margin:3px 0!important}
+.premium-center-v34 span{font-size:7px!important}
+.premium-center-v35 #radarCenterStateV35{font-size:6px!important;padding:2px 5px!important;min-width:72px!important}
+.radar-center-breakdown-v35{font-size:5px!important;margin-top:3px!important}
+
+/* Compact scan points / labels. */
+.premium-radar-v34::before,.premium-radar-v34::after{
+  left:48%!important;top:54%!important;
+  transform:scale(.62)!important;
+  transform-origin:0 0!important;
+}
+.premium-node-v34{gap:6px!important;padding:3px 4px!important}
+.premium-node-v34 .node-icon-v34{width:30px!important;height:30px!important;font-size:10px!important}
+.premium-node-v34 b{font-size:9px!important}
+.premium-node-v34 small{display:none!important}
+.premium-node-v34.p1{left:4%!important;top:32%!important}
+.premium-node-v34.p2{left:7%!important;bottom:15%!important}
+.premium-node-v34.p3{right:0!important;top:40%!important}
+.premium-node-v34.p4{right:0!important;bottom:14%!important}
+.premium-node-v34.p5{left:55%!important;top:15%!important}
+.premium-node-v34.p6{left:49%!important;bottom:0!important}
+.premium-node-v34::after{min-width:170px!important;left:38px!important}
+
+/* Move main ambient glow to the compact radar center. */
+.premium-scan-main-v34::after{
+  background:
+    radial-gradient(circle at 25% 58%,rgba(169,244,255,.14),transparent 14%),
+    radial-gradient(circle at 25% 58%,rgba(91,207,255,.07),transparent 30%)!important;
+}
+.premium-scan-main-v34::before{
+  background:
+    radial-gradient(circle at 25% 58%,rgba(255,255,255,.34),transparent 14%),
+    radial-gradient(circle at 25% 58%,rgba(117,205,255,.08),transparent 36%)!important;
+}
+
+/* Featured people brings the human layer back into the briefing. */
+.featured-people-v38{
+  position:absolute;z-index:8;
+  left:52%;right:18px;top:88px;bottom:62px;
+  display:flex;flex-direction:column;
+  padding:13px;
+  border:1px solid rgba(147,177,195,.64);
+  border-radius:14px;
+  background:linear-gradient(180deg,rgba(249,252,254,.89),rgba(235,244,248,.84));
+  box-shadow:0 10px 28px rgba(42,78,100,.06);
+  backdrop-filter:blur(8px);
+}
+.featured-head-v38{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:9px}
+.featured-head-v38 small{display:block;color:#4f82a1;font-size:7px;font-weight:950;letter-spacing:.14em}
+.featured-head-v38 strong{display:block;color:#214a63;font-size:12px;margin-top:3px}
+.featured-head-v38 button{padding:0!important;border:0!important;background:transparent!important;color:#4c7690!important;font-size:8px!important;white-space:nowrap}
+.featured-list-v38{display:grid;grid-template-columns:1fr;gap:7px;min-height:0}
+.featured-person-v38{
+  display:grid;grid-template-columns:54px minmax(0,1fr) auto;gap:9px;align-items:center;
+  min-height:78px;padding:7px 8px;
+  border:1px solid #c7d7e0;border-radius:11px;
+  background:rgba(255,255,255,.72);
+  cursor:pointer;transition:.16s ease;
+}
+.featured-person-v38:hover{transform:translateY(-1px);border-color:#8fb6cb;box-shadow:0 7px 16px rgba(41,82,108,.07)}
+.featured-portrait-v38{width:54px;height:62px;border-radius:10px;overflow:hidden;background:#dceaf2;border:1px solid #bfd3df}
+.featured-portrait-v38 img{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block;filter:saturate(.94) contrast(1.02)}
+.featured-copy-v38{min-width:0}
+.featured-copy-v38 small{display:block;color:#738b9c;font-size:7px;letter-spacing:.05em}
+.featured-copy-v38 strong{display:block;color:#173f5a;font-size:11px;margin:2px 0 4px}
+.featured-copy-v38 p{margin:0;color:#4c6e82;font-size:8px;line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.featured-status-v38{display:grid;justify-items:end;gap:4px}
+.featured-status-v38 em{font-style:normal;color:#7790a0;font-size:7px;max-width:92px;text-align:right;line-height:1.35}
+
+/* People Explorer status detail restored. */
+.employee-row-v30>div:last-child{min-width:190px!important}
+.employee-row-v30>div:last-child small{display:block!important;margin-top:4px!important;color:#617e91!important;font-size:8px!important;line-height:1.35!important;white-space:normal!important}
+.employee-row-v30 .signal-state-v30{vertical-align:middle}
+
+@media(max-width:1450px){
+  .premium-radar-v34{width:49%!important}
+  .featured-people-v38{left:49%!important;right:12px!important}
+  .premium-ring-v34.r4{width:238px!important;height:238px!important}
+  .premium-ring-v34.r3{width:190px!important;height:190px!important}
+  .premium-sweep-v34{width:198px!important;height:198px!important}
+  .featured-person-v38{grid-template-columns:46px minmax(0,1fr) auto;min-height:70px}
+  .featured-portrait-v38{width:46px;height:54px}
+}
+@media(max-width:1100px){
+  .premium-scan-main-v34{min-height:650px!important}
+  .premium-radar-v34{width:100%!important;top:82px!important;bottom:315px!important}
+  .featured-people-v38{left:14px!important;right:14px!important;top:auto!important;bottom:58px!important;height:250px}
+  .featured-list-v38{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .featured-person-v38{grid-template-columns:42px minmax(0,1fr);align-content:start}
+  .featured-status-v38{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center}
+}
+@media(max-width:900px){
+  .premium-scan-main-v34{min-height:760px!important}
+  .premium-radar-v34{top:126px!important;bottom:390px!important}
+  .featured-people-v38{height:320px!important}
+  .featured-list-v38{grid-template-columns:1fr!important}
+  .featured-person-v38{grid-template-columns:48px minmax(0,1fr) auto!important;min-height:72px}
+  .featured-status-v38{grid-column:auto!important;display:grid!important}
+}
+
 </style>
 </head>
 <body class="signal-login-hero">
@@ -7220,6 +7353,14 @@ input, select, textarea, button{
               <strong>신호 확인</strong>
               <span>추가 맥락을 확인합니다.</span>
             </div>
+          </div>
+
+          <div class="featured-people-v38" aria-label="이번 주 변화 인물">
+            <div class="featured-head-v38">
+              <div><small>CONTEXT CHECK</small><strong>이번 주 변화가 큰 인물</strong></div>
+              <button type="button" onclick="showView('organization')">전체 보기 →</button>
+            </div>
+            <div id="featuredPeopleV38" class="featured-list-v38"></div>
           </div>
 
           <div class="premium-legend-v34">
@@ -8739,6 +8880,37 @@ function updateBriefingV23(){
   updateDynamicRadarV35();
 }
 
+
+function renderFeaturedPeopleV38(){
+  const host=$("featuredPeopleV38");
+  if(!host) return;
+  const featured=[...employees]
+    .filter(e=>(e.signals||[]).length)
+    .sort((a,b)=>{
+      const diff=(b.signals?.length||0)-(a.signals?.length||0);
+      if(diff) return diff;
+      if(a.leader!==b.leader) return a.leader ? -1 : 1;
+      return (a.trust||60)-(b.trust||60);
+    })
+    .slice(0,3);
+
+  if(!featured.length){
+    host.innerHTML=`<div class="empty">현재 주차에 별도 확인이 필요한 변화가 없습니다.</div>`;
+    return;
+  }
+
+  host.innerHTML=featured.map(e=>{
+    const s=getSignalState(e);
+    const portrait=getInterviewPortrait(e);
+    const org=e.tl==="-" ? (e.pl==="-" ? "TEAM" : e.pl) : e.tl;
+    return `<div class="featured-person-v38" onclick="showView('organization');setTimeout(()=>inspectEmployee(${e.id}),0)" title="${(e.signals||[]).join(" · ")}">
+      <div class="featured-portrait-v38"><img src="${portrait}" alt="${e.name}"></div>
+      <div class="featured-copy-v38"><small>${e.role} · ${org}</small><strong>${e.name}</strong><p>${s.copy}</p></div>
+      <div class="featured-status-v38"><span class="signal-state-v30 ${s.cls}">${s.label}</span><em>${e.recent}</em></div>
+    </div>`;
+  }).join("");
+}
+
 function renderBriefing() {
   $("briefingSubtitle").textContent = `${state.week}주차 · 조직 변화 스캔`;
   const items = weeklyBriefings[state.week-1];
@@ -8768,6 +8940,7 @@ function renderBriefing() {
   if($("heroContextCountV33")) animateNumber("heroContextCountV33", state.week < 3 ? 2 : 3);
   updateBriefingV23();
   updateDynamicRadarV35();
+  renderFeaturedPeopleV38();
 }
 
 function renderOrgTree() {
@@ -8788,10 +8961,18 @@ function filterOrg(value) {
 
 let inspectedEmployeeId = null;
 
+function signalDetailCopyV38(e){
+  const signals=(e.signals||[]).filter(Boolean);
+  if(!signals.length) return "최근 3개월 개인 기준 범위";
+  const clean=signals.map(s=>String(s).replace(/\s+/g," ").trim());
+  return clean.slice(0,2).join(" + ") + (clean.length>2 ? ` 외 ${clean.length-2}건` : "");
+}
+
 function getSignalState(e){
-  if(!e.signals || e.signals.length===0) return {label:"STABLE",cls:"stable",copy:"개인 기준 범위"};
-  if(e.signals.length===1) return {label:"WATCH",cls:"watch",copy:"변화 관찰"};
-  return {label:"SIGNAL",cls:"signal",copy:"맥락 확인 필요"};
+  const detail=signalDetailCopyV38(e);
+  if(!e.signals || e.signals.length===0) return {label:"STABLE",cls:"stable",copy:detail,detail};
+  if(e.signals.length===1) return {label:"WATCH",cls:"watch",copy:detail,detail};
+  return {label:"SIGNAL",cls:"signal",copy:detail,detail};
 }
 
 function inspectEmployee(id){
@@ -8866,7 +9047,7 @@ function renderEmployees() {
       <div class="employee-identity"><div class="employee-avatar">${e.name.slice(-2)}</div><div><div class="employee-name">${e.name}</div><div class="muted">${e.type}</div></div></div>
       <div>${e.role}</div>
       <div>${e.tl === "-" ? e.pl : e.tl}</div>
-      <div><span class="signal-state-v30 ${s.cls}">${s.label}</span><small>${s.copy}</small></div>
+      <div title="${(e.signals||[]).length ? (e.signals||[]).join(" · ") : "최근 3개월 개인 기준 범위"}"><span class="signal-state-v30 ${s.cls}">${s.label}</span><small>${s.copy}</small></div>
     </div>`;
   }).join("") || `<div class="empty">조건에 맞는 직원이 없습니다.</div>`;
 
